@@ -1,6 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
-import { BookMarked, ClipboardPlus, HeartPulseIcon, Home, Speech, Users } from "lucide-react";
+import {
+  BarChart2,
+  BookMarked,
+  ClipboardPlus,
+  HeartPulseIcon,
+  Speech,
+  Users
+} from "lucide-react";
 
 const Sidebar = () => {
   return (
@@ -14,7 +21,7 @@ const Sidebar = () => {
               width={40}
               height={40}
             />
-            <span>Dashboard</span>
+            <span className="text-nowrap">Puskesmas 9 Nopember</span>
           </Link>
         </div>
         <div className="flex-1">
@@ -23,7 +30,7 @@ const Sidebar = () => {
               href="#"
               className="flex items-center gap-3 rounded-lg px-3 py-4 text-muted-foreground transition-all hover:text-primary"
             >
-              <Home className="h-4 w-4" />
+              <BarChart2 className="h-4 w-4" />
               Hasil Pemeriksaan
             </Link>
             <Link
