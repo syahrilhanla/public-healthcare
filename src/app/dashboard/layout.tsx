@@ -1,10 +1,9 @@
 "use client";
 
 import { Inter } from "next/font/google";
-import "./globals.css";
-import Sidebar from "../../../components/Sidebar";
-import Navbar from "../../../components/Navbar";
-import Snackbar from "../../../components/Snackbar";
+import Sidebar from "components/Sidebar";
+import Navbar from "components/Navbar";
+import Snackbar from "components/Snackbar";
 
 const inter = Inter({ subsets: ["latin"] });
 
