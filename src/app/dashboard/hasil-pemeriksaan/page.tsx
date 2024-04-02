@@ -2,7 +2,7 @@ import React from 'react'
 
 const Page = () => {
   return (
-    <div>hasil</div>
+    <div>Incaan ja nih</div>
   )
 }
 

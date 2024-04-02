@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { BarChart2, BookMarked, ClipboardPlus, HeartPulseIcon, Menu, Speech, Users } from "lucide-react";
+import { BarChart2, BookMarked, ClipboardPlus, HeartPulseIcon, Menu, Speech, UserCog, Users } from "lucide-react";
 
 const MobileSidebar = () => {
   return (
@@ -72,6 +72,13 @@ const MobileSidebar = () => {
             >
               <Users className="h-4 w-4" />
               Profil
+            </Link>
+            <Link
+              href="#"
+              className="mx-[-0.65rem] flex items-center gap-4 rounded-xl px-3 py-2 text-muted-foreground hover:text-foreground"
+            >
+              <UserCog className="h-4 w-4" />
+              Pengaturan Admin
             </Link>
           </nav>
         </SheetContent>

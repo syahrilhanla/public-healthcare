@@ -6,6 +6,7 @@ import {
   ClipboardPlus,
   HeartPulseIcon,
   Speech,
+  UserCog,
   Users
 } from "lucide-react";
 
@@ -30,43 +31,50 @@ const Sidebar = () => {
               href="#"
               className="flex items-center gap-3 rounded-lg px-3 py-4 text-muted-foreground transition-all hover:text-primary"
             >
-              <BarChart2 className="h-4 w-4" />
+              <BarChart2 className="h-5 w-5" />
               Hasil Pemeriksaan
             </Link>
             <Link
               href="#"
               className="flex items-center gap-3 rounded-lg px-3 py-4 text-muted-foreground transition-all hover:text-primary"
             >
-              <HeartPulseIcon className="h-4 w-4" />
+              <HeartPulseIcon className="h-5 w-5" />
               Tablet Tambah Darah
             </Link>
             <Link
               href="#"
               className="flex items-center gap-3 rounded-lg bg-muted px-3 py-4 text-primary transition-all hover:text-primary"
             >
-              <Speech className="h-4 w-4" />
+              <Speech className="h-5 w-5" />
               Konsultasi
             </Link>
             <Link
               href="#"
               className="flex items-center gap-3 rounded-lg px-3 py-4 text-muted-foreground transition-all hover:text-primary"
             >
-              <ClipboardPlus className="h-4 w-4" />
+              <ClipboardPlus className="h-5 w-5" />
               Laporan
             </Link>
             <Link
               href="#"
               className="flex items-center gap-3 rounded-lg px-3 py-4 text-muted-foreground transition-all hover:text-primary"
             >
-              <BookMarked className="h-4 w-4" />
+              <BookMarked className="h-5 w-5" />
               Materi Penyuluhan
             </Link>
             <Link
               href="#"
               className="flex items-center gap-3 rounded-lg px-3 py-4 text-muted-foreground transition-all hover:text-primary"
             >
-              <Users className="h-4 w-4" />
+              <Users className="h-5 w-5" />
               Profil
+            </Link>
+            <Link
+              href="#"
+              className="flex items-center gap-3 rounded-lg px-3 py-4 text-muted-foreground transition-all hover:text-primary"
+            >
+              <UserCog className="h-5 w-5" />
+              Pengaturan Admin
             </Link>
           </nav>
         </div>
