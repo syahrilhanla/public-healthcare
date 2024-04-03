@@ -2,11 +2,17 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { CalendarIcon } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 const ProfilePage = () => {
   return (
@@ -105,9 +111,27 @@ const ProfilePage = () => {
         />
       </div>
 
-      <div className="space-y-2">
+      <div className="space-y-2 grid">
         <Label htmlFor="posyandu">Posyandu</Label>
-
+        <DropdownMenu>
+          <DropdownMenuTrigger>
+            <Button
+              variant={"outline"}
+              className="w-full space-x-2 focus-visible:ring-transparent"
+            >
+              <ChevronDown className="h-4 w-4" />
+              <span>
+                Pilih Posyandu
+              </span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Posyandu Remaja FRESH</DropdownMenuItem>
+            <DropdownMenuItem>Posyandu Remaja Smart Gemilang</DropdownMenuItem>
+            <DropdownMenuItem>Posyandu Remaja Kusuma Jaya</DropdownMenuItem>
+            <DropdownMenuItem>Posyandu Remaja Mandiri Sehat</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </div>
   )
