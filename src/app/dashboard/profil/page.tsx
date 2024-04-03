@@ -1,5 +1,6 @@
 "use client"
 
+import 'react-day-picker/dist/style.css';
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -14,7 +15,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
-import { ChevronDown } from "lucide-react";
+import { CalendarIcon, ChevronDown } from "lucide-react";
 
 const ProfilePage = () => {
   return (
@@ -57,11 +58,38 @@ const ProfilePage = () => {
             placeholder="Tempat Lahir"
             className="focus-visible:ring-transparent"
           />
-          <Input
-            type="date"
-            placeholder="Tanggal Lahir"
-            className="focus-visible:ring-transparent"
-          />
+          <Popover>
+            <PopoverTrigger>
+              <Button
+                variant={"outline"}
+                className={cn(
+                  "w-full text-left font-normal text-slate-500"
+                )}
+              >
+                Tanggal Lahir
+                <CalendarIcon className="ml-auto h-4 w-4 opacity-80" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={undefined}
+                onSelect={undefined}
+                captionLayout="dropdown-buttons"
+                fromYear={1900}
+                toYear={3000}
+                initialFocus
+                styles={{
+                  caption_dropdowns: {
+                    width: "12rem",
+                    display: "flex",
+                    gap: "1rem",
+                    color: "slategrey"
+                  }
+                }}
+              />
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
 
