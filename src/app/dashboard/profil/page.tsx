@@ -1,3 +1,5 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
@@ -34,8 +36,17 @@ const ProfilePage = () => {
       <div className="space-y-2">
         <Label htmlFor="NIK">NIK</Label>
         <Input
-          placeholder="NIk"
+          placeholder="NIK"
+          type="number"
           className="focus-visible:ring-transparent"
+          onKeyDown={(e) => {
+            if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+              e.preventDefault();
+            }
+          }}
+          onWheel={(e) => {
+            e.currentTarget.blur();
+          }}
         />
       </div>
 
@@ -51,29 +62,6 @@ const ProfilePage = () => {
             placeholder="Tanggal Lahir"
             className="focus-visible:ring-transparent"
           />
-          {/* <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant={"outline"}
-                className={cn(
-                  "w-full justify-start text-left font-normal",
-                  !true && "text-muted-foreground"
-                )}
-              >
-                <CalendarIcon className="mr-2 h-4 w-4" />
-                Tanggal Lahir
-              </Button>
-            </PopoverTrigger>
-
-            <PopoverContent className="w-auto p-0">
-              <Calendar
-                mode="single"
-                selected={undefined}
-                onSelect={undefined}
-                className="rounded-md border"
-              />
-            </PopoverContent>
-          </Popover> */}
         </div>
       </div>
 
