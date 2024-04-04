@@ -17,8 +17,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
+import useSnackbarStore from "lib/stores/snackbar.store"
 
 const Dashboard = () => {
+  const {
+    updateSnackbarState
+  } = useSnackbarStore();
+
   const formSchema = z.object({
     username: z.string().min(2, {
       message: "Username tidak boleh kosong!",
@@ -41,7 +46,12 @@ const Dashboard = () => {
 
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values)
+    console.log(values);
+
+    updateSnackbarState({
+      snackbarMessage: "Login berhasil!",
+      snackbarOpen: true,
+    })
   }
 
   return (

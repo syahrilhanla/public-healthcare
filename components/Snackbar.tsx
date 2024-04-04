@@ -8,10 +8,13 @@ const Snackbar = () => {
     <>
       {
         snackbarState.snackbarOpen && (
-          <div className="w-screen fixed bottom-10 block ">
-            <div className="w-fit max-w-96 mx-auto">
+          <div className="w-screen fixed bottom-10 block bg-transparent ">
+            <div className="w-fit max-w-96 mx-auto z-50">
               <Alert
                 variant={snackbarState.type === "error" ? "destructive" : "default"}
+                className={snackbarState.type === "error"
+                  ? "bg-red-700 text-white shadow-lg bg-opacity-80"
+                  : "bg-green-600 text-white shadow-lg bg-opacity-80"}
               >
                 {
                   snackbarState.snackbarTitle && (
