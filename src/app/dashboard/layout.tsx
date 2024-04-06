@@ -5,6 +5,7 @@ import Sidebar from "components/Sidebar";
 import Navbar from "components/Navbar";
 import Snackbar from "components/Snackbar";
 import MobileSidebar from "components/MobileSidebar";
+import { usePathname, useRouter } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -13,6 +14,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const router = useRouter();
+  if (usePathname() === "/dashboard") router.push("/dashboard/hasil-pemeriksaan");
 
   return (
     <html lang="en">

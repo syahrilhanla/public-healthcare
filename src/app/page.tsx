@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation";
 import Image from "next/image"
 import Link from "next/link"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -23,6 +24,8 @@ const Dashboard = () => {
   const {
     updateSnackbarState
   } = useSnackbarStore();
+
+  const router = useRouter();
 
   const formSchema = z.object({
     username: z.string().min(2, {
@@ -51,7 +54,9 @@ const Dashboard = () => {
     updateSnackbarState({
       snackbarMessage: "Login berhasil!",
       snackbarOpen: true,
-    })
+    });
+
+    router.push("/dashboard/hasil-pemeriksaan");
   }
 
   return (
