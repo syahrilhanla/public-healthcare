@@ -55,7 +55,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="w-[70%] mx-auto my-auto lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
+    <div className="w-[70%] mx-auto my-auto lg:grid h-[100dvh] lg:grid-cols-2 ">
       <div className="flex items-center justify-center py-12 lg:bg-muted lg:shadow-lg">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
