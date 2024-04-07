@@ -121,13 +121,13 @@ const ProfileForm = () => {
             type="textarea"
           />
 
-          <div className="space-y-2">
-            <Label htmlFor="school">Sekolah</Label>
-            <Input
-              className="focus-visible:ring-transparent"
-              placeholder="Sekolah"
-            />
-          </div>
+          <ControlledInput
+            formSchema={form}
+            inputId="school"
+            includeError
+            labelText="Sekolah"
+            placeholder="Asal Sekolah"
+          />
 
           <div className="space-y-2 grid">
             <Label htmlFor="posyandu">Posyandu</Label>

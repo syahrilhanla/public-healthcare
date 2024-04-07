@@ -11,7 +11,14 @@ const schema = z.object({
   }).max(16, {
     message: "Masukkan NIK yang valid"
   }),
+  birthPlace: z.string().min(1, {
+    message: "Masukkan tempat lahir yang valid"
+  }),
+  birthDate: z.string().min(1, {
+    message: "Masukkan tanggal lahir yang valid"
+  }),
   address: z.string().min(1, { message: "Masukkan alamat yang valid" }),
+  school: z.string().min(1, { message: "Masukkan sekolah yang valid" }),
 });
 
 const useProfileForm = () => {
@@ -19,6 +26,11 @@ const useProfileForm = () => {
     resolver: zodResolver(schema),
     defaultValues: {
       name: "",
+      address: "",
+      nik: "",
+      birthPlace: "",
+      birthDate: "",
+      school: "",
     },
   });
 
