@@ -6,6 +6,7 @@ import {
   FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 interface Props {
   labelText?: string;
@@ -37,24 +38,36 @@ const ControlledInput = ({
                 <FormLabel htmlFor={inputId}>{labelText}</FormLabel>
               }
               <FormControl>
-                <Input
-                  placeholder={placeholder}
-                  className="focus-visible:ring-transparent"
-                  id={inputId}
-                  {...field}
-                  value={field.value}
-                  type={type}
-                  onKeyDown={(e) => {
-                    if (type === "number") {
-                      if (e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "e") {
-                        e.preventDefault();
-                      }
-                    }
-                  }}
-                  onWheel={(e) => {
-                    if (type === "number") e.currentTarget.blur();
-                  }}
-                />
+                {
+                  type === "textarea" ? (
+                    <Textarea
+                      {...field}
+                      className="focus-visible:ring-transparent"
+                      placeholder={placeholder}
+                      id={inputId}
+                      value={field.value}
+                    />
+                  ) : (
+                    <Input
+                      placeholder={placeholder}
+                      className="focus-visible:ring-transparent"
+                      id={inputId}
+                      {...field}
+                      value={field.value}
+                      type={type}
+                      onKeyDown={(e) => {
+                        if (type === "number") {
+                          if (e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "e") {
+                            e.preventDefault();
+                          }
+                        }
+                      }}
+                      onWheel={(e) => {
+                        if (type === "number") e.currentTarget.blur();
+                      }}
+                    />
+                  )
+                }
               </FormControl>
 
               {
