@@ -14,9 +14,10 @@ const schema = z.object({
   birthPlace: z.string().min(1, {
     message: "Masukkan tempat lahir yang valid"
   }),
-  // birthDate: z.string().min(1, {
-  //   message: "Masukkan tanggal lahir yang valid"
-  // }),
+  birthDate: z.date({
+    required_error: "Masukkan tanggal lahir yang valid",
+    invalid_type_error: "Masukkan tanggal lahir yang valid"
+  }), // "2022-01-01
   address: z.string().min(1, { message: "Masukkan alamat yang valid" }),
   school: z.string().min(1, { message: "Masukkan sekolah yang valid" }),
   posyandu: z.string().min(1, { message: "Pilih posyandu yang valid" }),
@@ -30,7 +31,7 @@ const useProfileForm = () => {
       address: "",
       nik: "",
       birthPlace: "",
-      // birthDate: "",
+      birthDate: undefined,
       school: "",
       posyandu: "",
     },

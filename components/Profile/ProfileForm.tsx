@@ -14,6 +14,7 @@ import useProfileForm from "components/Profile/hooks/useProfileForm";
 import { cn } from "@/lib/utils";
 import ControlledInput from "components/ControlledInput";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { format } from "date-fns";
 
 const ProfileForm = () => {
   const {
@@ -55,38 +56,54 @@ const ProfileForm = () => {
                 labelText="Tempat Lahir"
                 placeholder="Tempat Lahir"
               />
-              <Popover>
-                <PopoverTrigger>
-                  <Button
-                    variant={"outline"}
-                    className={cn(
-                      "w-full text-left font-normal text-slate-500"
-                    )}
-                  >
-                    Tanggal Lahir
-                    <CalendarIcon className="ml-auto h-4 w-4 opacity-80" />
-                  </Button>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                  <Calendar
-                    mode="single"
-                    selected={undefined}
-                    onSelect={undefined}
-                    captionLayout="dropdown-buttons"
-                    fromYear={1900}
-                    toYear={3000}
-                    initialFocus
-                    styles={{
-                      caption_dropdowns: {
-                        width: "12rem",
-                        display: "flex",
-                        gap: "1rem",
-                        color: "slategrey"
-                      }
-                    }}
-                  />
-                </PopoverContent>
-              </Popover>
+              <FormField
+                control={form.control}
+                name={"birthDate"}
+                render={({ field }) => (
+                  <>
+                    <FormItem className="flex flex-col justify-end items-start">
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <FormControl>
+                            <Button
+                              variant={"outline"}
+                              className={cn(
+                                "w-full text-left font-normal text-slate-500"
+                              )}
+                            >
+                              {field.value ? (
+                                format(field.value, "dd MMMM yyyy")
+                              ) : (
+                                <span>Tanggal Lahir</span>
+                              )}
+                              <CalendarIcon className="ml-auto h-4 w-4 opacity-80" />
+                            </Button>
+                          </FormControl>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={field.value}
+                            onSelect={field.onChange}
+                            fromYear={1970}
+                            toYear={new Date().getFullYear()}
+                            styles={{
+                              caption_dropdowns: {
+                                width: "12rem",
+                                display: "flex",
+                                gap: "1rem",
+                                color: "slategrey"
+                              }
+                            }}
+                            captionLayout="dropdown-buttons"
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <FormMessage />
+                    </FormItem>
+                  </>
+                )}
+              />
             </div>
           </div>
 
