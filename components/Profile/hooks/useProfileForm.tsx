@@ -6,6 +6,11 @@ const schema = z.object({
   name: z.string().min(4, {
     message: "Masukkan minimal 3 karakter"
   }),
+  nik: z.string().min(16, {
+    message: "Masukkan NIK yang valid"
+  }).max(16, {
+    message: "Masukkan NIK yang valid"
+  }),
 });
 
 const useProfileForm = () => {

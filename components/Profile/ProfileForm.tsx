@@ -43,22 +43,14 @@ const ProfileForm = () => {
             placeholder="Nama"
           />
 
-          <div className="space-y-2">
-            <Label htmlFor="NIK">NIK</Label>
-            <Input
-              placeholder="NIK"
-              type="number"
-              className="focus-visible:ring-transparent"
-              onKeyDown={(e) => {
-                if (e.key === "ArrowUp" || e.key === "ArrowDown") {
-                  e.preventDefault();
-                }
-              }}
-              onWheel={(e) => {
-                e.currentTarget.blur();
-              }}
-            />
-          </div>
+          <ControlledInput
+            formSchema={form}
+            inputId="nik"
+            includeError
+            labelText="NIK"
+            placeholder="NIK"
+            type="number"
+          />
 
           <div className="space-y-2">
             <Label htmlFor="name">Tempat Tanggal Lahir</Label>
