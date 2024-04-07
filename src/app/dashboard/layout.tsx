@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Inter } from "next/font/google";
 import Sidebar from "components/Sidebar";
@@ -15,7 +16,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const router = useRouter();
-  if (usePathname() === "/dashboard") router.push("/dashboard/hasil-pemeriksaan");
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (pathname === "/dashboard") router.push("/dashboard/hasil-pemeriksaan");
+  }, []);
 
   return (
     <html lang="en">
