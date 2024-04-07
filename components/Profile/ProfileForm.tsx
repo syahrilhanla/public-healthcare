@@ -47,11 +47,13 @@ const ProfileForm = () => {
           />
 
           <div className="space-y-2">
-            <Label htmlFor="name">Tempat Tanggal Lahir</Label>
             <div className="grid grid-cols-[5fr_5fr] gap-4">
-              <Input
+              <ControlledInput
+                formSchema={form}
+                inputId="birthPlace"
+                includeError
+                labelText="Tempat Lahir"
                 placeholder="Tempat Lahir"
-                className="focus-visible:ring-transparent"
               />
               <Popover>
                 <PopoverTrigger>
