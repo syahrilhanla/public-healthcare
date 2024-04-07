@@ -12,6 +12,7 @@ interface Props {
   includeError?: boolean;
   inputId: string;
   placeholder?: string;
+  type?: string;
   formSchema: any;
 }
 
@@ -20,6 +21,7 @@ const ControlledInput = ({
   labelText,
   formSchema,
   placeholder,
+  type = "text",
   inputId
 }: Props) => {
   return (
@@ -41,6 +43,17 @@ const ControlledInput = ({
                   id={inputId}
                   {...field}
                   value={field.value}
+                  type={type}
+                  onKeyDown={(e) => {
+                    if (type === "number") {
+                      if (e.key === "ArrowUp" || e.key === "ArrowDown" || e.key === "e") {
+                        e.preventDefault();
+                      }
+                    }
+                  }}
+                  onWheel={(e) => {
+                    if (type === "number") e.currentTarget.blur();
+                  }}
                 />
               </FormControl>
 
