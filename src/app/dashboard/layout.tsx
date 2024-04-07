@@ -1,11 +1,11 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
 import { Inter } from "next/font/google";
 import Sidebar from "components/Sidebar";
 import Navbar from "components/Navbar";
 import Snackbar from "components/Snackbar";
 import MobileSidebar from "components/MobileSidebar";
-import { usePathname, useRouter } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
