@@ -11,14 +11,15 @@ const schema = z.object({
   }).max(16, {
     message: "Masukkan NIK yang valid"
   }),
-  birthPlace: z.string().min(1, {
-    message: "Masukkan tempat lahir yang valid"
-  }),
-  birthDate: z.string().min(1, {
-    message: "Masukkan tanggal lahir yang valid"
-  }),
+  // birthPlace: z.string().min(1, {
+  //   message: "Masukkan tempat lahir yang valid"
+  // }),
+  // birthDate: z.string().min(1, {
+  //   message: "Masukkan tanggal lahir yang valid"
+  // }),
   address: z.string().min(1, { message: "Masukkan alamat yang valid" }),
   school: z.string().min(1, { message: "Masukkan sekolah yang valid" }),
+  posyandu: z.string().min(1, { message: "Pilih posyandu yang valid" }),
 });
 
 const useProfileForm = () => {
@@ -28,9 +29,10 @@ const useProfileForm = () => {
       name: "",
       address: "",
       nik: "",
-      birthPlace: "",
-      birthDate: "",
+      // birthPlace: "",
+      // birthDate: "",
       school: "",
+      posyandu: "",
     },
   });
 

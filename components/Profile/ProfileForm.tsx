@@ -5,21 +5,15 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { CalendarIcon, ChevronDown } from "lucide-react";
-import { Form } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 import useProfileForm from "components/Profile/hooks/useProfileForm";
-import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 import ControlledInput from "components/ControlledInput";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const ProfileForm = () => {
   const {
@@ -129,28 +123,47 @@ const ProfileForm = () => {
             placeholder="Asal Sekolah"
           />
 
-          <div className="space-y-2 grid">
-            <Label htmlFor="posyandu">Posyandu</Label>
-            <DropdownMenu>
-              <DropdownMenuTrigger>
-                <Button
-                  variant={"outline"}
-                  className="w-full space-x-2 focus-visible:ring-transparent"
-                >
-                  <ChevronDown className="h-4 w-4" />
-                  <span>
-                    Pilih Posyandu
-                  </span>
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>Posyandu Remaja FRESH</DropdownMenuItem>
-                <DropdownMenuItem>Posyandu Remaja Smart Gemilang</DropdownMenuItem>
-                <DropdownMenuItem>Posyandu Remaja Kusuma Jaya</DropdownMenuItem>
-                <DropdownMenuItem>Posyandu Remaja Mandiri Sehat</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </div>
+          <FormField
+            control={form.control}
+            name={"posyandu"}
+            render={({ field }) => (
+              <>
+                <FormItem>
+                  <div className="space-y-2 grid">
+                    <FormLabel htmlFor="posyandu">Posyandu</FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger id="posyandu">
+                          <SelectValue
+                            placeholder="Pilih Posyandu"
+                            className="w-full space-x-2 focus-visible:ring-transparent"
+                          />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Posyandu Remaja FRESH">
+                            Posyandu Remaja FRESH
+                          </SelectItem>
+                          <SelectItem value="Posyandu Remaja Smart Gemilang">
+                            Posyandu Remaja Smart Gemilang
+                          </SelectItem>
+                          <SelectItem value="Posyandu Remaja Kusuma Jaya">
+                            Posyandu Remaja Kusuma Jaya
+                          </SelectItem>
+                          <SelectItem value="Posyandu Remaja Mandiri Sehat">
+                            Posyandu Remaja Mandiri Sehat
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              </>
+            )}
+          />
           <Button
             type="submit"
           >
