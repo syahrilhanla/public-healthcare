@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
 import { Inter } from "next/font/google";
 import Sidebar from "components/Sidebar";
 import Navbar from "components/Navbar";
@@ -13,6 +15,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const router = useRouter();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    if (pathname === "/dashboard") router.push("/dashboard/hasil-pemeriksaan");
+  }, []);
 
   return (
     <html lang="en">

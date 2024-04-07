@@ -1,88 +1,151 @@
 "use client"
-import Image from "next/image";
-import React, { useState } from "react";
-import useSnackbarStore from "../../lib/stores/snackbar.store";
 
-const LoginPage = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+import { useRouter } from "next/navigation";
+import Image from "next/image"
+import Link from "next/link"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import { z } from "zod"
 
-  const { updateSnackbarState, snackbarState } = useSnackbarStore();
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    // Handle login logic here
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import useSnackbarStore from "lib/stores/snackbar.store"
 
-    // validate login form
-    if (!password || !username) {
-      updateSnackbarState({
-        snackbarOpen: true,
-        snackbarTitle: "Error",
-        snackbarMessage: "Tolong isi username dan password!",
-        type: "error",
-      });
-      return;
-    }
-  };
+const Dashboard = () => {
+  const {
+    updateSnackbarState
+  } = useSnackbarStore();
+
+  const router = useRouter();
+
+  const formSchema = z.object({
+    username: z.string().min(2, {
+      message: "Username tidak boleh kosong!",
+    }),
+    password: z.string().min(2, {
+      message: "Password tidak boleh kosong!",
+    })
+  })
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      username: "",
+      password: "",
+    },
+  })
+
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    // login logic here 
+
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    console.log(values);
+
+    updateSnackbarState({
+      snackbarMessage: "Login berhasil!",
+      snackbarOpen: true,
+    });
+
+    router.push("/dashboard/hasil-pemeriksaan");
+  }
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8">
-        <div className="flex flex-col justify-center items-center">
-          <Image
-            src="/img/logo.png"
-            alt="Workflow"
-            width={300}
-            height={300}
-          />
-        </div>
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          <input type="hidden" name="remember" value="true" />
-          <div className="rounded-md shadow-sm -space-y-px">
-            <div>
-              <label htmlFor="username" className="sr-only">
-                Username
-              </label>
-              <input
-                id="username"
-                name="username"
-                type="text"
-                autoComplete="username"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Password
-              </label>
-              <input
-                id="password"
+    <div className="w-[70%] mx-auto my-auto lg:grid h-[100dvh] lg:grid-cols-2 ">
+      <div className="flex items-center justify-center py-12 lg:bg-muted lg:shadow-lg">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <div className="mx-auto grid w-[350px] gap-6">
+              <div className="grid gap-2 text-center">
+                <h1 className="text-3xl font-bold">Login</h1>
+                <p className="text-balance text-muted-foreground">
+                  Masukkan username dan password anda
+                </p>
+              </div>
+              <div className="grid gap-4">
+                <FormField
+                  control={form.control}
+                  name="username"
+                  render={({ field }) => (
+                    <>
+                      <FormItem>
+                        <div className="grid gap-2">
+                          <FormLabel htmlFor="username">Username</FormLabel>
+                          <FormControl>
+                            <Input
+                              id="username"
+                              {...field}
+                              value={field.value}
+                              className="focus-visible:ring-transparent focus:outline-none "
+                            />
+                          </FormControl>
+                        </div>
+                      </FormItem>
+                      <FormMessage />
+                    </>
+                  )}
+                />
+              </div>
+              <FormField
+                control={form.control}
                 name="password"
-                type="password"
-                autoComplete="current-password"
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                render={({ field }) => (
+                  <>
+                    <FormItem>
+                      <div className="grid gap-2">
+                        <div className="flex items-center">
+                          <FormLabel htmlFor="password">Password</FormLabel>
+                        </div>
+                        <FormControl>
+                          <Input
+                            id="password"
+                            type="password"
+                            {...field}
+                            value={field.value}
+                            className="focus-visible:ring-transparent focus:outline-none "
+                          />
+                        </FormControl>
+                      </div>
+                    </FormItem>
+                    <FormMessage />
+                  </>
+                )}
               />
+              <Button type="submit" className="w-full">
+                Login
+              </Button>
             </div>
-          </div>
-
-          <div>
-            <button
-              type="submit"
-              className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >
-              Sign in
-            </button>
-          </div>
-        </form>
+            <div className="mt-4 text-center text-sm">
+              Belum punya akun?{" "}
+              <Link href="https://api.whatsapp.com/send?phone=6285923555297&text=Hai%2C%20tolong%20buatkan%20akun%20baru%20untuk%20saya%20sebagai%20admin%20Puskesmas%209%20Nopember."
+                target="_blank"
+                className="underline">
+                Hubungi petugas
+              </Link>
+            </div>
+          </form>
+        </Form >
+      </div >
+      <div className="hidden bg-white lg:flex justify-center items-center">
+        <Image
+          src="/img/logo.png"
+          alt="Workflow"
+          width={300}
+          height={300}
+          className="dark:brightness-[0.2] dark:grayscale"
+        />
       </div>
-    </div>
-  );
-};
+    </div >
+  )
+}
 
-export default LoginPage;
+export default Dashboard;
