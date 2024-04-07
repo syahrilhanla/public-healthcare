@@ -78,7 +78,7 @@
 /* Custom Scrollbar Style */
 /* Modify the styles as per your requirements */
 ::-webkit-scrollbar {
-	width: 10px;
+	width: 0.7rem;
 	animation-duration: 500ms;
 }
 

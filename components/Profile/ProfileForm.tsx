@@ -14,7 +14,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { CalendarIcon, ChevronDown } from "lucide-react";
-import { Form } from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 
 import useProfileForm from "components/Profile/hooks/useProfileForm";
 import { Textarea } from "@/components/ui/textarea";
@@ -34,13 +34,29 @@ const ProfileForm = () => {
       </h1>
       <Form {...form}>
         <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="space-y-2">
-            <Label htmlFor="name">Nama Lengkap</Label>
-            <Input
-              placeholder="Nama"
-              className="focus-visible:ring-transparent"
-            />
-          </div>
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <>
+                <FormItem>
+                  <div className="space-y-2">
+                    <FormLabel htmlFor="name">Nama Lengkap</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Nama"
+                        className="focus-visible:ring-transparent"
+                        id="name"
+                        {...field}
+                        value={field.value}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              </>
+            )}
+          />
 
           <div className="space-y-2">
             <Label htmlFor="NIK">NIK</Label>

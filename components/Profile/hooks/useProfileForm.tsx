@@ -3,8 +3,9 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 const schema = z.object({
-  name: z.string(),
-  email: z.string().email(),
+  name: z.string().min(4, {
+    message: "Masukkan minimal 3 karakter"
+  }),
 });
 
 const useProfileForm = () => {
@@ -12,7 +13,6 @@ const useProfileForm = () => {
     resolver: zodResolver(schema),
     defaultValues: {
       name: "",
-      email: "",
     },
   });
 
