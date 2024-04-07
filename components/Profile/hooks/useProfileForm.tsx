@@ -11,6 +11,7 @@ const schema = z.object({
   }).max(16, {
     message: "Masukkan NIK yang valid"
   }),
+  address: z.string().min(1, { message: "Masukkan alamat yang valid" }),
 });
 
 const useProfileForm = () => {

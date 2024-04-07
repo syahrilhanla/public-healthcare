@@ -112,13 +112,14 @@ const ProfileForm = () => {
             </RadioGroup>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="address">Alamat</Label>
-            <Textarea
-              className="focus-visible:ring-transparent"
-              placeholder="Alamat"
-            />
-          </div>
+          <ControlledInput
+            formSchema={form}
+            inputId="address"
+            includeError
+            labelText="Alamat"
+            placeholder="Alamat"
+            type="textarea"
+          />
 
           <div className="space-y-2">
             <Label htmlFor="school">Sekolah</Label>
