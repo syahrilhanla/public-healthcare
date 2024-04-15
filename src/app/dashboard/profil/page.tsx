@@ -1,11 +1,7 @@
-"use client"
-
-import ProfileForm from "components/Profile/ProfileForm";
-
-const ProfilePage = () => {
+const ProfileList = () => {
   return (
-    <ProfileForm />
+    <div>Profile List</div>
   )
 }
 
-export default ProfilePage;
+export default ProfileList;
