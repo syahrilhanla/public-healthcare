@@ -28,8 +28,8 @@ const Dashboard = () => {
   const router = useRouter();
 
   const formSchema = z.object({
-    username: z.string().min(2, {
-      message: "Username tidak boleh kosong!",
+    email: z.string().email().min(2, {
+      message: "Email tidak boleh kosong!",
     }),
     password: z.string().min(2, {
       message: "Password tidak boleh kosong!",
@@ -39,7 +39,7 @@ const Dashboard = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   })
@@ -68,23 +68,24 @@ const Dashboard = () => {
               <div className="grid gap-2 text-center">
                 <h1 className="text-3xl font-bold">Login</h1>
                 <p className="text-balance text-muted-foreground">
-                  Masukkan username dan password anda
+                  Masukkan email dan password anda
                 </p>
               </div>
               <div className="grid gap-4">
                 <FormField
                   control={form.control}
-                  name="username"
+                  name="email"
                   render={({ field }) => (
                     <>
                       <FormItem>
                         <div className="grid gap-2">
-                          <FormLabel htmlFor="username">Username</FormLabel>
+                          <FormLabel htmlFor="email">Email</FormLabel>
                           <FormControl>
                             <Input
-                              id="username"
+                              id="email"
                               {...field}
                               value={field.value}
+                              type="email"
                               className="focus-visible:ring-transparent focus:outline-none "
                             />
                           </FormControl>
