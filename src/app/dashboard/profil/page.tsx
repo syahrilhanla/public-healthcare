@@ -6,8 +6,11 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import useProfileList from "components/Profile/hooks/useProfileList";
 
-const ProfileList = () => {
+const ProfileList = async () => {
+  const profiles = await useProfileList();
+
   return (
     <div className="grid gap-4 px-2 lg:px-6">
       <h1
@@ -19,7 +22,7 @@ const ProfileList = () => {
       <Table>
         <TableHeader>
           <TableRow className="overflow-auto font-medium">
-            <TableHead className="w-[200px] font-medium text-black">Nama</TableHead>
+            <TableHead className="font-medium text-black">Nama</TableHead>
             <TableHead className="font-medium text-black">JK</TableHead>
             <TableHead className="font-medium text-black">Sekolah</TableHead>
             <TableHead className="font-medium text-black">TTL</TableHead>
@@ -29,15 +32,17 @@ const ProfileList = () => {
           </TableRow>
         </TableHeader>
         <TableBody >
-          <TableRow>
-            <TableCell className="text-gray-600">Test 1</TableCell>
-            <TableCell className="text-gray-600 w-[7rem]">Perempuan</TableCell>
-            <TableCell className="text-gray-600">SMA 2 Banjarmasin</TableCell>
-            <TableCell className="text-gray-600">Banjarmasin, 12 Maret 2009</TableCell>
-            <TableCell className="text-gray-600">2918273756448882</TableCell>
-            <TableCell className="text-gray-600">Posyandu Remaja FRESH</TableCell>
-            <TableCell className="text-gray-600">Jl. Pengambangan</TableCell>
-          </TableRow>
+          {profiles.map((profile) => (
+            <TableRow key={profile.NIK}>
+              <TableCell className="text-gray-600  text-nowrap max-w-[7rem]">{profile.fullName}</TableCell>
+              <TableCell className="text-gray-600 text-nowrap">{profile.sex}</TableCell>
+              <TableCell className="text-gray-600">{profile.birthplace}</TableCell>
+              <TableCell className="text-gray-600">{profile.birthplace}</TableCell>
+              <TableCell className="text-gray-600 text-right">{profile.NIK}</TableCell>
+              <TableCell className="text-gray-600">{profile.posyandu}</TableCell>
+              <TableCell className="text-gray-600">{profile.address}</TableCell>
+            </TableRow>
+          ))}
         </TableBody>
       </Table>
     </div>
