@@ -1,5 +1,8 @@
 "use client"
 
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "lib/firebase.sdk";
+
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -18,7 +21,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import useSnackbarStore from "lib/stores/snackbar.store"
+import useSnackbarStore from "lib/stores/snackbar.store";
 
 const Dashboard = () => {
   const {
@@ -44,19 +47,29 @@ const Dashboard = () => {
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // login logic here 
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const { email, password } = values;
 
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    try {
+      const login = await signInWithEmailAndPassword(auth, email, password);
 
-    updateSnackbarState({
-      snackbarMessage: "Login berhasil!",
-      snackbarOpen: true,
-    });
+      document.cookie = `login=${login.user.uid}`;
 
-    router.push("/dashboard/hasil-pemeriksaan");
+      updateSnackbarState({
+        snackbarMessage: "Login berhasil!",
+        snackbarOpen: true,
+      });
+
+      router.push("/dashboard/hasil-pemeriksaan");
+    } catch (error) {
+      console.error("failed to login", error);
+
+      updateSnackbarState({
+        snackbarMessage: "Login Gagal!",
+        snackbarOpen: true,
+        type: "error",
+      });
+    }
   }
 
   return (
