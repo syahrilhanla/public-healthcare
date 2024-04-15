@@ -21,6 +21,7 @@ const schema = z.object({
   address: z.string().min(1, { message: "Masukkan alamat yang valid" }),
   school: z.string().min(1, { message: "Masukkan sekolah yang valid" }),
   posyandu: z.string().min(1, { message: "Pilih posyandu yang valid" }),
+  sex: z.string().min(1, { message: "Pilih jenis kelamin yang valid" }),
 });
 
 const useProfileForm = () => {
@@ -34,6 +35,7 @@ const useProfileForm = () => {
       birthDate: undefined,
       school: "",
       posyandu: "",
+      sex: "",
     },
   });
 

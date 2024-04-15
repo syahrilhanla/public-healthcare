@@ -107,23 +107,40 @@ const ProfileForm = () => {
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="sex">Jenis Kelamin</Label>
-            <RadioGroup className="flex gap-6">
-              <div className="space-x-2 flex items-center">
-                <RadioGroupItem value="Laki-laki" id="male" />
-                <Label htmlFor="male">
-                  Laki-laki
-                </Label>
-              </div>
-              <div className="space-x-2 flex items-center">
-                <RadioGroupItem value="Perempuan" id="female" />
-                <Label htmlFor="female">
-                  Perempuan
-                </Label>
-              </div>
-            </RadioGroup>
-          </div>
+          <FormField
+            control={form.control}
+            name={"sex"}
+            render={({ field }) => (
+              <>
+                <FormItem className="space-y-2">
+                  <FormLabel htmlFor="sex">Jenis Kelamin</FormLabel>
+                  <RadioGroup
+                    className="flex gap-6"
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormItem className="space-x-2 flex items-center">
+                      <FormControl>
+                        <RadioGroupItem value="Laki-laki" id="male" />
+                      </FormControl>
+                      <Label htmlFor="male">
+                        Laki-laki
+                      </Label>
+                    </FormItem>
+                    <FormItem className="space-x-2 flex items-center">
+                      <FormControl>
+                        <RadioGroupItem value="Perempuan" id="female" />
+                      </FormControl>
+                      <Label htmlFor="female">
+                        Perempuan
+                      </Label>
+                    </FormItem>
+                  </RadioGroup>
+                  <FormMessage />
+                </FormItem>
+              </>
+            )}
+          />
 
           <ControlledInput
             formSchema={form}
