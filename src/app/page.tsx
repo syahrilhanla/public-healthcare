@@ -1,14 +1,17 @@
 "use client"
 
-import { useRouter } from "next/navigation";
-import Image from "next/image"
-import Link from "next/link"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "lib/firebase.sdk";
 
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import Link from "next/link";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 import {
   Form,
@@ -18,7 +21,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import useSnackbarStore from "lib/stores/snackbar.store"
+import useSnackbarStore from "lib/stores/snackbar.store";
 
 const Dashboard = () => {
   const {
@@ -28,8 +31,8 @@ const Dashboard = () => {
   const router = useRouter();
 
   const formSchema = z.object({
-    username: z.string().min(2, {
-      message: "Username tidak boleh kosong!",
+    email: z.string().email().min(2, {
+      message: "Email tidak boleh kosong!",
     }),
     password: z.string().min(2, {
       message: "Password tidak boleh kosong!",
@@ -39,24 +42,34 @@ const Dashboard = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   })
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // login logic here 
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const { email, password } = values;
 
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+    try {
+      const login = await signInWithEmailAndPassword(auth, email, password);
 
-    updateSnackbarState({
-      snackbarMessage: "Login berhasil!",
-      snackbarOpen: true,
-    });
+      document.cookie = `login=${login.user.uid}`;
 
-    router.push("/dashboard/hasil-pemeriksaan");
+      updateSnackbarState({
+        snackbarMessage: "Login berhasil!",
+        snackbarOpen: true,
+      });
+
+      router.push("/dashboard/hasil-pemeriksaan");
+    } catch (error) {
+      console.error("failed to login", error);
+
+      updateSnackbarState({
+        snackbarMessage: "Login Gagal!",
+        snackbarOpen: true,
+        type: "error",
+      });
+    }
   }
 
   return (
@@ -68,23 +81,24 @@ const Dashboard = () => {
               <div className="grid gap-2 text-center">
                 <h1 className="text-3xl font-bold">Login</h1>
                 <p className="text-balance text-muted-foreground">
-                  Masukkan username dan password anda
+                  Masukkan email dan password anda
                 </p>
               </div>
               <div className="grid gap-4">
                 <FormField
                   control={form.control}
-                  name="username"
+                  name="email"
                   render={({ field }) => (
                     <>
                       <FormItem>
                         <div className="grid gap-2">
-                          <FormLabel htmlFor="username">Username</FormLabel>
+                          <FormLabel htmlFor="email">Email</FormLabel>
                           <FormControl>
                             <Input
-                              id="username"
+                              id="email"
                               {...field}
                               value={field.value}
+                              type="email"
                               className="focus-visible:ring-transparent focus:outline-none "
                             />
                           </FormControl>
