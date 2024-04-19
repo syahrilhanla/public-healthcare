@@ -1,8 +1,10 @@
 export type Profile = {
-  fullName: string;
+  name: string;
   sex: string;
-  birthplace: string;
-  NIK: string;
+  birthPlace: string;
+  nik: string;
   posyandu: string;
   address: string;
+  school: string;
+  birthDate: string;
 }
