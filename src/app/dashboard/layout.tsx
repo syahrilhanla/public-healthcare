@@ -3,6 +3,8 @@
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Inter } from "next/font/google";
+import { ViewTransitions } from 'next-view-transitions'
+
 import Sidebar from "components/Sidebar";
 import Navbar from "components/Navbar";
 import Snackbar from "components/Snackbar";
@@ -23,22 +25,23 @@ export default function RootLayout({
   }, []);
 
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
-          <Sidebar />
-          <div className="flex flex-col">
-            <Navbar>
-              <MobileSidebar />
-            </Navbar>
-            <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6">
-              {children}
-            </main>
+    <ViewTransitions>
+      <html lang="en">
+        <body className={inter.className}>
+          <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+            <Sidebar />
+            <div className="flex flex-col">
+              <Navbar>
+                <MobileSidebar />
+              </Navbar>
+              <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6">
+                {children}
+              </main>
+            </div>
+            <Snackbar />
           </div>
-          <Snackbar />
-        </div>
-      </body>
-
-    </html>
+        </body>
+      </html>
+    </ViewTransitions>
   );
 }
