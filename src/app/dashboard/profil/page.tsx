@@ -1,3 +1,6 @@
+import { Link } from "next-view-transitions";
+
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -7,6 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import useProfileList from "components/Profile/hooks/useProfileList";
+import { PlusIcon } from "lucide-react";
 
 const ProfileList = async () => {
   const profiles = await useProfileList();
@@ -18,6 +22,17 @@ const ProfileList = async () => {
       >
         Profil
       </h1>
+
+      <div className="w-full flex lg:justify-end">
+        <Link href={"/dashboard/profil/form"}>
+          <Button variant={"outline"}
+            className="w-full lg:w-fit flex gap-2 rounded-lg text-gray-600"
+          >
+            <PlusIcon className="h-4 w-4" />
+            Tambah Profil
+          </Button>
+        </Link>
+      </div>
 
       <Table>
         <TableHeader>
