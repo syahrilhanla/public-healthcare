@@ -1,4 +1,6 @@
 import { Link } from "next-view-transitions";
+import { format } from "date-fns";
+import { id } from 'date-fns/locale'
 
 import { Button } from "@/components/ui/button";
 import {
@@ -34,17 +36,21 @@ const ProfileListTable = ({ profiles }: Props) => {
       </TableHeader>
       <TableBody >
         {profiles.map((profile) => (
-          <TableRow key={profile.NIK}>
-            <TableCell className="text-gray-600  text-nowrap max-w-[7rem]">{profile.fullName}</TableCell>
+          <TableRow key={profile.nik}>
+            <TableCell className="text-gray-600  text-nowrap max-w-[7rem]">{profile.name}</TableCell>
             <TableCell className="text-gray-600 text-nowrap">{profile.sex}</TableCell>
-            <TableCell className="text-gray-600 text-nowrap">{profile.birthplace}</TableCell>
-            <TableCell className="text-gray-600">{profile.birthplace}</TableCell>
-            <TableCell className="text-gray-600 text-right">{profile.NIK}</TableCell>
+            <TableCell className="text-gray-600 text-nowrap">{profile.school}</TableCell>
+            <TableCell className="text-gray-600 text-nowrap">
+              {profile.birthPlace + ", " + format(new Date(profile.birthDate), "dd MMMM yyyy", {
+                locale: id
+              })}
+            </TableCell>
+            <TableCell className="text-gray-600 text-right">{profile.nik}</TableCell>
             <TableCell className="text-gray-600 text-nowrap">{profile.posyandu}</TableCell>
-            <TableCell className="text-gray-600">{profile.address}</TableCell>
+            <TableCell className="text-gray-600 text-nowrap">{profile.address}</TableCell>
             <TableCell className="text-gray-600">
               <div className="flex gap-2">
-                <Link href={`/dashboard/profil/form?id=${profile.NIK}`}>
+                <Link href={`/dashboard/profil/form?id=${profile.nik}`}>
                   <Button variant={"outline"} className="text-gray-600 py-1 px-3">
                     <PencilIcon className="w-3 h-3" />
                   </Button>
