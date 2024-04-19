@@ -1,4 +1,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "lib/firebase.sdk";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -39,7 +42,22 @@ const useProfileForm = () => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof schema>) => console.log(data);
+  const router = useRouter();
+
+  const onSubmit = async (data: z.infer<typeof schema>) => {
+    console.log(data);
+
+    try {
+      await setDoc(doc(db, "users", data.nik), {
+        data
+      });
+
+      router.push("/dashboard/profil");
+
+    } catch (error) {
+      console.error("Error to create/edit user data", error);
+    }
+  }
 
   return {
     form,
