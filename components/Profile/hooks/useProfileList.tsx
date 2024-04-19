@@ -1,5 +1,6 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "lib/firebase.sdk";
+import { Profile } from "type/profile.type";
 
 const useProfileList = async () => {
   const profiles: Profile[] = [];
@@ -13,14 +14,3 @@ const useProfileList = async () => {
 }
 
 export default useProfileList;
-
-type Profile = {
-  posyandu: string;
-  sex: string;
-  birthdate: string;
-  address: string;
-  fullName: string;
-  NIK: string;
-  school: string;
-  birthplace: string;
-};
