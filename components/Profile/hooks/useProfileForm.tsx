@@ -2,7 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "lib/firebase.sdk";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -28,6 +28,8 @@ const schema = z.object({
   sex: z.string().min(1, { message: "Pilih jenis kelamin yang valid" }),
 });
 
+type FormStatus = "editing" | "loading" | "submitting";
+
 const useProfileForm = () => {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -43,6 +45,8 @@ const useProfileForm = () => {
     },
   });
 
+  const [formStatus, setFormStatus] = useState<FormStatus>("editing");
+
   const router = useRouter();
   const userId = useSearchParams().get("id");
 
@@ -50,6 +54,7 @@ const useProfileForm = () => {
     if (!userId) return;
 
     try {
+      setFormStatus("loading");
       const docRef = doc(db, "users", userId);
       const docSnap = await getDoc(docRef);
 
@@ -60,6 +65,8 @@ const useProfileForm = () => {
           birthDate: new Date()
         });
       }
+
+      setFormStatus("editing");
     } catch (error) {
       console.error("Error to get user data", error);
     }
@@ -77,12 +84,14 @@ const useProfileForm = () => {
     const reference = userId ? userId : data.nik;
 
     try {
+      setFormStatus("submitting");
+
       await setDoc(doc(db, "users", reference), {
         data
       });
 
       router.push("/dashboard/profil");
-
+      setFormStatus("editing");
     } catch (error) {
       console.error("Error to create/edit user data", error);
     }
@@ -91,6 +100,7 @@ const useProfileForm = () => {
   return {
     form,
     onSubmit,
+    formStatus
   };
 };
 
