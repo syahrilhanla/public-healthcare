@@ -7,4 +7,5 @@ export type Profile = {
   address: string;
   school: string;
   birthDate: string;
+  updatedAt: string;
 }

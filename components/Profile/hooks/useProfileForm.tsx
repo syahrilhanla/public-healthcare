@@ -1,6 +1,6 @@
 import { toast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "lib/firebase.sdk";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
@@ -88,8 +88,13 @@ const useProfileForm = () => {
     try {
       setFormStatus("submitting");
 
+      const profilePayload = {
+        ...data,
+        updatedAt: serverTimestamp()
+      }
+
       await setDoc(doc(db, "users", reference), {
-        data
+        ...profilePayload
       });
 
       toast({
