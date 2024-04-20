@@ -23,7 +23,7 @@ const ProfileListTable = ({ profiles }: Props) => {
   return (
     <Table>
       <TableHeader>
-        <TableRow className="overflow-auto font-medium">
+        <TableRow className="overflow-auto font-medium relative">
           <TableHead className="font-medium text-black">Nama</TableHead>
           <TableHead className="font-medium text-black">JK</TableHead>
           <TableHead className="font-medium text-black">Sekolah</TableHead>
@@ -31,7 +31,10 @@ const ProfileListTable = ({ profiles }: Props) => {
           <TableHead className="text-right font-medium text-black">NIK</TableHead>
           <TableHead className="font-medium text-black">Posyandu</TableHead>
           <TableHead className="font-medium text-black">Alamat</TableHead>
-          <TableHead className="text-right font-medium text-black">Aksi</TableHead>
+          <TableHead
+            className="text-right font-medium text-black sticky right-0 z-10 bg-white">
+            Aksi
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody >
@@ -48,7 +51,7 @@ const ProfileListTable = ({ profiles }: Props) => {
             <TableCell className="text-gray-600 text-right">{profile.nik}</TableCell>
             <TableCell className="text-gray-600 text-nowrap">{profile.posyandu}</TableCell>
             <TableCell className="text-gray-600 text-nowrap">{profile.address}</TableCell>
-            <TableCell className="text-gray-600">
+            <TableCell className="text-gray-600 sticky right-0 z-10 bg-white">
               <div className="flex gap-2">
                 <Link href={`/dashboard/profil/form?id=${profile.nik}`}>
                   <Button variant={"outline"} className="text-gray-600 py-1 px-3">
