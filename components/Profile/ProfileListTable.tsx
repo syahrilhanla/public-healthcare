@@ -1,5 +1,8 @@
 import { Link } from "next-view-transitions";
+import { format } from "date-fns";
+import { id } from 'date-fns/locale'
 
+import DeleteProfileModal from "components/Profile/DeleteProfileModal";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -9,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { PencilIcon, TrashIcon } from "lucide-react";
+import { PencilIcon } from "lucide-react";
 
 import { Profile } from "type/profile.type";
 
@@ -21,7 +24,7 @@ const ProfileListTable = ({ profiles }: Props) => {
   return (
     <Table>
       <TableHeader>
-        <TableRow className="overflow-auto font-medium">
+        <TableRow className="overflow-auto font-medium relative">
           <TableHead className="font-medium text-black">Nama</TableHead>
           <TableHead className="font-medium text-black">JK</TableHead>
           <TableHead className="font-medium text-black">Sekolah</TableHead>
@@ -29,29 +32,32 @@ const ProfileListTable = ({ profiles }: Props) => {
           <TableHead className="text-right font-medium text-black">NIK</TableHead>
           <TableHead className="font-medium text-black">Posyandu</TableHead>
           <TableHead className="font-medium text-black">Alamat</TableHead>
-          <TableHead className="text-right font-medium text-black">Aksi</TableHead>
+          <TableHead
+            className="text-right font-medium text-black sticky right-0 z-10 bg-white">
+            Aksi
+          </TableHead>
         </TableRow>
       </TableHeader>
       <TableBody >
         {profiles.map((profile) => (
-          <TableRow key={profile.NIK}>
-            <TableCell className="text-gray-600  text-nowrap max-w-[7rem]">{profile.fullName}</TableCell>
+          <TableRow key={profile.nik}>
+            <TableCell className="text-gray-600 text-nowrap max-w-[15rem] truncate">{profile.name}</TableCell>
             <TableCell className="text-gray-600 text-nowrap">{profile.sex}</TableCell>
-            <TableCell className="text-gray-600 text-nowrap">{profile.birthplace}</TableCell>
-            <TableCell className="text-gray-600">{profile.birthplace}</TableCell>
-            <TableCell className="text-gray-600 text-right">{profile.NIK}</TableCell>
+            <TableCell className="text-gray-600 text-nowrap">{profile.school}</TableCell>
+            <TableCell className="text-gray-600 text-nowrap">
+              {profile.birthPlace + ", " + profile.birthDate}
+            </TableCell>
+            <TableCell className="text-gray-600 text-right">{profile.nik}</TableCell>
             <TableCell className="text-gray-600 text-nowrap">{profile.posyandu}</TableCell>
-            <TableCell className="text-gray-600">{profile.address}</TableCell>
-            <TableCell className="text-gray-600">
+            <TableCell className="text-gray-600 text-nowrap">{profile.address}</TableCell>
+            <TableCell className="text-gray-600 sticky right-0 z-10 bg-white">
               <div className="flex gap-2">
-                <Link href={`/dashboard/profil/form?id=${profile.NIK}`}>
+                <Link href={`/dashboard/profil/form?id=${profile.nik}`}>
                   <Button variant={"outline"} className="text-gray-600 py-1 px-3">
                     <PencilIcon className="w-3 h-3" />
                   </Button>
                 </Link>
-                <Button variant={"destructive"} className="text-gray-600 py-1 px-3">
-                  <TrashIcon className="w-3 h-3 text-white" />
-                </Button>
+                <DeleteProfileModal selectedProfile={profile} />
               </div>
             </TableCell>
           </TableRow>

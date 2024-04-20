@@ -1,10 +1,13 @@
 "use client"
 
+import { Suspense } from "react";
 import ProfileForm from "components/Profile/ProfileForm";
 
 const ProfilePage = () => {
   return (
-    <ProfileForm />
+    <Suspense>
+      <ProfileForm />
+    </Suspense>
   )
 }
 
