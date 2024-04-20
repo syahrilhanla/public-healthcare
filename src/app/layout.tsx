@@ -1,8 +1,6 @@
-"use client";
-
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Snackbar from "components/Snackbar";
+import { ViewTransitions } from "next-view-transitions";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,12 +12,11 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
-        {children}
-        <div className="relative">
-          <Snackbar />
-        </div>
-      </body>
+      <ViewTransitions>
+        <body className={inter.className}>
+          {children}
+        </body>
+      </ViewTransitions>
     </html>
   );
 }
