@@ -133,7 +133,11 @@ const ProfileForm = () => {
                   >
                     <FormItem className="space-x-2 flex items-center">
                       <FormControl>
-                        <RadioGroupItem value="Laki-laki" id="male" />
+                        <RadioGroupItem
+                          value="Laki-laki"
+                          id="male"
+                          checked={field.value === "Laki-laki"}
+                        />
                       </FormControl>
                       <Label htmlFor="male">
                         Laki-laki
@@ -141,7 +145,11 @@ const ProfileForm = () => {
                     </FormItem>
                     <FormItem className="space-x-2 flex items-center">
                       <FormControl>
-                        <RadioGroupItem value="Perempuan" id="female" />
+                        <RadioGroupItem
+                          value="Perempuan"
+                          id="female"
+                          checked={field.value === "Perempuan"}
+                        />
                       </FormControl>
                       <Label htmlFor="female">
                         Perempuan
