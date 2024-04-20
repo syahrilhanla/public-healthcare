@@ -70,6 +70,7 @@ const useProfileForm = () => {
       setFormStatus("editing");
     } catch (error) {
       console.error("Error to get user data", error);
+      setFormStatus("error");
     }
   }
 
