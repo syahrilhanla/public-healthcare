@@ -7,7 +7,12 @@ const useProfileList = async () => {
 
   const profilesResponse = await getDocs(collection(db, "users"));
   profilesResponse.docs.map((doc) => {
-    profiles.push(doc.data() as unknown as Profile);
+    const profile = {
+      ...doc.data().data,
+      birthDate: doc.data().data.birthDate.toDate().toDateString()
+    }
+
+    profiles.push(profile as Profile);
   });
 
   return profiles;

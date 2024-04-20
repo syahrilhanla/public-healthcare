@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -26,17 +26,20 @@ const MobileSidebar = () => {
         <SheetContent side="left" className="flex flex-col max-w-[70dvw]">
           <nav className="grid gap-2 text-lg font-medium">
             {sidebarLinks.map((link, index) => (
-              <Link
-                key={index}
-                href={link.href}
-                className={
-                  `mx-[-0.65rem] px-3 py-2 flex items-center gap-4 rounded-xl
-                  text-muted-foreground hover:text-foreground ${pathname === link.href ? 'bg-muted' : ''}`
-                }
-              >
-                {link.icon}
-                {link.text}
-              </Link>
+              <SheetTrigger asChild key={index}>
+                <Link
+                  key={index}
+                  href={link.href}
+                  className={
+                    `mx-[-0.65rem] px-3 py-2 flex items-center gap-4 rounded-xl
+                    text-muted-foreground hover:text-foreground 
+                    ${pathname === link.href ? 'bg-muted' : ''}`
+                  }
+                >
+                  {link.icon}
+                  {link.text}
+                </Link>
+              </SheetTrigger>
             ))}
           </nav>
         </SheetContent>
