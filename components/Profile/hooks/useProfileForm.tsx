@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "lib/firebase.sdk";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -51,7 +51,7 @@ const useProfileForm = () => {
   const router = useRouter();
   const userId = useSearchParams().get("id");
 
-  const getUserData = async () => {
+  const getUserData = useCallback(async () => {
     if (!userId) return;
 
     try {
@@ -72,13 +72,13 @@ const useProfileForm = () => {
       console.error("Error to get user data", error);
       setFormStatus("error");
     }
-  }
+  }, [userId]);
 
   useEffect(() => {
     if (userId) {
       getUserData();
     }
-  }, [userId])
+  }, [userId, getUserData])
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
     // If userId is exist, use userId as reference, otherwise use NIK as reference
