@@ -59,7 +59,7 @@ const ProfileListTable = ({ profiles }: Props) => {
                     <PencilIcon className="w-3 h-3" />
                   </Button>
                 </Link>
-                <DeleteProfileModal />
+                <DeleteProfileModal selectedProfile={profile} />
               </div>
             </TableCell>
           </TableRow>

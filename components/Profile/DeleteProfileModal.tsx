@@ -1,8 +1,48 @@
-import { Button } from "@/components/ui/button";
+"use client"
+
+import { doc, deleteDoc } from "firebase/firestore";
+import { db } from "lib/firebase.sdk";
+
 import Modal from "components/Modal";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import { ToastAction } from "@/components/ui/toast";
 import { TrashIcon } from "lucide-react";
 
-const DeleteProfileModal = () => {
+import { Profile } from "type/profile.type";
+
+interface Props {
+  selectedProfile: Profile;
+}
+
+const DeleteProfileModal = ({ selectedProfile }: Props) => {
+  const { toast } = useToast();
+
+  const handleDelete = async () => {
+    try {
+      await deleteDoc(doc(db, "users", selectedProfile.nik));
+
+      toast({
+        description: "Data berhasil dihapus!",
+        variant: "default",
+      });
+    } catch (error) {
+      console.error("Error removing document: ", error);
+
+      toast({
+        description: "Gagal menghapus data!",
+        variant: "destructive",
+        action: <ToastAction
+          altText="Coba lagi"
+          onClick={async () => {
+            await deleteDoc(doc(db, "users", selectedProfile.nik))
+          }}
+        >Coba lagi
+        </ToastAction>,
+      });
+    }
+  }
+
   return (
     <Modal
       Trigger={
@@ -12,12 +52,22 @@ const DeleteProfileModal = () => {
       }
       title="Konfirmasi Hapus Data"
     >
-      <div className="space-y-4 gap-4 flex flex-col justify-end">
+      <div className="w-full space-y-4 gap-1 flex flex-col justify-end">
         <p>
           Apakah anda yakin ingin menghapus data ini?
         </p>
+        <div className="grid gap-1 text-slate-500">
+          <p>
+            {selectedProfile.name}
+          </p>
+          <p>
+            {selectedProfile.nik}
+          </p>
+        </div>
+
         <Button
           variant={"destructive"}
+          onClick={handleDelete}
         >
           Hapus
         </Button>
