@@ -41,7 +41,7 @@ const ProfileListTable = ({ profiles }: Props) => {
       <TableBody >
         {profiles.map((profile) => (
           <TableRow key={profile.nik}>
-            <TableCell className="text-gray-600  text-nowrap max-w-[7rem]">{profile.name}</TableCell>
+            <TableCell className="text-gray-600 text-nowrap max-w-[15rem] truncate">{profile.name}</TableCell>
             <TableCell className="text-gray-600 text-nowrap">{profile.sex}</TableCell>
             <TableCell className="text-gray-600 text-nowrap">{profile.school}</TableCell>
             <TableCell className="text-gray-600 text-nowrap">

@@ -1,3 +1,4 @@
+import { toast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "lib/firebase.sdk";
@@ -28,7 +29,7 @@ const schema = z.object({
   sex: z.string().min(1, { message: "Pilih jenis kelamin yang valid" }),
 });
 
-type FormStatus = "editing" | "loading" | "submitting";
+type FormStatus = "editing" | "loading" | "submitting" | "error";
 
 const useProfileForm = () => {
   const form = useForm<z.infer<typeof schema>>({
@@ -90,10 +91,22 @@ const useProfileForm = () => {
         data
       });
 
+      toast({
+        description: userId ? "Berhasil mengubah profil!" : "Berhasil membuat profil!",
+        variant: "default"
+      });
+
       router.push("/dashboard/profil");
-      setFormStatus("editing");
     } catch (error) {
       console.error("Error to create/edit user data", error);
+
+      toast({
+        title: userId ? "gagal mengubah profil!" : "Gagal membuat profil!",
+        description: "Silahkan coba lagi",
+        variant: "destructive"
+      });
+    } finally {
+      setFormStatus("editing");
     }
   }
 
