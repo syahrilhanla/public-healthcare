@@ -2,6 +2,7 @@ import { Link } from "next-view-transitions";
 import { format } from "date-fns";
 import { id } from 'date-fns/locale'
 
+import DeleteProfileModal from "components/Profile/DeleteProfileModal";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -11,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { PencilIcon, TrashIcon } from "lucide-react";
+import { PencilIcon } from "lucide-react";
 
 import { Profile } from "type/profile.type";
 
@@ -58,9 +59,7 @@ const ProfileListTable = ({ profiles }: Props) => {
                     <PencilIcon className="w-3 h-3" />
                   </Button>
                 </Link>
-                <Button variant={"destructive"} className="text-gray-600 py-1 px-3">
-                  <TrashIcon className="w-3 h-3 text-white" />
-                </Button>
+                <DeleteProfileModal />
               </div>
             </TableCell>
           </TableRow>
