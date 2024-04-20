@@ -1,7 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { db } from "lib/firebase.sdk";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -43,12 +44,40 @@ const useProfileForm = () => {
   });
 
   const router = useRouter();
+  const userId = useSearchParams().get("id");
 
-  const onSubmit = async (data: z.infer<typeof schema>) => {
-    console.log(data);
+  const getUserData = async () => {
+    if (!userId) return;
 
     try {
-      await setDoc(doc(db, "users", data.nik), {
+      const docRef = doc(db, "users", userId);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const data = docSnap.data().data;
+        form.reset({
+          ...data,
+          birthDate: new Date()
+        });
+      }
+    } catch (error) {
+      console.error("Error to get user data", error);
+    }
+  }
+
+  useEffect(() => {
+    if (userId) {
+      getUserData();
+    }
+  }, [userId])
+
+  const onSubmit = async (data: z.infer<typeof schema>) => {
+    // If userId is exist, use userId as reference, otherwise use NIK as reference
+    // used for create or edit user data
+    const reference = userId ? userId : data.nik;
+
+    try {
+      await setDoc(doc(db, "users", reference), {
         data
       });
 
