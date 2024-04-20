@@ -194,7 +194,7 @@ const ProfileForm = () => {
                       >
                         <SelectTrigger id="posyandu">
                           <SelectValue
-                            placeholder="Pilih Posyandu"
+                            placeholder={field.value || "Pilih Posyandu"}
                             className="w-full space-x-2 focus-visible:ring-transparent"
                           />
                         </SelectTrigger>
