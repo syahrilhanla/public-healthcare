@@ -60,7 +60,7 @@ const useProfileForm = () => {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        const data = docSnap.data().data;
+        const data = docSnap.data();
         form.reset({
           ...data,
           birthDate: new Date()
