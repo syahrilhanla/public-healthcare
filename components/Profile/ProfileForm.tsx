@@ -192,7 +192,11 @@ const ProfileForm = () => {
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
-                        <SelectTrigger id="posyandu">
+                        <SelectTrigger
+                          id="posyandu"
+                          className="w-full p-2 border border-gray-300 rounded-md 
+                            focus:outline-none focus:ring-0 focus:ring-transparent"
+                        >
                           <SelectValue
                             placeholder={field.value || "Pilih Posyandu"}
                             className="w-full space-x-2 focus-visible:ring-transparent"
