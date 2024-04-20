@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+import { id } from "date-fns/locale";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "lib/firebase.sdk";
 import { Profile } from "type/profile.type";
@@ -12,7 +14,11 @@ const useProfileList = async () => {
   profilesResponse.docs.map((doc) => {
     const profile = {
       ...doc.data(),
-      birthDate: doc.data().birthDate.toDate().toDateString()
+      birthDate: format(new Date(doc.data().birthDate.toDate().toDateString()),
+        "dd MMMM yyyy", {
+        locale: id
+      }),
+      updatedAt: format(new Date(doc.data().updatedAt.toDate().toDateString()), "dd MMMM yyyy")
     }
 
     profiles.push(profile as Profile);

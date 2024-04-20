@@ -45,9 +45,7 @@ const ProfileListTable = ({ profiles }: Props) => {
             <TableCell className="text-gray-600 text-nowrap">{profile.sex}</TableCell>
             <TableCell className="text-gray-600 text-nowrap">{profile.school}</TableCell>
             <TableCell className="text-gray-600 text-nowrap">
-              {profile.birthPlace + ", " + format(new Date(profile.birthDate), "dd MMMM yyyy", {
-                locale: id
-              })}
+              {profile.birthPlace + ", " + profile.birthDate}
             </TableCell>
             <TableCell className="text-gray-600 text-right">{profile.nik}</TableCell>
             <TableCell className="text-gray-600 text-nowrap">{profile.posyandu}</TableCell>
