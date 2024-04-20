@@ -127,32 +127,36 @@ const ProfileForm = () => {
                 <FormItem className="space-y-2">
                   <FormLabel htmlFor="sex">Jenis Kelamin</FormLabel>
                   <RadioGroup
-                    className="flex gap-6"
+                    className="flex gap-6 duration-500"
                     onValueChange={field.onChange}
                     defaultValue={field.value}
                   >
                     <FormItem className="space-x-2 flex items-center">
-                      <FormControl>
-                        <RadioGroupItem
-                          value="Laki-laki"
-                          id="male"
-                          checked={field.value === "Laki-laki"}
-                        />
-                      </FormControl>
-                      <Label htmlFor="male">
-                        Laki-laki
+                      <Label htmlFor="male" className="space-x-2">
+                        <FormControl>
+                          <RadioGroupItem
+                            value="Laki-laki"
+                            id="male"
+                            checked={field.value === "Laki-laki"}
+                          />
+                        </FormControl>
+                        <span>
+                          Laki-laki
+                        </span>
                       </Label>
                     </FormItem>
                     <FormItem className="space-x-2 flex items-center">
-                      <FormControl>
-                        <RadioGroupItem
-                          value="Perempuan"
-                          id="female"
-                          checked={field.value === "Perempuan"}
-                        />
-                      </FormControl>
-                      <Label htmlFor="female">
-                        Perempuan
+                      <Label htmlFor="female" className="space-x-2">
+                        <FormControl>
+                          <RadioGroupItem
+                            value="Perempuan"
+                            id="female"
+                            checked={field.value === "Perempuan"}
+                          />
+                        </FormControl>
+                        <span>
+                          Perempuan
+                        </span>
                       </Label>
                     </FormItem>
                   </RadioGroup>
