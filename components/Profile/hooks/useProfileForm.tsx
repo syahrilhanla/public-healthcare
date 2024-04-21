@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { toast } from "@/components/ui/use-toast";
+import { FormStatus } from "type/form.type";
 
 const schema = z.object({
   name: z.string().min(4, {
@@ -29,8 +30,6 @@ const schema = z.object({
   posyandu: z.string().min(1, { message: "Pilih posyandu yang valid" }),
   sex: z.string().min(1, { message: "Pilih jenis kelamin yang valid" }),
 });
-
-type FormStatus = "editing" | "loading" | "submitting" | "error";
 
 const useProfileForm = () => {
   const form = useForm<z.infer<typeof schema>>({

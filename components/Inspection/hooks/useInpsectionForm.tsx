@@ -9,6 +9,7 @@ import { z } from "zod";
 import { toast } from "@/components/ui/use-toast";
 import { generateUID, useDebounce } from "lib/helpers";
 import { Profile } from "type/profile.type";
+import { FormStatus } from "type/form.type";
 
 const schema = z.object({
   userId: z.string(),
@@ -32,8 +33,6 @@ const schema = z.object({
   }),
   inspectionId: z.string(),
 });
-
-type FormStatus = "editing" | "loading" | "submitting" | "error";
 
 const useInspectionForm = () => {
   const form = useForm<z.infer<typeof schema>>({
