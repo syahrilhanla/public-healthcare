@@ -1,11 +1,12 @@
-import { toast } from "@/components/ui/use-toast";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "lib/firebase.sdk";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+
+import { toast } from "@/components/ui/use-toast";
 
 const schema = z.object({
   name: z.string().min(4, {
@@ -60,10 +61,12 @@ const useProfileForm = () => {
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
-        const data = docSnap.data().data;
+        const data = docSnap.data();
+        const birthDate = new Date(data.birthDate.toDate());
+
         form.reset({
           ...data,
-          birthDate: new Date()
+          birthDate
         });
       }
 
