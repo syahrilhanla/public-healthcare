@@ -120,6 +120,71 @@ const ProfileForm = () => {
                     </>
                   )}
                 />
+
+                <ControlledInput
+                  formSchema={form}
+                  inputId="TB"
+                  includeError
+                  type="number"
+                  labelText="Tinggi Badan (cm)"
+                  placeholder="0 cm"
+                />
+
+                <ControlledInput
+                  formSchema={form}
+                  inputId="BB"
+                  includeError
+                  type="number"
+                  labelText="Berat Badan (kg)"
+                  placeholder="0 kg"
+                />
+
+                <ControlledInput
+                  formSchema={form}
+                  inputId="LP"
+                  includeError
+                  type="number"
+                  labelText="Lingkar Perut (cm)"
+                  placeholder="0 cm"
+                />
+
+                <ControlledInput
+                  formSchema={form}
+                  inputId="LILA"
+                  includeError
+                  type="number"
+                  labelText="Lingkar Tangan (cm)"
+                  placeholder="0 cm"
+                />
+
+                <ControlledInput
+                  formSchema={form}
+                  inputId="Hb"
+                  includeError
+                  type="number"
+                  labelText="Hemoglobin"
+                  placeholder="0 g/dL"
+                />
+
+                <ControlledInput
+                  formSchema={form}
+                  inputId="TD"
+                  includeError
+                  labelText="Tekanan Darah"
+                  placeholder="0 0 mmHg"
+                />
+
+                <Button
+                  type="submit"
+                >
+                  {
+                    formStatus === "submitting" ? (
+                      <LoaderCircle className="animate-spin" />
+                    ) : (
+                      "Simpan"
+                    )
+                  }
+                </Button>
               </form>
 
               {/* <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>

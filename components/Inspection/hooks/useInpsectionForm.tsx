@@ -13,22 +13,22 @@ import { FormStatus } from "type/form.type";
 
 const schema = z.object({
   userId: z.string(),
-  TB: z.number({
+  TB: z.string({
     required_error: "Masukkan nilai yang valid"
   }),
-  BB: z.number({
+  BB: z.string({
     required_error: "Masukkan nilai yang valid"
   }),
-  LILA: z.number({
+  LILA: z.string({
     required_error: "Masukkan nilai yang valid"
   }),
-  LP: z.number({
+  LP: z.string({
     required_error: "Masukkan nilai yang valid"
   }),
-  Hb: z.number({
+  Hb: z.string({
     required_error: "Masukkan nilai yang valid"
   }),
-  TD: z.number({
+  TD: z.string({
     required_error: "Masukkan nilai yang valid"
   }),
   inspectionId: z.string(),
@@ -39,12 +39,12 @@ const useInspectionForm = () => {
     resolver: zodResolver(schema),
     defaultValues: {
       userId: "",
-      TB: 0,
-      BB: 0,
-      LILA: 0,
-      LP: 0,
-      Hb: 0,
-      TD: 0,
+      TB: undefined,
+      BB: undefined,
+      LILA: undefined,
+      LP: undefined,
+      Hb: "",
+      TD: undefined,
       inspectionId: generateUID(),
     },
   });
@@ -72,7 +72,6 @@ const useInspectionForm = () => {
       });
 
       setUserDropdown(filteredUsers);
-      console.log("filteredUsers", filteredUsers);
       return;
     } else {
       setUserDropdown(overallUserData.map((user) => {
@@ -101,11 +100,11 @@ const useInspectionForm = () => {
       setUserDropdown(usersData);
       setOverallUserData(usersCollection.docs.map((doc) => doc.data() as Profile));
     } catch (error) {
-      console.error("Error to get user list", error);
+      console.error("Error to GET INSPECTION list", error);
     }
   }, []);
 
-  const getUserData = useCallback(async () => {
+  const getInspectionData = useCallback(async () => {
     if (!inspectionId) return;
 
     try {
@@ -123,18 +122,18 @@ const useInspectionForm = () => {
 
       setFormStatus("editing");
     } catch (error) {
-      console.error("Error to get user data", error);
+      console.error("Error to GET INSPECTION data", error);
       setFormStatus("error");
     }
   }, [inspectionId]);
 
   useEffect(() => {
     if (inspectionId) {
-      getUserData();
+      getInspectionData();
     }
 
     getUserList();
-  }, [inspectionId, getUserData])
+  }, [inspectionId, getInspectionData])
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
     // If userId is exist, use userId as reference, otherwise use NIK as reference
@@ -144,13 +143,14 @@ const useInspectionForm = () => {
     try {
       setFormStatus("submitting");
 
-      const profilePayload = {
+      const inspectionPayload = {
         ...data,
+        name: userDropdown.find((user) => user.userId === data.userId)?.name,
         updatedAt: serverTimestamp()
       }
 
       await setDoc(doc(db, "inspections", reference), {
-        ...profilePayload
+        ...inspectionPayload
       });
 
       toast({
