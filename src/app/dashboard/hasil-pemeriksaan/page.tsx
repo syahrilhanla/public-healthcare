@@ -19,7 +19,7 @@ const InspectionList = async () => {
       </h1>
 
       <div className="w-full lg:flex lg:justify-end">
-        <Link href={"/dashboard/profil/form"}>
+        <Link href={"/dashboard/hasil-pemeriksaan/form"}>
           <Button variant={"outline"}
             className="w-full lg:w-fit flex gap-2 rounded-lg text-gray-600"
           >

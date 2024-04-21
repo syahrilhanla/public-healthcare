@@ -39,7 +39,7 @@ const ProfileForm = () => {
       <h1
         className="text-2xl font-semibold text-gray-600"
       >
-        Profil
+        Hasil Pemeriksaan
       </h1>
 
       {
@@ -52,7 +52,8 @@ const ProfileForm = () => {
             <FailedIndicator />
           ) : (
             <Form {...form}>
-              <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>
+              <div></div>
+              {/* <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>
                 <ControlledInput
                   formSchema={form}
                   inputId="name"
@@ -250,7 +251,7 @@ const ProfileForm = () => {
                     )
                   }
                 </Button>
-              </form>
+              </form> */}
             </Form>
           )
       }

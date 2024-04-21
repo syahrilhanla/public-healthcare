@@ -7,27 +7,29 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { toast } from "@/components/ui/use-toast";
+import { generateUID } from "lib/helpers";
 
 const schema = z.object({
-  name: z.string().min(4, {
-    message: "Masukkan minimal 3 karakter"
+  userId: z.string(),
+  TB: z.number({
+    required_error: "Masukkan nilai yang valid"
   }),
-  nik: z.string().min(16, {
-    message: "Masukkan NIK yang valid"
-  }).max(16, {
-    message: "Masukkan NIK yang valid"
+  BB: z.number({
+    required_error: "Masukkan nilai yang valid"
   }),
-  birthPlace: z.string().min(1, {
-    message: "Masukkan tempat lahir yang valid"
+  LILA: z.number({
+    required_error: "Masukkan nilai yang valid"
   }),
-  birthDate: z.date({
-    required_error: "Masukkan tanggal lahir yang valid",
-    invalid_type_error: "Masukkan tanggal lahir yang valid"
-  }), // "2022-01-01
-  address: z.string().min(1, { message: "Masukkan alamat yang valid" }),
-  school: z.string().min(1, { message: "Masukkan sekolah yang valid" }),
-  posyandu: z.string().min(1, { message: "Pilih posyandu yang valid" }),
-  sex: z.string().min(1, { message: "Pilih jenis kelamin yang valid" }),
+  LP: z.number({
+    required_error: "Masukkan nilai yang valid"
+  }),
+  Hb: z.number({
+    required_error: "Masukkan nilai yang valid"
+  }),
+  TD: z.number({
+    required_error: "Masukkan nilai yang valid"
+  }),
+  inspectionId: z.string(),
 });
 
 type FormStatus = "editing" | "loading" | "submitting" | "error";
@@ -36,37 +38,35 @@ const useInspectionForm = () => {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
     defaultValues: {
-      name: "",
-      address: "",
-      nik: "",
-      birthPlace: "",
-      birthDate: undefined,
-      school: "",
-      posyandu: "",
-      sex: "",
+      userId: "",
+      TB: 0,
+      BB: 0,
+      LILA: 0,
+      LP: 0,
+      Hb: 0,
+      TD: 0,
+      inspectionId: generateUID(),
     },
   });
 
   const [formStatus, setFormStatus] = useState<FormStatus>("editing");
 
   const router = useRouter();
-  const userId = useSearchParams().get("id");
+  const inspectionId = useSearchParams().get("inspectionId");
 
   const getUserData = useCallback(async () => {
-    if (!userId) return;
+    if (!inspectionId) return;
 
     try {
       setFormStatus("loading");
-      const docRef = doc(db, "users", userId);
+      const docRef = doc(db, "inspection", inspectionId);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
         const data = docSnap.data();
-        const birthDate = new Date(data.birthDate.toDate());
 
         form.reset({
           ...data,
-          birthDate
         });
       }
 
@@ -75,18 +75,18 @@ const useInspectionForm = () => {
       console.error("Error to get user data", error);
       setFormStatus("error");
     }
-  }, [userId]);
+  }, [inspectionId]);
 
   useEffect(() => {
-    if (userId) {
+    if (inspectionId) {
       getUserData();
     }
-  }, [userId, getUserData])
+  }, [inspectionId, getUserData])
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
     // If userId is exist, use userId as reference, otherwise use NIK as reference
     // used for create or edit user data
-    const reference = userId ? userId : data.nik;
+    const reference = inspectionId ? inspectionId : "data.nik";
 
     try {
       setFormStatus("submitting");
@@ -101,7 +101,7 @@ const useInspectionForm = () => {
       });
 
       toast({
-        description: userId ? "Berhasil mengubah profil!" : "Berhasil membuat profil!",
+        description: inspectionId ? "Berhasil mengubah profil!" : "Berhasil membuat profil!",
         variant: "default"
       });
 
@@ -110,7 +110,7 @@ const useInspectionForm = () => {
       console.error("Error to create/edit user data", error);
 
       toast({
-        title: userId ? "gagal mengubah profil!" : "Gagal membuat profil!",
+        title: inspectionId ? "gagal mengubah profil!" : "Gagal membuat profil!",
         description: "Silahkan coba lagi",
         variant: "destructive"
       });
