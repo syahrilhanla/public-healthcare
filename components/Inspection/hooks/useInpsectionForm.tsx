@@ -1,7 +1,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, serverTimestamp, setDoc } from "firebase/firestore";
 import { db } from "lib/firebase.sdk";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -50,9 +50,29 @@ const useInspectionForm = () => {
   });
 
   const [formStatus, setFormStatus] = useState<FormStatus>("editing");
+  const [userDropdown, setUserDropdown] = useState<{
+    name: string;
+    userId: string;
+  }[]>([]);
 
   const router = useRouter();
   const inspectionId = useSearchParams().get("inspectionId");
+
+  const getUserList = useCallback(async () => {
+    try {
+      const usersCollection = await getDocs(collection(db, "users"));
+      const usersData = usersCollection.docs.map((doc) => {
+        return {
+          name: doc.data().name,
+          userId: doc.id,
+        };
+      });
+
+      setUserDropdown(usersData);
+    } catch (error) {
+      console.error("Error to get user list", error);
+    }
+  }, []);
 
   const getUserData = useCallback(async () => {
     if (!inspectionId) return;
@@ -81,12 +101,14 @@ const useInspectionForm = () => {
     if (inspectionId) {
       getUserData();
     }
+
+    getUserList();
   }, [inspectionId, getUserData])
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
     // If userId is exist, use userId as reference, otherwise use NIK as reference
     // used for create or edit user data
-    const reference = inspectionId ? inspectionId : "data.nik";
+    const reference = inspectionId ? inspectionId : data.inspectionId;
 
     try {
       setFormStatus("submitting");
@@ -96,21 +118,21 @@ const useInspectionForm = () => {
         updatedAt: serverTimestamp()
       }
 
-      await setDoc(doc(db, "users", reference), {
+      await setDoc(doc(db, "inspections", reference), {
         ...profilePayload
       });
 
       toast({
-        description: inspectionId ? "Berhasil mengubah profil!" : "Berhasil membuat profil!",
+        description: inspectionId ? "Berhasil mengubah data!" : "Berhasil membuat data!",
         variant: "default"
       });
 
-      router.push("/dashboard/profil");
+      router.push("/dashboard/hasil-pemeriksaan");
     } catch (error) {
-      console.error("Error to create/edit user data", error);
+      console.error("Error to create/edit inspection data", error);
 
       toast({
-        title: inspectionId ? "gagal mengubah profil!" : "Gagal membuat profil!",
+        title: inspectionId ? "gagal mengubah data!" : "Gagal membuat data!",
         description: "Silahkan coba lagi",
         variant: "destructive"
       });
@@ -122,7 +144,8 @@ const useInspectionForm = () => {
   return {
     form,
     onSubmit,
-    formStatus
+    formStatus,
+    userDropdown
   };
 };
 
