@@ -7,7 +7,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { toast } from "@/components/ui/use-toast";
-import { generateUID } from "lib/helpers";
+import { generateUID, useDebounce } from "lib/helpers";
+import { Profile } from "type/profile.type";
 
 const schema = z.object({
   userId: z.string(),
@@ -50,6 +51,9 @@ const useInspectionForm = () => {
   });
 
   const [formStatus, setFormStatus] = useState<FormStatus>("editing");
+
+  const [searchUser, setSearchUser] = useState<string>("");
+  const [overallUserData, setOverallUserData] = useState<Profile[]>([]);
   const [userDropdown, setUserDropdown] = useState<{
     name: string;
     userId: string;
@@ -57,6 +61,33 @@ const useInspectionForm = () => {
 
   const router = useRouter();
   const inspectionId = useSearchParams().get("inspectionId");
+
+  const userDebounce = useDebounce(searchUser, 700);
+
+  const getUserBySearch = useCallback(() => {
+    if (searchUser) {
+      const regex = new RegExp(searchUser, "i");
+
+      const filteredUsers = userDropdown.filter((user) => {
+        return regex.test(user.name);
+      });
+
+      setUserDropdown(filteredUsers);
+      console.log("filteredUsers", filteredUsers);
+      return;
+    } else {
+      setUserDropdown(overallUserData.map((user) => {
+        return {
+          name: user.name,
+          userId: user.nik,
+        }
+      }));
+    }
+  }, [userDebounce]);
+
+  useEffect(() => {
+    getUserBySearch();
+  }, [userDebounce]);
 
   const getUserList = useCallback(async () => {
     try {
@@ -69,6 +100,7 @@ const useInspectionForm = () => {
       });
 
       setUserDropdown(usersData);
+      setOverallUserData(usersCollection.docs.map((doc) => doc.data() as Profile));
     } catch (error) {
       console.error("Error to get user list", error);
     }
@@ -145,7 +177,8 @@ const useInspectionForm = () => {
     form,
     onSubmit,
     formStatus,
-    userDropdown
+    userDropdown,
+    setSearchUser,
   };
 };
 

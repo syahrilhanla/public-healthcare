@@ -28,10 +28,15 @@ import useInspectionForm from "components/Inspection/hooks/useInpsectionForm";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import FailedIndicator from "components/FailedIndicator";
+import { Input } from "@/components/ui/input";
 
 const ProfileForm = () => {
   const {
-    form, onSubmit, formStatus
+    form,
+    formStatus,
+    onSubmit,
+    userDropdown,
+    setSearchUser
   } = useInspectionForm();
 
   return (
@@ -52,7 +57,71 @@ const ProfileForm = () => {
             <FailedIndicator />
           ) : (
             <Form {...form}>
-              <div></div>
+              <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>
+                <FormField
+                  control={form.control}
+                  name={"userId"}
+                  render={({ field }) => (
+                    <>
+                      <FormItem>
+                        <div className="space-y-2 grid">
+                          <FormLabel htmlFor="userId">Siswa</FormLabel>
+                          <FormControl>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <SelectTrigger
+                                id="userId"
+                                className="w-full p-2 border border-gray-300 rounded-md 
+                            focus:outline-none focus:ring-0 focus:ring-transparent"
+                              >
+                                <SelectValue
+                                  placeholder={field.value || "Pilih Siswa"}
+                                  className="w-full space-x-2 focus-visible:ring-transparent"
+                                />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <div className="space-y-2">
+                                  <Input
+                                    placeholder="Cari Siswa"
+                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 focus:ring-transparent"
+                                    onChange={(e) => {
+                                      const value = e.target.value;
+                                      setSearchUser(value);
+                                    }}
+                                  />
+                                  {
+                                    userDropdown.map(({ name, userId }) => (
+                                      <SelectItem key={userId} value={userId}>
+                                        {name}
+                                      </SelectItem>
+                                    ))
+                                  }
+                                </div>
+                                {/* <SelectItem value="Posyandu Remaja FRESH">
+                                  Posyandu Remaja FRESH
+                                </SelectItem>
+                                <SelectItem value="Posyandu Remaja Smart Gemilang">
+                                  Posyandu Remaja Smart Gemilang
+                                </SelectItem>
+                                <SelectItem value="Posyandu Remaja Kusuma Jaya">
+                                  Posyandu Remaja Kusuma Jaya
+                                </SelectItem>
+                                <SelectItem value="Posyandu Remaja Mandiri Sehat">
+                                  Posyandu Remaja Mandiri Sehat
+                                </SelectItem> */}
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    </>
+                  )}
+                />
+              </form>
+
               {/* <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>
                 <ControlledInput
                   formSchema={form}
