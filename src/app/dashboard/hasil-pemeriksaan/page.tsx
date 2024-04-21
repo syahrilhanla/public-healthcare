@@ -2,13 +2,12 @@ import { Link } from "next-view-transitions";
 
 import { Button } from "@/components/ui/button";
 
-import useProfileList from "components/Profile/hooks/useProfileList";
-import ProfileListTable from "components/Profile/ProfileListTable";
-
 import { PlusIcon } from "lucide-react";
+import InspectionListTable from "components/Inspection/InspectionListTable";
+import useInspectionList from "components/Inspection/hooks/useInspectionList";
 
 const InspectionList = async () => {
-  const profiles = await useProfileList();
+  const inspections = await useInspectionList();
 
   return (
     <div className="grid gap-4 px-2 lg:px-6">
@@ -29,7 +28,7 @@ const InspectionList = async () => {
         </Link>
       </div>
 
-      <ProfileListTable profiles={profiles} />
+      <InspectionListTable inspections={inspections} />
     </div>
   )
 }
