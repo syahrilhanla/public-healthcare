@@ -7,7 +7,7 @@ export const generateUID = () => {
   });
 }
 
-export function useDebounce<T>(value: T, delay: number) {
+export const useDebounce = <T,>(value: T, delay: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
