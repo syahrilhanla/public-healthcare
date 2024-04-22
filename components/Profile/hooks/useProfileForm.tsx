@@ -74,7 +74,7 @@ const useProfileForm = () => {
       console.error("Error to get user data", error);
       setFormStatus("error");
     }
-  }, [userId]);
+  }, [userId, form]);
 
   useEffect(() => {
     if (userId) {

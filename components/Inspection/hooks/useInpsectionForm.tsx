@@ -81,11 +81,11 @@ const useInspectionForm = () => {
         }
       }));
     }
-  }, [userDebounce]);
+  }, [userDebounce, overallUserData, userDropdown, searchUser]);
 
   useEffect(() => {
     getUserBySearch();
-  }, [userDebounce]);
+  }, [userDebounce, getUserBySearch]);
 
   const getUserList = useCallback(async () => {
     try {
@@ -125,7 +125,7 @@ const useInspectionForm = () => {
       console.error("Error to GET INSPECTION data", error);
       setFormStatus("error");
     }
-  }, [inspectionId]);
+  }, [inspectionId, form]);
 
   useEffect(() => {
     if (inspectionId) {
@@ -133,7 +133,7 @@ const useInspectionForm = () => {
     }
 
     getUserList();
-  }, [inspectionId, getInspectionData])
+  }, [inspectionId, getInspectionData, getUserList])
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
     // If userId is exist, use userId as reference, otherwise use NIK as reference
