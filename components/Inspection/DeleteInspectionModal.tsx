@@ -1,5 +1,7 @@
 "use client"
 
+import { useState } from "react";
+
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "lib/firebase.sdk";
 
@@ -17,28 +19,34 @@ interface Props {
 
 const DeleteInspectionModal = ({ selectedInspection }: Props) => {
   const { toast } = useToast();
+  const [open, setOpen] = useState(false);
 
   const handleDelete = async () => {
     try {
-      await deleteDoc(doc(db, "users", selectedInspection.inspectionId));
+      await deleteDoc(doc(db, "inspections", selectedInspection.inspectionId));
 
       toast({
         description: "Data berhasil dihapus!",
         variant: "default",
       });
+
+      setOpen(false);
     } catch (error) {
       console.error("Error removing document: ", error);
 
       toast({
         description: "Gagal menghapus data!",
         variant: "destructive",
-        action: <ToastAction
-          altText="Coba lagi"
-          onClick={async () => {
-            await deleteDoc(doc(db, "users", selectedInspection.inspectionId));
-          }}
-        >Coba lagi
-        </ToastAction>,
+        action: (
+          <ToastAction
+            altText="Coba lagi"
+            onClick={async () => {
+              await deleteDoc(doc(db, "inspections", selectedInspection.inspectionId));
+            }}
+          >
+            Coba lagi
+          </ToastAction>
+        )
       });
     }
   }
@@ -51,6 +59,7 @@ const DeleteInspectionModal = ({ selectedInspection }: Props) => {
         </Button>
       }
       title="Konfirmasi Hapus Data"
+      openState={{ open, setOpen }}
     >
       <div className="w-full space-y-4 gap-1 flex flex-col justify-end">
         <p>

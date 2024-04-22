@@ -1,5 +1,7 @@
 "use client"
 
+import { useState } from "react";
+
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "lib/firebase.sdk";
 
@@ -17,6 +19,7 @@ interface Props {
 
 const DeleteProfileModal = ({ selectedProfile }: Props) => {
   const { toast } = useToast();
+  const [open, setOpen] = useState(false);
 
   const handleDelete = async () => {
     try {
@@ -26,6 +29,8 @@ const DeleteProfileModal = ({ selectedProfile }: Props) => {
         description: "Data berhasil dihapus!",
         variant: "default",
       });
+
+      setOpen(false);
     } catch (error) {
       console.error("Error removing document: ", error);
 
@@ -51,6 +56,7 @@ const DeleteProfileModal = ({ selectedProfile }: Props) => {
         </Button>
       }
       title="Konfirmasi Hapus Data"
+      openState={{ open, setOpen }}
     >
       <div className="w-full space-y-4 gap-1 flex flex-col justify-end">
         <p>

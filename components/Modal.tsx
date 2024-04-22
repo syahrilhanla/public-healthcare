@@ -12,13 +12,23 @@ interface Props {
   Trigger: React.ReactNode;
   title?: string;
   Footer?: React.ReactNode;
+  openState: {
+    open: boolean;
+    setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  };
 }
 
 const Modal = ({
-  children, Trigger, title, Footer
+  children, Trigger, title, Footer, openState
 }: Props) => {
+  const { open, setOpen } = openState;
+
   return (
-    <Dialog modal>
+    <Dialog
+      modal
+      open={open}
+      onOpenChange={setOpen}
+    >
       <DialogTrigger asChild>
         {Trigger}
       </DialogTrigger>
