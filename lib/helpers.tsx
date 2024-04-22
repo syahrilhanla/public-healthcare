@@ -1,5 +1,7 @@
 "use client"
 
+// everything in here cannot be used directly in server components
+
 import { useEffect, useState } from "react";
 
 export const generateUID = () => {

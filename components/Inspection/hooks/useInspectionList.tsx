@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "lib/firebase.sdk";
 import parseFirestoreTimestamp from "lib/parseFirestoreTimestamp";
@@ -12,13 +11,8 @@ const useInspectionList = async () => {
   const inspectionResponse = await getDocs(inspectionRef);
 
   inspectionResponse.docs.map((doc) => {
-    // console.log(
-    //   format(new Date(doc.data().updatedAt.toDate().toDateString()), "dd MMMM yyyy"),
-    // )
-
     const inspection = {
       ...doc.data(),
-      // updatedAt: format(new Date(doc.data().updatedAt.toDate().toDateString()), "dd MMMM yyyy")
       updatedAt: parseFirestoreTimestamp(doc.data().updatedAt)
     }
 

@@ -13,12 +13,12 @@ export default function RootLayout({
 
   return (
     <html lang="en">
-      <ViewTransitions>
-        <body className={inter.className}>
+      <body className={inter.className}>
+        <ViewTransitions>
           {children}
           <Toaster />
-        </body>
-      </ViewTransitions>
+        </ViewTransitions>
+      </body>
     </html>
   );
 }

@@ -19,7 +19,7 @@ const Modal = ({
 }: Props) => {
   return (
     <Dialog modal>
-      <DialogTrigger>
+      <DialogTrigger asChild>
         {Trigger}
       </DialogTrigger>
       <DialogContent>
