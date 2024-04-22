@@ -58,7 +58,6 @@ const useInspectionForm = () => {
     userId: string;
   }[]>([]);
 
-  const router = useRouter();
   const inspectionId = useSearchParams().get("inspectionId");
 
   const userDebounce = useDebounce(searchUser, 700);
@@ -85,7 +84,8 @@ const useInspectionForm = () => {
 
   useEffect(() => {
     getUserBySearch();
-  }, [userDebounce, getUserBySearch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userDebounce]);
 
   const getUserList = useCallback(async () => {
     try {
@@ -158,7 +158,7 @@ const useInspectionForm = () => {
         variant: "default"
       });
 
-      router.push("/dashboard/hasil-pemeriksaan");
+      window.location.href = ("/dashboard/hasil-pemeriksaan");
     } catch (error) {
       console.error("Error to create/edit inspection data", error);
 
