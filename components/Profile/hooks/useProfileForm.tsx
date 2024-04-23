@@ -46,6 +46,8 @@ const useProfileForm = () => {
     },
   });
 
+  const router = useRouter();
+
   const [formStatus, setFormStatus] = useState<FormStatus>("editing");
 
   const userId = useSearchParams().get("id");
@@ -103,8 +105,8 @@ const useProfileForm = () => {
         variant: "default"
       });
 
-      // use native js to redirect to dashboard profil to revalidate data
-      window.location.href = ("/dashboard/profil");
+      router.push("/dashboard/profil");
+      router.refresh();
     } catch (error) {
       console.error("Error to create/edit user data", error);
 

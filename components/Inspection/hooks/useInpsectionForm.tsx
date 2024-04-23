@@ -49,6 +49,8 @@ const useInspectionForm = () => {
     },
   });
 
+  const router = useRouter();
+
   const [formStatus, setFormStatus] = useState<FormStatus>("editing");
 
   const [searchUser, setSearchUser] = useState<string>("");
@@ -158,7 +160,8 @@ const useInspectionForm = () => {
         variant: "default"
       });
 
-      window.location.href = ("/dashboard/hasil-pemeriksaan");
+      router.push("/dashboard/hasil-pemeriksaan");
+      router.refresh();
     } catch (error) {
       console.error("Error to create/edit inspection data", error);
 

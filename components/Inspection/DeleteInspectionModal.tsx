@@ -1,6 +1,7 @@
 "use client"
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { doc, deleteDoc } from "firebase/firestore";
 import { db } from "lib/firebase.sdk";
@@ -19,6 +20,8 @@ interface Props {
 
 const DeleteInspectionModal = ({ selectedInspection }: Props) => {
   const { toast } = useToast();
+  const router = useRouter();
+
   const [open, setOpen] = useState(false);
 
   const handleDelete = async () => {
@@ -31,6 +34,7 @@ const DeleteInspectionModal = ({ selectedInspection }: Props) => {
       });
 
       setOpen(false);
+      router.refresh();
     } catch (error) {
       console.error("Error removing document: ", error);
 
