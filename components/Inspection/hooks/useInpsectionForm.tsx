@@ -150,6 +150,7 @@ const useInspectionForm = () => {
       const inspectionPayload = {
         ...data,
         name: userDropdown.find((user) => user.userId === data.userId)?.name,
+        TD: data.TD.replace(/ \/ | /g, " / "),
         updatedAt: serverTimestamp()
       }
 
