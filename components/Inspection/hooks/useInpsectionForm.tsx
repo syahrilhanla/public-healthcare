@@ -22,12 +22,8 @@ const schema = z.object({
   LILA: z.string({
     required_error: "Masukkan nilai yang valid"
   }),
-  LP: z.string({
-    required_error: "Masukkan nilai yang valid"
-  }),
-  Hb: z.string({
-    required_error: "Masukkan nilai yang valid"
-  }),
+  LP: z.string().optional(),
+  Hb: z.string().optional(),
   TD: z.string({
     required_error: "Masukkan nilai yang valid"
   }),

@@ -45,8 +45,8 @@ const InspectionListTable = ({ inspections }: Props) => {
             <TableCell className="w-[5rem] text-right text-gray-600 text-nowrap">{inspection.TB}</TableCell>
             <TableCell className="w-[5rem] text-right text-gray-600 text-nowrap">{inspection.BB}</TableCell>
             <TableCell className="w-[5rem] text-right text-gray-600">{inspection.LP}</TableCell>
-            <TableCell className="w-[5rem] text-right text-gray-600 text-nowrap">{inspection.LILA}</TableCell>
-            <TableCell className="w-[5rem] text-right text-gray-600 text-nowrap">{inspection.Hb}</TableCell>
+            <TableCell className="w-[5rem] text-right text-gray-600 text-nowrap">{inspection.LILA || "-"}</TableCell>
+            <TableCell className="w-[5rem] text-right text-gray-600 text-nowrap">{inspection.Hb || "-"}</TableCell>
             <TableCell className="w-[5rem] text-right text-gray-600 text-nowrap">{inspection.TD}</TableCell>
             <TableCell className="max-w-10 text-right text-gray-600 sticky right-0 z-10 bg-white">
               <div className="flex gap-2 w-full justify-end">
