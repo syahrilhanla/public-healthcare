@@ -2,7 +2,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { collection, doc, getDoc, getDocs, serverTimestamp, setDoc } from "firebase/firestore";
-import { db } from "lib/firebase.sdk";
+import { DatabaseCollections, db } from "lib/firebase.sdk";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -60,7 +60,7 @@ const useInspectionForm = () => {
     userId: string;
   }[]>([]);
 
-  const inspectionId = useSearchParams().get("inspectionId");
+  const inspectionId = useSearchParams().get("id");
 
   const userDebounce = useDebounce(searchUser, 700);
 
@@ -91,7 +91,7 @@ const useInspectionForm = () => {
 
   const getUserList = useCallback(async () => {
     try {
-      const usersCollection = await getDocs(collection(db, "users"));
+      const usersCollection = await getDocs(collection(db, DatabaseCollections.USERS));
       const usersData = usersCollection.docs.map((doc) => {
         return {
           name: doc.data().name,
@@ -111,8 +111,10 @@ const useInspectionForm = () => {
 
     try {
       setFormStatus("loading");
-      const docRef = doc(db, "inspection", inspectionId);
+      const docRef = doc(db, DatabaseCollections.INSPECTIONS, inspectionId);
       const docSnap = await getDoc(docRef);
+
+      console.log("docSnap", docSnap.data(), docRef);
 
       if (docSnap.exists()) {
         const data = docSnap.data();
@@ -151,7 +153,7 @@ const useInspectionForm = () => {
         updatedAt: serverTimestamp()
       }
 
-      await setDoc(doc(db, "inspections", reference), {
+      await setDoc(doc(db, DatabaseCollections.INSPECTIONS, reference), {
         ...inspectionPayload
       });
 

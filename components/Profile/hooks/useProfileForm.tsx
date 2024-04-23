@@ -2,7 +2,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
-import { db } from "lib/firebase.sdk";
+import { DatabaseCollections, db } from "lib/firebase.sdk";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -57,7 +57,7 @@ const useProfileForm = () => {
 
     try {
       setFormStatus("loading");
-      const docRef = doc(db, "users", userId);
+      const docRef = doc(db, DatabaseCollections.USERS, userId);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -96,7 +96,7 @@ const useProfileForm = () => {
         updatedAt: serverTimestamp()
       }
 
-      await setDoc(doc(db, "users", reference), {
+      await setDoc(doc(db, DatabaseCollections.USERS, reference), {
         ...profilePayload
       });
 
