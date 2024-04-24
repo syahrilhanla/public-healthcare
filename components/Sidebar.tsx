@@ -3,9 +3,13 @@ import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 import { sidebarLinks } from "lib/sidebarLinks";
+import { LogOut } from "lucide-react";
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const handleSignOut = () => {
+    document.cookie = "login=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+  }
 
   return (
     <div className="hidden bg-muted/40 md:block">
@@ -35,6 +39,14 @@ const Sidebar = () => {
             ))}
           </nav>
         </div>
+
+        <Link
+          href={"/"}
+          className={`flex items-center justify-between gap-3 border-t py-4 px-4 text-red-500 transition-all hover:text-red-600 duration-300 hover:bg-red-50`}
+          onClick={handleSignOut}
+        >
+          Sign Out <LogOut className="h-5 w-5" />
+        </Link>
       </div>
     </div>
   )
