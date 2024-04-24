@@ -53,7 +53,11 @@ const Dashboard = () => {
     try {
       const login = await signInWithEmailAndPassword(auth, email, password);
 
-      document.cookie = `login=${login.user.uid}`;
+      let date = new Date();
+      date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000)); // 7 days from now
+      let expires = ";expires=" + date.toUTCString();
+
+      document.cookie = `login=${login.user.uid}${expires}`;
 
       updateSnackbarState({
         snackbarMessage: "Login berhasil!",
