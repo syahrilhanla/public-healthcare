@@ -110,8 +110,6 @@ const useInspectionForm = () => {
       const docRef = doc(db, DatabaseCollections.INSPECTIONS, inspectionId);
       const docSnap = await getDoc(docRef);
 
-      console.log("docSnap", docSnap.data(), docRef);
-
       if (docSnap.exists()) {
         const data = docSnap.data();
 
