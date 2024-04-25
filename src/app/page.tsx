@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useFormState } from "react-hook-form";
 import { z } from "zod";
 
 import { Button } from "@/components/ui/button";
@@ -22,6 +22,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import useSnackbarStore from "lib/stores/snackbar.store";
+import { LoaderCircle } from "lucide-react";
 
 const Dashboard = () => {
   const {
@@ -45,7 +46,9 @@ const Dashboard = () => {
       email: "",
       password: "",
     },
-  })
+  });
+
+  const { isSubmitting } = useFormState(form);
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const { email, password } = values;
@@ -138,8 +141,14 @@ const Dashboard = () => {
                   </>
                 )}
               />
-              <Button type="submit" className="w-full">
-                Login
+              <Button
+                type="submit"
+                className={"w-full disabled:cursor-not-allowed"}
+                disabled={isSubmitting}
+              >
+                {
+                  isSubmitting ? <LoaderCircle className="h-6 w-6 animate-spin" /> : "Login"
+                }
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">

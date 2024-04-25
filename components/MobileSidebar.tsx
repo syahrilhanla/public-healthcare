@@ -61,4 +61,4 @@ const MobileSidebar = () => {
   )
 }
 
-export default MobileSidebar
+export default MobileSidebar;
