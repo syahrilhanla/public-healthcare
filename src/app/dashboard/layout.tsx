@@ -2,15 +2,12 @@
 
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Inter } from "next/font/google";
 import { ViewTransitions } from 'next-view-transitions'
 
 import Sidebar from "components/Sidebar";
 import Navbar from "components/Navbar";
 import Snackbar from "components/Snackbar";
 import MobileSidebar from "components/MobileSidebar";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export default function RootLayout({
   children,
@@ -19,7 +16,7 @@ export default function RootLayout({
 }>) {
   const router = useRouter();
   const pathname = usePathname();
-  const loginCookie = document ?
+  const loginCookie = typeof window !== "undefined" && window.document ?
     document.cookie.split('; ').find(row => row.startsWith('login')) : "";
 
   useEffect(() => {
