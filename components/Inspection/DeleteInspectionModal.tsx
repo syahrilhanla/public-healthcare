@@ -12,13 +12,13 @@ import { useToast } from "@/components/ui/use-toast";
 import { ToastAction } from "@/components/ui/toast";
 import { TrashIcon } from "lucide-react";
 
-import { Profile } from "type/profile.type";
+import { Inspection } from "type/inspection.type";
 
 interface Props {
-  selectedProfile: Profile;
+  selectedInspection: Inspection;
 }
 
-const DeleteProfileModal = ({ selectedProfile }: Props) => {
+const DeleteInspectionModal = ({ selectedInspection }: Props) => {
   const { toast } = useToast();
   const router = useRouter();
 
@@ -26,7 +26,7 @@ const DeleteProfileModal = ({ selectedProfile }: Props) => {
 
   const handleDelete = async () => {
     try {
-      await deleteDoc(doc(db, "users", selectedProfile.nik));
+      await deleteDoc(doc(db, "inspections", selectedInspection.inspectionId));
 
       toast({
         description: "Data berhasil dihapus!",
@@ -41,13 +41,16 @@ const DeleteProfileModal = ({ selectedProfile }: Props) => {
       toast({
         description: "Gagal menghapus data!",
         variant: "destructive",
-        action: <ToastAction
-          altText="Coba lagi"
-          onClick={async () => {
-            await deleteDoc(doc(db, "users", selectedProfile.nik))
-          }}
-        >Coba lagi
-        </ToastAction>,
+        action: (
+          <ToastAction
+            altText="Coba lagi"
+            onClick={async () => {
+              await deleteDoc(doc(db, "inspections", selectedInspection.inspectionId));
+            }}
+          >
+            Coba lagi
+          </ToastAction>
+        )
       });
     }
   }
@@ -68,10 +71,7 @@ const DeleteProfileModal = ({ selectedProfile }: Props) => {
         </p>
         <div className="grid gap-1 text-slate-500">
           <p>
-            {selectedProfile.name}
-          </p>
-          <p>
-            {selectedProfile.nik}
+            {selectedInspection.name}
           </p>
         </div>
 
@@ -87,4 +87,4 @@ const DeleteProfileModal = ({ selectedProfile }: Props) => {
   )
 }
 
-export default DeleteProfileModal;
+export default DeleteInspectionModal;
