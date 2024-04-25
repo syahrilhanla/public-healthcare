@@ -2,11 +2,12 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { doc, getDoc, serverTimestamp, setDoc } from "firebase/firestore";
-import { db } from "lib/firebase.sdk";
+import { DatabaseCollections, db } from "lib/firebase.sdk";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { toast } from "@/components/ui/use-toast";
+import { FormStatus } from "type/form.type";
 
 const schema = z.object({
   name: z.string().min(4, {
@@ -30,8 +31,6 @@ const schema = z.object({
   sex: z.string().min(1, { message: "Pilih jenis kelamin yang valid" }),
 });
 
-type FormStatus = "editing" | "loading" | "submitting" | "error";
-
 const useProfileForm = () => {
   const form = useForm<z.infer<typeof schema>>({
     resolver: zodResolver(schema),
@@ -47,9 +46,10 @@ const useProfileForm = () => {
     },
   });
 
+  const router = useRouter();
+
   const [formStatus, setFormStatus] = useState<FormStatus>("editing");
 
-  const router = useRouter();
   const userId = useSearchParams().get("id");
 
   const getUserData = useCallback(async () => {
@@ -57,7 +57,7 @@ const useProfileForm = () => {
 
     try {
       setFormStatus("loading");
-      const docRef = doc(db, "users", userId);
+      const docRef = doc(db, DatabaseCollections.USERS, userId);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
@@ -75,7 +75,7 @@ const useProfileForm = () => {
       console.error("Error to get user data", error);
       setFormStatus("error");
     }
-  }, [userId]);
+  }, [userId, form]);
 
   useEffect(() => {
     if (userId) {
@@ -96,7 +96,7 @@ const useProfileForm = () => {
         updatedAt: serverTimestamp()
       }
 
-      await setDoc(doc(db, "users", reference), {
+      await setDoc(doc(db, DatabaseCollections.USERS, reference), {
         ...profilePayload
       });
 
@@ -106,6 +106,7 @@ const useProfileForm = () => {
       });
 
       router.push("/dashboard/profil");
+      router.refresh();
     } catch (error) {
       console.error("Error to create/edit user data", error);
 

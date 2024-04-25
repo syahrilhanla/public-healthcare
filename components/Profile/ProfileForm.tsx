@@ -2,6 +2,8 @@
 import 'react-day-picker/dist/style.css';
 
 import ControlledInput from "components/ControlledInput";
+import FailedIndicator from "components/FailedIndicator";
+
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Label } from "@/components/ui/label";
@@ -48,17 +50,7 @@ const ProfileForm = () => {
           </div>
         ) :
           formStatus === "error" ? (
-            <div className="w-full space-y-4 text-center py-12">
-              <span className="flex gap-1 justify-center text-center animate-bounce">
-                <X /> <p>Gagal mengambil data! Silahkan reload</p>
-              </span>
-              <Button
-                variant="outline"
-                onClick={() => window.location.reload()}
-              >
-                Reload
-              </Button>
-            </div>
+            <FailedIndicator />
           ) : (
             <Form {...form}>
               <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>
