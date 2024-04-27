@@ -23,12 +23,26 @@ import { generateUID, useDebounce } from "lib/helpers";
 import { Profile } from "type/profile.type";
 import { FormStatus } from "type/form.type";
 
+const monthlyRecord = z.object({
+  january: z.boolean(),
+  february: z.boolean(),
+  march: z.boolean(),
+  april: z.boolean(),
+  may: z.boolean(),
+  june: z.boolean(),
+  july: z.boolean(),
+  august: z.boolean(),
+  september: z.boolean(),
+  october: z.boolean(),
+  november: z.boolean(),
+  december: z.boolean(),
+});
+
 const schema = z.object({
-  userId: z.string(),
-  year: z.string({
-    required_error: "Masukkan nilai yang valid"
-  }),
   TTDId: z.string(),
+  userId: z.string().min(1, { message: "Pilih siswa" }),
+  year: z.string().min(1, { message: "Pilih tahun" }),
+  monthlyRecord: monthlyRecord
 });
 
 const useTTDForm = () => {
@@ -38,6 +52,20 @@ const useTTDForm = () => {
       userId: "",
       year: "",
       TTDId: generateUID(),
+      monthlyRecord: {
+        january: false,
+        february: false,
+        march: false,
+        april: true,
+        may: false,
+        june: false,
+        july: false,
+        august: true,
+        september: false,
+        october: false,
+        november: false,
+        december: false,
+      },
     },
   });
 
@@ -126,13 +154,25 @@ const useTTDForm = () => {
     }
   }, [inspectionId, form]);
 
+  const handleCheckMonthlyRecord = (month: keyof typeof monthlyRecord) => {
+    form.watch("monthlyRecord")
+    const monthlyRecord = form.getValues("monthlyRecord");
+
+    const newMonthlyRecord = {
+      ...monthlyRecord,
+      [month]: !monthlyRecord[month],
+    };
+
+    form.setValue("monthlyRecord", newMonthlyRecord);
+  };
+
   useEffect(() => {
     if (inspectionId) {
       getInspectionData();
     }
 
     getUserList();
-  }, [inspectionId, getInspectionData, getUserList])
+  }, [inspectionId, getInspectionData, getUserList]);
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
     // If userId is exist, use userId as reference, otherwise use NIK as reference
@@ -142,22 +182,24 @@ const useTTDForm = () => {
     try {
       setFormStatus("submitting");
 
-      const inspectionPayload = {
+      const TTDPayload = {
         ...data,
         name: userDropdown.find((user) => user.userId === data.userId)?.name,
         updatedAt: serverTimestamp()
       }
 
-      await setDoc(doc(db, DatabaseCollections.INSPECTIONS, reference), {
-        ...inspectionPayload
-      });
+      console.log(TTDPayload)
+
+      // await setDoc(doc(db, DatabaseCollections.INSPECTIONS, reference), {
+      //   ...inspectionPayload
+      // });
 
       toast({
         description: inspectionId ? "Berhasil mengubah data!" : "Berhasil membuat data!",
         variant: "default"
       });
 
-      router.push("/dashboard/hasil-pemeriksaan");
+      // router.push("/dashboard/hasil-pemeriksaan");
       router.refresh();
     } catch (error) {
       console.error("Error to create/edit inspection data", error);
@@ -178,6 +220,7 @@ const useTTDForm = () => {
     formStatus,
     userDropdown,
     setSearchUser,
+    handleCheckMonthlyRecord
   };
 };
 

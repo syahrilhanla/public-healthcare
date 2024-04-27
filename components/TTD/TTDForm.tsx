@@ -3,10 +3,6 @@ import 'react-day-picker/dist/style.css';
 
 import ControlledInput from "components/ControlledInput";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Label } from "@/components/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Form,
   FormControl,
@@ -22,12 +18,14 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
-import { CalendarIcon, LoaderCircle, X } from "lucide-react";
 
 import MonthlyReportHeader from "./MonthlyReportHeader";
 import FailedIndicator from "components/FailedIndicator";
 import { Input } from "@/components/ui/input";
+import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
+
 import useTTDForm from "./hooks/useTTDForm";
+import { Check, LoaderCircle, X } from "lucide-react";
 
 const TTDForm = () => {
   const {
@@ -35,7 +33,8 @@ const TTDForm = () => {
     formStatus,
     onSubmit,
     userDropdown,
-    setSearchUser
+    setSearchUser,
+    handleCheckMonthlyRecord
   } = useTTDForm();
 
   return (
@@ -154,6 +153,32 @@ const TTDForm = () => {
                     </>
                   )}
                 />
+
+                <Table className="max-w-full">
+                  <MonthlyReportHeader />
+                  <TableBody>
+                    <TableRow className="hover:bg-inherit">
+                      {
+                        Object.entries(form.getValues("monthlyRecord")).map(([month, value]) => (
+                          <>
+                            <TableCell
+                              onClick={() => handleCheckMonthlyRecord(month as any)}
+                              className="cursor-pointer hover:bg-muted duration-300" >
+                              <div
+                                className="flex justify-center flex-grow align-center text-center">
+                                {
+                                  value
+                                    ? <Check className="h-4 w-4 text-green-500" />
+                                    : <X className="h-4 w-4 text-red-400" />
+                                }
+                              </div>
+                            </TableCell>
+                          </>
+                        ))
+                      }
+                    </TableRow>
+                  </TableBody>
+                </Table>
 
                 <Button
                   type="submit"
