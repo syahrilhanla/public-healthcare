@@ -46,7 +46,7 @@ const recordSchema = z.object({
 const schema = z.object({
   userId: z.string().default(""),
   year: z.string().default(""),
-  TTDId: z.string().default(generateUID()),
+  TTDId: z.string(),
   records: z.array(recordSchema),
 });
 
@@ -55,7 +55,7 @@ const useTTDForm = () => {
     resolver: zodResolver(schema),
     defaultValues: {
       userId: "",
-      TTDId: "",
+      TTDId: generateUID(),
       records: []
     },
   });
@@ -199,21 +199,28 @@ const useTTDForm = () => {
       const TTDPayload = {
         ...data,
         name: userDropdown.find((user) => user.userId === data.userId)?.name,
-        updatedAt: serverTimestamp()
+        updatedAt: serverTimestamp(),
+        records: data.records.map(record => ({
+          ...record,
+          monthlyRecord: Object.fromEntries(
+            Object.entries(record.monthlyRecord).map(([key, value]) => [
+              key,
+              value === undefined ? null : value,
+            ])
+          ),
+        })),
       }
 
-      console.log(TTDPayload)
-
-      // await setDoc(doc(db, DatabaseCollections.INSPECTIONS, reference), {
-      //   ...inspectionPayload
-      // });
+      await setDoc(doc(db, DatabaseCollections.TTDS, reference), {
+        ...TTDPayload
+      });
 
       toast({
         description: inspectionId ? "Berhasil mengubah data!" : "Berhasil membuat data!",
         variant: "default"
       });
 
-      // router.push("/dashboard/hasil-pemeriksaan");
+      router.push("/dashboard/ttd");
       router.refresh();
     } catch (error) {
       console.error("Error to create/edit inspection data", error);
