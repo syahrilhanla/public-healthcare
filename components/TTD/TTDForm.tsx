@@ -113,13 +113,47 @@ const TTDForm = () => {
                   )}
                 />
 
-                <ControlledInput
-                  formSchema={form}
-                  inputId="TB"
-                  includeError
-                  type="number"
-                  labelText="Tinggi Badan (cm)"
-                  placeholder="0 cm"
+                <FormField
+                  control={form.control}
+                  name={"year"}
+                  render={({ field }) => (
+                    <>
+                      <FormItem>
+                        <div className="space-y-2 grid">
+                          <FormLabel htmlFor="year">Tahun</FormLabel>
+                          <FormControl>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <SelectTrigger
+                                id="year"
+                                className="w-full p-2 border border-gray-300 rounded-md 
+                            focus:outline-none focus:ring-0 focus:ring-transparent"
+                              >
+                                <SelectValue
+                                  placeholder={field.value || "Pilih Tahun"}
+                                  className="w-full space-x-2 focus-visible:ring-transparent"
+                                />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {
+                                  Array.from({ length: 16 }, (_, i) => (
+                                    new Date().getFullYear() - 1 + i)
+                                  ).map(year => (
+                                    <SelectItem key={year} value={year.toString()}>
+                                      {year}
+                                    </SelectItem>
+                                  ))
+                                }
+                              </SelectContent>
+                            </Select>
+                          </FormControl>
+                          <FormMessage />
+                        </div>
+                      </FormItem>
+                    </>
+                  )}
                 />
 
                 <Button
