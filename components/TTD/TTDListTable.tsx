@@ -4,8 +4,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableHeader,
   TableRow,
 } from "@/components/ui/table";
 import { Check, X } from "lucide-react";
@@ -23,25 +21,40 @@ const TTDListTable = ({ TTDs }: Props) => {
       <MonthlyReportHeader />
       <TableBody>
         {TTDs.map((TTD) => (
-          <>
-            <TableRow key={TTD.ttdId}>
-              <TableCell className="w-[18rem] text-gray-600 text-nowrap truncate">
-                <Link href={`/dashboard/ttd/form?id=${TTD.nik}`}>
-                  <div className="grid gap-0.5">
-                    {TTD.name}
-                    <span className="text-sm text-gray-400">{TTD.nik}</span>
-                  </div>
-                </Link>
-              </TableCell>
-              {
-                Object.values(TTD.monthlyStatus).map((status, index) => (
-                  <TableCell className="text-center" key={index}>
-                    {status ? <Check className="h-4 w-4 text-green-500" /> : <X className="h-4 w-4 text-red-400" />}
-                  </TableCell>
-                ))
-              }
-            </TableRow>
-          </>
+          <TableRow key={TTD.ttdId}>
+            <TableCell className="w-[18rem] text-gray-600 text-nowrap truncate">
+              <Link href={`/dashboard/ttd/form?id=${TTD.nik}`}>
+                <div className="grid gap-0.5">
+                  {TTD.name}
+                  <span className="text-sm text-gray-400">{TTD.nik}</span>
+                </div>
+              </Link>
+            </TableCell>
+            {
+              TTD.records.map((record, index) => (
+                <>
+                  {Object.keys(record.monthlyRecord)
+                    .sort((a, b) => (
+                      new Date(`1970, ${a}, 1`)!.getTime()
+                      - new Date(`1970, ${b}, 1`)!.getTime()))
+                    .map((month, index) => {
+                      const status = record.monthlyRecord[month as keyof typeof record.monthlyRecord];
+                      return (
+                        <TableCell className="text-center" key={index}>
+                          {
+                            status
+                              ? <Check className="h-4 w-4 text-green-500" />
+                              : status === null || status === undefined
+                                ? <span className="text-gray-400">-</span>
+                                : <X className="h-4 w-4 text-red-400" />
+                          }
+                        </TableCell>
+                      );
+                    })}
+                </>
+              ))
+            }
+          </TableRow>
         ))}
       </TableBody>
     </Table>
