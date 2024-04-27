@@ -38,11 +38,16 @@ const monthlyRecord = z.object({
   december: z.boolean(),
 });
 
+const recordSchema = z.object({
+  year: z.string(),
+  monthlyRecord: monthlyRecord,
+});
+
 const schema = z.object({
-  TTDId: z.string(),
-  userId: z.string().min(1, { message: "Pilih siswa" }),
-  year: z.string().min(1, { message: "Pilih tahun" }),
-  monthlyRecord: monthlyRecord
+  userId: z.string().default(""),
+  year: z.string().default(""),
+  TTDId: z.string().default(generateUID()),
+  records: z.array(recordSchema),
 });
 
 const useTTDForm = () => {
@@ -51,21 +56,26 @@ const useTTDForm = () => {
     defaultValues: {
       userId: "",
       year: "",
-      TTDId: generateUID(),
-      monthlyRecord: {
-        january: false,
-        february: undefined,
-        march: false,
-        april: true,
-        may: false,
-        june: undefined,
-        july: false,
-        august: true,
-        september: false,
-        october: false,
-        november: false,
-        december: false,
-      },
+      TTDId: "",
+      records: [
+        {
+          year: "",
+          monthlyRecord: {
+            january: false,
+            february: undefined,
+            march: false,
+            april: true,
+            may: false,
+            june: undefined,
+            july: false,
+            august: true,
+            september: false,
+            october: false,
+            november: false,
+            december: false,
+          },
+        }
+      ]
     },
   });
 
@@ -154,16 +164,32 @@ const useTTDForm = () => {
     }
   }, [inspectionId, form]);
 
-  const handleCheckMonthlyRecord = (month: keyof typeof monthlyRecord) => {
-    form.watch("monthlyRecord")
-    const monthlyRecord = form.getValues("monthlyRecord");
+  const handleCheckMonthlyRecord = (month: keyof typeof monthlyRecord, year: string) => {
+    form.watch("records");
 
-    const newMonthlyRecord = {
-      ...monthlyRecord,
-      [month]: !monthlyRecord[month],
-    };
+    const records = form.getValues("records");
+    const recordIndex = records.findIndex(record => record.year === year);
 
-    form.setValue("monthlyRecord", newMonthlyRecord);
+    if (recordIndex !== -1) {
+      const record = records[recordIndex];
+      const monthValue = month as keyof typeof record.monthlyRecord;
+
+      const newMonthlyRecord = {
+        ...record.monthlyRecord,
+        [monthValue]: !record.monthlyRecord[monthValue],
+      };
+
+      const updatedRecord = {
+        ...record,
+        monthlyRecord: newMonthlyRecord,
+      };
+
+      const updatedRecords = records.map((record, index) =>
+        index === recordIndex ? updatedRecord : record
+      );
+
+      form.setValue("records", updatedRecords);
+    }
   };
 
   useEffect(() => {
@@ -220,7 +246,9 @@ const useTTDForm = () => {
     formStatus,
     userDropdown,
     setSearchUser,
-    handleCheckMonthlyRecord
+    handleCheckMonthlyRecord,
+    selectedYear: form.getValues("year"),
+    selectedRecord: form.getValues("records").find(record => record.year === form.getValues("year"))
   };
 };
 

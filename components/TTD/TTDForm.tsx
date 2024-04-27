@@ -34,7 +34,9 @@ const TTDForm = () => {
     onSubmit,
     userDropdown,
     setSearchUser,
-    handleCheckMonthlyRecord
+    handleCheckMonthlyRecord,
+    selectedRecord,
+    selectedYear
   } = useTTDForm();
 
   return (
@@ -121,7 +123,18 @@ const TTDForm = () => {
                           <FormLabel htmlFor="year">Tahun</FormLabel>
                           <FormControl>
                             <Select
-                              onValueChange={field.onChange}
+                              onValueChange={(value) => {
+                                field.onChange(value);
+
+                                const records = form.getValues("records");
+
+                                const updatedRecords = records.map(record => ({
+                                  ...record,
+                                  year: value,
+                                }));
+
+                                form.setValue("records", updatedRecords);
+                              }}
                               defaultValue={field.value}
                             >
                               <SelectTrigger
@@ -161,22 +174,20 @@ const TTDForm = () => {
                       <TableBody>
                         <TableRow className="hover:bg-inherit">
                           {
-                            Object.entries(form.getValues("monthlyRecord")).map(([month, value]) => (
-                              <>
-                                <TableCell
-                                  key={month}
-                                  onClick={() => handleCheckMonthlyRecord(month as any)}
-                                  className="cursor-pointer hover:bg-muted duration-300" >
-                                  <div
-                                    className="flex justify-center flex-grow align-center text-center">
-                                    {
-                                      value == true
-                                        ? <Check className="h-4 w-4 text-green-500" />
-                                        : value == false ? <X className="h-4 w-4 text-red-500" /> : "-"
-                                    }
-                                  </div>
-                                </TableCell>
-                              </>
+                            selectedRecord && Object.entries(selectedRecord.monthlyRecord).map(([month, value]) => (
+                              <TableCell
+                                key={month}
+                                onClick={() => handleCheckMonthlyRecord(month as any, selectedYear)}
+                                className="cursor-pointer hover:bg-muted duration-300" >
+                                <div className="flex justify-center flex-grow align-center text-center">
+                                  {
+                                    value == true
+                                      ? <Check className="h-4 w-4 text-green-500" />
+                                      : value == undefined ? "-"
+                                        : <X className="h-4 w-4 text-red-500" />
+                                  }
+                                </div>
+                              </TableCell>
                             ))
                           }
                         </TableRow>
