@@ -1,12 +1,24 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  serverTimestamp,
+  setDoc,
+  where
+} from "firebase/firestore";
+import { DatabaseCollections, Sex, db } from "lib/firebase.sdk";
+
 import { zodResolver } from "@hookform/resolvers/zod";
-import { collection, doc, getDoc, getDocs, serverTimestamp, setDoc } from "firebase/firestore";
-import { DatabaseCollections, db } from "lib/firebase.sdk";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
 import { toast } from "@/components/ui/use-toast";
+
 import { generateUID, useDebounce } from "lib/helpers";
 import { Profile } from "type/profile.type";
 import { FormStatus } from "type/form.type";
@@ -87,7 +99,12 @@ const useTTDForm = () => {
 
   const getUserList = useCallback(async () => {
     try {
-      const usersCollection = await getDocs(collection(db, DatabaseCollections.USERS));
+      const userQuery = query(
+        collection(db, DatabaseCollections.USERS),
+        where("sex", "==", Sex.FEMALE)
+      );
+
+      const usersCollection = await getDocs(userQuery);
       const usersData = usersCollection.docs.map((doc) => {
         return {
           name: doc.data().name,
