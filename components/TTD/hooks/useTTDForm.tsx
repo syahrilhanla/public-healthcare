@@ -54,11 +54,11 @@ const useTTDForm = () => {
       TTDId: generateUID(),
       monthlyRecord: {
         january: false,
-        february: false,
+        february: undefined,
         march: false,
         april: true,
         may: false,
-        june: false,
+        june: undefined,
         july: false,
         august: true,
         september: false,
