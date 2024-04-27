@@ -24,18 +24,18 @@ import { Profile } from "type/profile.type";
 import { FormStatus } from "type/form.type";
 
 const monthlyRecord = z.object({
-  january: z.boolean(),
-  february: z.boolean(),
-  march: z.boolean(),
-  april: z.boolean(),
-  may: z.boolean(),
-  june: z.boolean(),
-  july: z.boolean(),
-  august: z.boolean(),
-  september: z.boolean(),
-  october: z.boolean(),
-  november: z.boolean(),
-  december: z.boolean(),
+  january: z.boolean().optional(),
+  february: z.boolean().optional(),
+  march: z.boolean().optional(),
+  april: z.boolean().optional(),
+  may: z.boolean().optional(),
+  june: z.boolean().optional(),
+  july: z.boolean().optional(),
+  august: z.boolean().optional(),
+  september: z.boolean().optional(),
+  october: z.boolean().optional(),
+  november: z.boolean().optional(),
+  december: z.boolean().optional(),
 });
 
 const recordSchema = z.object({
@@ -56,25 +56,7 @@ const useTTDForm = () => {
     defaultValues: {
       userId: "",
       TTDId: "",
-      records: [
-        {
-          year: "",
-          monthlyRecord: {
-            january: undefined,
-            february: undefined,
-            march: undefined,
-            april: undefined,
-            may: undefined,
-            june: undefined,
-            july: undefined,
-            august: undefined,
-            september: undefined,
-            october: undefined,
-            november: undefined,
-            december: undefined,
-          },
-        }
-      ]
+      records: []
     },
   });
 
@@ -164,8 +146,6 @@ const useTTDForm = () => {
   }, [inspectionId, form]);
 
   const handleCheckMonthlyRecord = (month: keyof typeof monthlyRecord, year: string) => {
-    form.watch("records");
-
     const records = form.getValues("records");
     const recordIndex = records.findIndex(record => record.year === year);
 
@@ -250,6 +230,7 @@ const useTTDForm = () => {
 
   return {
     form,
+    records: form.watch("records"),
     onSubmit,
     formStatus,
     userDropdown,
@@ -260,3 +241,21 @@ const useTTDForm = () => {
 };
 
 export default useTTDForm;
+
+export const initialRecords = {
+  year: "",
+  monthlyRecord: {
+    january: undefined,
+    february: undefined,
+    march: undefined,
+    april: undefined,
+    may: undefined,
+    june: undefined,
+    july: undefined,
+    august: undefined,
+    september: undefined,
+    october: undefined,
+    november: undefined,
+    december: undefined,
+  },
+}

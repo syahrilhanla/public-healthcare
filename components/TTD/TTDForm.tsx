@@ -28,6 +28,7 @@ import { Check, LoaderCircle, TrashIcon, X } from "lucide-react";
 const TTDForm = () => {
   const {
     form,
+    records,
     formStatus,
     onSubmit,
     userDropdown,
@@ -124,15 +125,32 @@ const TTDForm = () => {
                                 field.onChange(value);
 
                                 const records = form.getValues("records");
+                                const duplicateRecord = records.filter(record => record.year === value);
 
-                                console.log(records)
+                                if (duplicateRecord.length > 0) {
+                                  return;
+                                }
 
-                                console.log(records.map(record => record.year));
-
-                                const updatedRecords = records.map(record => ({
-                                  ...record,
-                                  year: value,
-                                }));
+                                const updatedRecords = [
+                                  ...records,
+                                  {
+                                    year: value,
+                                    monthlyRecord: {
+                                      january: undefined,
+                                      february: undefined,
+                                      march: undefined,
+                                      april: undefined,
+                                      may: undefined,
+                                      june: undefined,
+                                      july: undefined,
+                                      august: undefined,
+                                      september: undefined,
+                                      october: undefined,
+                                      november: undefined,
+                                      december: undefined,
+                                    }
+                                  }
+                                ];
 
                                 form.setValue("records", updatedRecords);
                               }}
@@ -172,8 +190,8 @@ const TTDForm = () => {
                   <MonthlyReportHeader isForm />
                   <TableBody>
                     {
-                      form.getValues("records").map((record, index) => (
-                        <TableRow className="hover:bg-inherit">
+                      records.length > 0 && records.map((record, index) => (
+                        <TableRow className="hover:bg-inherit" key={record.year}>
                           <TableCell className="text-gray-600">
                             {record.year}
                           </TableCell>
@@ -212,6 +230,16 @@ const TTDForm = () => {
                           </TableCell>
                         </TableRow>
                       ))
+                    }
+
+                    {
+                      records.length < 1 && (
+                        <TableRow>
+                          <TableCell colSpan={14} className="text-gray-600 text-center">
+                            Tidak ada data
+                          </TableCell>
+                        </TableRow>
+                      )
                     }
                   </TableBody>
                 </Table>
