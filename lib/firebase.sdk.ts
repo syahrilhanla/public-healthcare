@@ -25,3 +25,8 @@ export enum DatabaseCollections {
   INSPECTIONS = "inspections",
   TTDS = "ttds",
 }
+
+export enum Sex {
+  MALE = "Laki-laki",
+  FEMALE = "Perempuan"
+}
