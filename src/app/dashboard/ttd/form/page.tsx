@@ -1,12 +1,12 @@
 import { Suspense } from "react";
-import InspectionForm from "components/Inspection/InspectionForm";
+import TTDForm from "components/TTD/TTDForm";
 
-const InspectionFormPage = () => {
+const TTDFormPage = () => {
   return (
     <Suspense>
-      <InspectionForm />
+      <TTDForm />
     </Suspense>
   )
 }
 
-export default InspectionFormPage;
+export default TTDFormPage;
