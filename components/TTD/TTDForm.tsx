@@ -1,7 +1,5 @@
 "use client"
-import 'react-day-picker/dist/style.css';
 
-import ControlledInput from "components/ControlledInput";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -168,7 +166,7 @@ const TTDForm = () => {
                 />
 
                 {
-                  form.getValues("year") ? (
+                  selectedYear ? (
                     <Table className="max-w-full">
                       <MonthlyReportHeader isForm />
                       <TableBody>

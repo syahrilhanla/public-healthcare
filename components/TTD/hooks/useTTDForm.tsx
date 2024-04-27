@@ -55,24 +55,23 @@ const useTTDForm = () => {
     resolver: zodResolver(schema),
     defaultValues: {
       userId: "",
-      year: "",
       TTDId: "",
       records: [
         {
           year: "",
           monthlyRecord: {
-            january: false,
+            january: undefined,
             february: undefined,
-            march: false,
-            april: true,
-            may: false,
+            march: undefined,
+            april: undefined,
+            may: undefined,
             june: undefined,
-            july: false,
-            august: true,
-            september: false,
-            october: false,
-            november: false,
-            december: false,
+            july: undefined,
+            august: undefined,
+            september: undefined,
+            october: undefined,
+            november: undefined,
+            december: undefined,
           },
         }
       ]
@@ -248,7 +247,8 @@ const useTTDForm = () => {
     setSearchUser,
     handleCheckMonthlyRecord,
     selectedYear: form.getValues("year"),
-    selectedRecord: form.getValues("records").find(record => record.year === form.getValues("year"))
+    selectedRecord: form.getValues("records")
+      .find(record => record.year === form.getValues("year"))
   };
 };
 
