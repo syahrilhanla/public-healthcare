@@ -8,6 +8,7 @@ import Sidebar from "components/Sidebar";
 import Navbar from "components/Navbar";
 import Snackbar from "components/Snackbar";
 import MobileSidebar from "components/MobileSidebar";
+import { LoaderCircle } from "lucide-react";
 
 export default function RootLayout({
   children,
@@ -45,7 +46,12 @@ export default function RootLayout({
             <MobileSidebar />
           </Navbar>
           <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6">
-            {loginCookie ? children : <>no cookie</>}
+            {loginCookie ? children : (
+              <div className="flex-grow flex gap-3 justify-center items-center text-slate-500">
+                <LoaderCircle className="h-8 w-8 animate-spin" />
+                <p>Memeriksa akun</p>
+              </div>
+            )}
           </main>
         </div>
         <Snackbar />
