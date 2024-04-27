@@ -155,13 +155,14 @@ const TTDForm = () => {
                 />
 
                 <Table className="max-w-full">
-                  <MonthlyReportHeader />
+                  <MonthlyReportHeader isForm />
                   <TableBody>
                     <TableRow className="hover:bg-inherit">
                       {
                         Object.entries(form.getValues("monthlyRecord")).map(([month, value]) => (
                           <>
                             <TableCell
+                              key={month}
                               onClick={() => handleCheckMonthlyRecord(month as any)}
                               className="cursor-pointer hover:bg-muted duration-300" >
                               <div

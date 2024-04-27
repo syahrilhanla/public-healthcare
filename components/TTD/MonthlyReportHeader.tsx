@@ -1,10 +1,18 @@
 import { TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
-const MonthlyReportHeader = () => {
+interface Props {
+  isForm?: boolean;
+}
+
+const MonthlyReportHeader = ({ isForm }: Props) => {
   return (
     <TableHeader>
       <TableRow className="overflow-auto font-medium relative">
-        <TableHead className="font-medium text-black" rowSpan={2}>Nama</TableHead>
+        {
+          !isForm && (
+            <TableHead className="font-medium text-black" rowSpan={2}>Nama</TableHead>
+          )
+        }
         <TableHead className="font-medium text-black align-middle text-center"
           rowSpan={1}
           colSpan={12}
