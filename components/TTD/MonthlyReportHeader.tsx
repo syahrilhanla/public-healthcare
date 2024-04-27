@@ -31,6 +31,11 @@ const MonthlyReportHeader = ({ isForm }: Props) => {
         <TableHead className="font-medium text-black" rowSpan={1}>Okt</TableHead>
         <TableHead className="font-medium text-black" rowSpan={1}>Nov</TableHead>
         <TableHead className="font-medium text-black" rowSpan={1}>Des</TableHead>
+        {
+          isForm && (
+            <TableHead className="font-medium text-black sticky right-0 z-10 bg-white" rowSpan={1}>Action</TableHead>
+          )
+        }
       </TableRow>
     </TableHeader>
   )

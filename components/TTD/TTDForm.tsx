@@ -17,13 +17,13 @@ import {
   SelectValue
 } from "@/components/ui/select";
 
-import MonthlyReportHeader from "./MonthlyReportHeader";
+import MonthlyReportHeader from "components/TTD/MonthlyReportHeader";
 import FailedIndicator from "components/FailedIndicator";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
-import useTTDForm from "./hooks/useTTDForm";
-import { Check, LoaderCircle, X } from "lucide-react";
+import useTTDForm from "components/TTD/hooks/useTTDForm";
+import { Check, LoaderCircle, TrashIcon, X } from "lucide-react";
 
 const TTDForm = () => {
   const {
@@ -33,6 +33,7 @@ const TTDForm = () => {
     userDropdown,
     setSearchUser,
     handleCheckMonthlyRecord,
+    handleDeleteRecord
   } = useTTDForm();
 
   return (
@@ -143,7 +144,7 @@ const TTDForm = () => {
                             focus:outline-none focus:ring-0 focus:ring-transparent"
                               >
                                 <SelectValue
-                                  placeholder={field.value || "Pilih Tahun"}
+                                  placeholder={field.value || "Tambah Tahun"}
                                   className="w-full space-x-2 focus-visible:ring-transparent"
                                 />
                               </SelectTrigger>
@@ -193,6 +194,22 @@ const TTDForm = () => {
                               </TableCell>
                             ))
                           }
+                          <TableCell className="max-w-10 text-right text-gray-600 sticky right-0 z-10 bg-white">
+                            <div className="flex gap-2 w-full justify-end">
+                              <Button
+                                variant={"destructive"}
+                                className="text-gray-600 py-1 px-3"
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+
+                                  handleDeleteRecord(record.year);
+                                }}
+                              >
+                                <TrashIcon className="w-3 h-3 text-white" />
+                              </Button>
+                            </div>
+                          </TableCell>
                         </TableRow>
                       ))
                     }

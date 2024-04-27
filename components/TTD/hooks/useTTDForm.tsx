@@ -191,6 +191,15 @@ const useTTDForm = () => {
     }
   };
 
+  const handleDeleteRecord = (year: string) => {
+    const records = form.getValues("records");
+
+    // Filter out the record with the specified year
+    const updatedRecords = records.filter(record => record.year !== year);
+
+    form.setValue("records", updatedRecords);
+  };
+
   useEffect(() => {
     if (inspectionId) {
       getInspectionData();
@@ -246,6 +255,7 @@ const useTTDForm = () => {
     userDropdown,
     setSearchUser,
     handleCheckMonthlyRecord,
+    handleDeleteRecord
   };
 };
 
