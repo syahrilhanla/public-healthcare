@@ -23,4 +23,5 @@ export const db = getFirestore(app);
 export enum DatabaseCollections {
   USERS = "users",
   INSPECTIONS = "inspections",
+  TTDS = "ttds",
 }
