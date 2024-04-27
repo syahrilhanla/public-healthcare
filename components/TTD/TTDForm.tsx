@@ -33,8 +33,6 @@ const TTDForm = () => {
     userDropdown,
     setSearchUser,
     handleCheckMonthlyRecord,
-    selectedRecord,
-    selectedYear
   } = useTTDForm();
 
   return (
@@ -126,6 +124,10 @@ const TTDForm = () => {
 
                                 const records = form.getValues("records");
 
+                                console.log(records)
+
+                                console.log(records.map(record => record.year));
+
                                 const updatedRecords = records.map(record => ({
                                   ...record,
                                   year: value,
@@ -165,17 +167,20 @@ const TTDForm = () => {
                   )}
                 />
 
-                {
-                  selectedYear ? (
-                    <Table className="max-w-full">
-                      <MonthlyReportHeader isForm />
-                      <TableBody>
+                <Table className="max-w-full">
+                  <MonthlyReportHeader isForm />
+                  <TableBody>
+                    {
+                      form.getValues("records").map((record, index) => (
                         <TableRow className="hover:bg-inherit">
+                          <TableCell className="text-gray-600">
+                            {record.year}
+                          </TableCell>
                           {
-                            selectedRecord && Object.entries(selectedRecord.monthlyRecord).map(([month, value]) => (
+                            Object.entries(record.monthlyRecord).map(([month, value]) => (
                               <TableCell
                                 key={month}
-                                onClick={() => handleCheckMonthlyRecord(month as any, selectedYear)}
+                                onClick={() => handleCheckMonthlyRecord(month as any, record.year)}
                                 className="cursor-pointer hover:bg-muted duration-300" >
                                 <div className="flex justify-center flex-grow align-center text-center">
                                   {
@@ -189,10 +194,10 @@ const TTDForm = () => {
                             ))
                           }
                         </TableRow>
-                      </TableBody>
-                    </Table>
-                  ) : null
-                }
+                      ))
+                    }
+                  </TableBody>
+                </Table>
 
                 <Button
                   type="submit"

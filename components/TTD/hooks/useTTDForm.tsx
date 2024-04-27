@@ -246,9 +246,6 @@ const useTTDForm = () => {
     userDropdown,
     setSearchUser,
     handleCheckMonthlyRecord,
-    selectedYear: form.getValues("year"),
-    selectedRecord: form.getValues("records")
-      .find(record => record.year === form.getValues("year"))
   };
 };
 

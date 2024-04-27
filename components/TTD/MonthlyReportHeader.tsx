@@ -8,11 +8,9 @@ const MonthlyReportHeader = ({ isForm }: Props) => {
   return (
     <TableHeader>
       <TableRow className="overflow-auto font-medium relative">
-        {
-          !isForm && (
-            <TableHead className="font-medium text-black" rowSpan={2}>Nama</TableHead>
-          )
-        }
+        <TableHead className="font-medium text-black" rowSpan={2}>{
+          isForm ? "Tahun" : "Nama"
+        }</TableHead>
         <TableHead className="font-medium text-black align-middle text-center"
           rowSpan={1}
           colSpan={12}
