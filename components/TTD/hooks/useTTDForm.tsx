@@ -25,21 +25,10 @@ import { FormStatus } from "type/form.type";
 
 const schema = z.object({
   userId: z.string(),
-  TB: z.string({
+  year: z.string({
     required_error: "Masukkan nilai yang valid"
   }),
-  BB: z.string({
-    required_error: "Masukkan nilai yang valid"
-  }),
-  LILA: z.string({
-    required_error: "Masukkan nilai yang valid"
-  }),
-  LP: z.string().optional(),
-  Hb: z.string().optional(),
-  TD: z.string({
-    required_error: "Masukkan nilai yang valid"
-  }),
-  inspectionId: z.string(),
+  TTDId: z.string(),
 });
 
 const useTTDForm = () => {
@@ -47,13 +36,8 @@ const useTTDForm = () => {
     resolver: zodResolver(schema),
     defaultValues: {
       userId: "",
-      TB: undefined,
-      BB: undefined,
-      LILA: undefined,
-      LP: undefined,
-      Hb: "",
-      TD: undefined,
-      inspectionId: generateUID(),
+      year: "",
+      TTDId: generateUID(),
     },
   });
 
@@ -153,7 +137,7 @@ const useTTDForm = () => {
   const onSubmit = async (data: z.infer<typeof schema>) => {
     // If userId is exist, use userId as reference, otherwise use NIK as reference
     // used for create or edit user data
-    const reference = inspectionId ? inspectionId : data.inspectionId;
+    const reference = inspectionId ? inspectionId : data.TTDId;
 
     try {
       setFormStatus("submitting");
@@ -161,7 +145,6 @@ const useTTDForm = () => {
       const inspectionPayload = {
         ...data,
         name: userDropdown.find((user) => user.userId === data.userId)?.name,
-        TD: data.TD.replace(/ \/ | /g, " / "),
         updatedAt: serverTimestamp()
       }
 
