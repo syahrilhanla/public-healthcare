@@ -6,6 +6,7 @@ import TTDListTable from "components/TTD/TTDListTable";
 import useTTDList from "components/TTD/hooks/useTTDList";
 
 import { PlusIcon } from "lucide-react";
+import YearDropdown from "components/TTD/YearDropdown";
 
 interface Props {
   searchParams: {
@@ -25,12 +26,7 @@ const TTDList = async ({ searchParams }: Props) => {
       </h1>
 
       <div className="w-full lg:flex gap-4 lg:justify-end">
-        <Button
-          variant={"outline"}
-          className="w-full lg:w-fit flex gap-2 rounded-lg text-gray-600"
-        >
-          Pilih Tahun
-        </Button>
+        <YearDropdown selectedYear={Number(searchParams.year)} />
 
         <Link href={"/dashboard/ttd/form"}>
           <Button variant={"outline"}
