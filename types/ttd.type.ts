@@ -24,4 +24,5 @@ export type TtdType = {
   nik: string;
   name: string;
   posyandu: string;
+  years: string[];
 };
