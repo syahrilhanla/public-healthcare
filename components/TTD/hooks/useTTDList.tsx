@@ -1,15 +1,22 @@
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { DatabaseCollections, db } from "lib/firebase.sdk";
 import parseFirestoreTimestamp from "lib/parseFirestoreTimestamp";
 
 import { TtdType } from "type/ttd.type";
 
-const useTTDList = async () => {
+const useTTDList = async (searchParams: {
+  year: string;
+}) => {
+  let yearQuery = "";
+  if (searchParams.year) yearQuery = searchParams.year;
+
   const TTDs: TtdType[] = [];
 
-  const TTDRef = query(collection
-    (db, DatabaseCollections.TTDS), orderBy("updatedAt", "desc")
-  );
+  let TTDRef = query(collection(db, DatabaseCollections.TTDS), orderBy("updatedAt", "desc"));
+
+  if (yearQuery) {
+    TTDRef = query(collection(db, DatabaseCollections.TTDS), where("years", "array-contains", yearQuery));
+  }
   const TTDResponse = await getDocs(TTDRef);
 
   TTDResponse.docs.map((doc) => {

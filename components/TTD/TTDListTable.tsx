@@ -1,3 +1,4 @@
+import React from "react";
 import { Link } from "next-view-transitions";
 
 import {
@@ -32,7 +33,7 @@ const TTDListTable = ({ TTDs }: Props) => {
             </TableCell>
             {
               TTD.records.map((record, index) => (
-                <>
+                <React.Fragment key={index}>
                   {Object.keys(record.monthlyRecord)
                     .sort((a, b) => (
                       new Date(`1970, ${a}, 1`)!.getTime()
@@ -40,7 +41,7 @@ const TTDListTable = ({ TTDs }: Props) => {
                     .map((month, index) => {
                       const status = record.monthlyRecord[month as keyof typeof record.monthlyRecord];
                       return (
-                        <TableCell className="text-center" key={index}>
+                        <TableCell className="text-center" key={month}>
                           {
                             status
                               ? <Check className="h-4 w-4 text-green-500" />
@@ -51,7 +52,7 @@ const TTDListTable = ({ TTDs }: Props) => {
                         </TableCell>
                       );
                     })}
-                </>
+                </React.Fragment>
               ))
             }
           </TableRow>

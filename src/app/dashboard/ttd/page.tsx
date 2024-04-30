@@ -7,8 +7,14 @@ import useTTDList from "components/TTD/hooks/useTTDList";
 
 import { PlusIcon } from "lucide-react";
 
-const TTDList = async () => {
-  const TTDs = await useTTDList();
+interface Props {
+  searchParams: {
+    year: string;
+  }
+}
+
+const TTDList = async ({ searchParams }: Props) => {
+  const TTDs = await useTTDList(searchParams);
 
   return (
     <div className="grid gap-4 px-2 lg:px-6">
@@ -18,7 +24,14 @@ const TTDList = async () => {
         Pemantauan TTD Remaja Putri
       </h1>
 
-      <div className="w-full lg:flex lg:justify-end">
+      <div className="w-full lg:flex gap-4 lg:justify-end">
+        <Button
+          variant={"outline"}
+          className="w-full lg:w-fit flex gap-2 rounded-lg text-gray-600"
+        >
+          Pilih Tahun
+        </Button>
+
         <Link href={"/dashboard/ttd/form"}>
           <Button variant={"outline"}
             className="w-full lg:w-fit flex gap-2 rounded-lg text-gray-600"
