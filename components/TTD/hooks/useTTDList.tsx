@@ -12,11 +12,11 @@ const useTTDList = async (searchParams: {
 
   const TTDs: TtdType[] = [];
 
-  let TTDRef = query(collection(db, DatabaseCollections.TTDS), orderBy("updatedAt", "desc"));
+  const year = yearQuery ? yearQuery : new Date().getFullYear().toString();
 
-  if (yearQuery) {
-    TTDRef = query(collection(db, DatabaseCollections.TTDS), where("years", "array-contains", yearQuery));
-  }
+  const TTDRef = query(collection(db, DatabaseCollections.TTDS),
+    where("years", "array-contains", year), orderBy("updatedAt", "desc"));
+
   const TTDResponse = await getDocs(TTDRef);
 
   TTDResponse.docs.map((doc) => {
