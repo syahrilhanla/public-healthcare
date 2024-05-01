@@ -1,5 +1,6 @@
 "use client"
 
+import { useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "lib/firebase.sdk";
 
@@ -31,6 +32,13 @@ const Dashboard = () => {
 
   const router = useRouter();
 
+  useEffect(() => {
+    const loginCookie = typeof window !== "undefined" && window.document ?
+      document.cookie.split('; ').find(row => row.startsWith('login')) : "";
+
+    if (loginCookie) router.push("/dashboard/hasil-pemeriksaan");
+  }, []);
+
   const formSchema = z.object({
     email: z.string().email().min(2, {
       message: "Email tidak boleh kosong!",
@@ -60,7 +68,8 @@ const Dashboard = () => {
       date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000)); // 7 days from now
       let expires = ";expires=" + date.toUTCString();
 
-      document.cookie = `login=${login.user.uid}${expires}`;
+      const cookieToSet = `login=${login.user.uid}${expires}`
+      document.cookie = cookieToSet;
 
       updateSnackbarState({
         snackbarMessage: "Login berhasil!",
