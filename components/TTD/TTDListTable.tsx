@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import MonthlyReportHeader from "components/TTD/MonthlyReportHeader";
 
-import { Check, X } from "lucide-react";
+import { Check, Minus, X } from "lucide-react";
 
 import { TtdType } from "type/ttd.type";
 
@@ -52,7 +52,7 @@ const TTDListTable = ({ TTDs, selectedYear }: Props) => {
                               status
                                 ? <Check className="h-4 w-4 text-green-500" />
                                 : status === null || status === undefined
-                                  ? <span className="text-gray-400">-</span>
+                                  ? <Minus className="h-4 w-4 text-gray-400" />
                                   : <X className="h-4 w-4 text-red-400" />
                             }
                           </TableCell>

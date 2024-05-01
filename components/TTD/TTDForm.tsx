@@ -24,7 +24,8 @@ import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
 import useTTDForm, { initialMonthlyRecord } from "components/TTD/hooks/useTTDForm";
 
-import { Check, LoaderCircle, TrashIcon, X } from "lucide-react";
+import { Check, LoaderCircle, Minus, TrashIcon, X } from "lucide-react";
+import DeleteTTDModal from "./DeleteTTDModal";
 
 const TTDForm = () => {
   const {
@@ -199,7 +200,8 @@ const TTDForm = () => {
                                       {
                                         status == true
                                           ? <Check className="h-4 w-4 text-green-500" />
-                                          : status == undefined ? "-"
+                                          : status == undefined
+                                            ? <Minus className="h-4 w-4 text-gray-400" />
                                             : <X className="h-4 w-4 text-red-500" />
                                       }
                                     </div>
