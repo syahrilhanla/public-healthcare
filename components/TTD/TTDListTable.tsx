@@ -7,10 +7,11 @@ import {
   TableCell,
   TableRow,
 } from "@/components/ui/table";
+import MonthlyReportHeader from "components/TTD/MonthlyReportHeader";
+
 import { Check, X } from "lucide-react";
 
 import { TtdType } from "type/ttd.type";
-import MonthlyReportHeader from "./MonthlyReportHeader";
 
 interface Props {
   TTDs: TtdType[];
@@ -25,10 +26,12 @@ const TTDListTable = ({ TTDs, selectedYear = new Date().getFullYear() }: Props) 
         {TTDs.map((TTD) => (
           <TableRow key={TTD.ttdId}>
             <TableCell className="w-[18rem] text-gray-600 text-nowrap truncate">
-              <Link href={`/dashboard/ttd/form?id=${TTD.nik}`}>
+              <Link href={`/dashboard/ttd/form?id=${TTD.userId}`}>
                 <div className="grid gap-0.5">
-                  {TTD.name}
-                  <span className="text-sm text-gray-400">{TTD.nik}</span>
+                  <p className="hover:underline hover:text-blue-500 duration-300">
+                    {TTD.name}
+                  </p>
+                  <span className="text-sm text-gray-400">{TTD.userId}</span>
                 </div>
               </Link>
             </TableCell>

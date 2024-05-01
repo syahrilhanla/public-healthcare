@@ -26,7 +26,7 @@ const TTDList = async ({ searchParams }: Props) => {
       </h1>
 
       <div className="w-full flex justify-between items-center">
-        <h2 className="lg:text-xl text-lg text-slate-600">
+        <h2 className="lg:text-2xl font-semibold text-lg text-slate-600">
           {searchParams.year ? searchParams.year : new Date().getFullYear()}
         </h2>
 
