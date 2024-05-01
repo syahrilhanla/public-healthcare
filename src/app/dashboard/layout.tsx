@@ -38,8 +38,6 @@ export default function RootLayout({
     if (pathname === "/dashboard") router.push("/dashboard/hasil-pemeriksaan");
   }, [pathname, router]);
 
-  revalidatePath("layout");
-
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
       <ViewTransitions>
