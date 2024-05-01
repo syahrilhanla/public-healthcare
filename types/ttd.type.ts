@@ -21,7 +21,7 @@ export type TtdType = {
     year: string;
     monthlyRecord: MonthlyStatus;
   }[];
-  nik: string;
+  userId: string;
   name: string;
   posyandu: string;
   years: string[];
