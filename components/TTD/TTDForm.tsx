@@ -22,7 +22,8 @@ import FailedIndicator from "components/FailedIndicator";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
-import useTTDForm from "components/TTD/hooks/useTTDForm";
+import useTTDForm, { initialMonthlyRecord } from "components/TTD/hooks/useTTDForm";
+
 import { Check, LoaderCircle, TrashIcon, X } from "lucide-react";
 
 const TTDForm = () => {
@@ -135,20 +136,7 @@ const TTDForm = () => {
                                   ...records,
                                   {
                                     year: value,
-                                    monthlyRecord: {
-                                      january: undefined,
-                                      february: undefined,
-                                      march: undefined,
-                                      april: undefined,
-                                      may: undefined,
-                                      june: undefined,
-                                      july: undefined,
-                                      august: undefined,
-                                      september: undefined,
-                                      october: undefined,
-                                      november: undefined,
-                                      december: undefined,
-                                    }
+                                    monthlyRecord: initialMonthlyRecord
                                   }
                                 ];
 

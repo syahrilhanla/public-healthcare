@@ -252,20 +252,22 @@ const useTTDForm = () => {
 
 export default useTTDForm;
 
+export const initialMonthlyRecord = {
+  january: undefined,
+  february: undefined,
+  march: undefined,
+  april: undefined,
+  may: undefined,
+  june: undefined,
+  july: undefined,
+  august: undefined,
+  september: undefined,
+  october: undefined,
+  november: undefined,
+  december: undefined,
+}
+
 export const initialRecords = {
   year: "",
-  monthlyRecord: {
-    january: undefined,
-    february: undefined,
-    march: undefined,
-    april: undefined,
-    may: undefined,
-    june: undefined,
-    july: undefined,
-    august: undefined,
-    september: undefined,
-    october: undefined,
-    november: undefined,
-    december: undefined,
-  },
+  monthlyRecord: initialMonthlyRecord
 }
