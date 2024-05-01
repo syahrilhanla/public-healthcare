@@ -135,6 +135,7 @@ const useTTDForm = () => {
 
         form.reset({
           ...data,
+          year: ""
         });
       }
 
@@ -219,7 +220,7 @@ const useTTDForm = () => {
             ])
           ),
         })),
-      }
+      };
 
       // If userId is exist, use userId as reference, otherwise use NIK as reference
       // used for create or edit user data

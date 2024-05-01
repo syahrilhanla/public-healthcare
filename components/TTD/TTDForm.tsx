@@ -164,7 +164,7 @@ const TTDForm = () => {
                             focus:outline-none focus:ring-0 focus:ring-transparent"
                               >
                                 <SelectValue
-                                  placeholder={field.value || "Tambah Tahun"}
+                                  placeholder="Tambah Tahun"
                                   className="w-full space-x-2 focus-visible:ring-transparent"
                                 />
                               </SelectTrigger>
