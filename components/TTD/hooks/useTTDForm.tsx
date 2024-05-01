@@ -55,7 +55,7 @@ const useTTDForm = () => {
     resolver: zodResolver(schema),
     defaultValues: {
       userId: "",
-      TTDId: generateUID(),
+      TTDId: "",
       records: []
     },
   });
@@ -71,7 +71,7 @@ const useTTDForm = () => {
     userId: string;
   }[]>([]);
 
-  const inspectionId = useSearchParams().get("id");
+  const TTDId = useSearchParams().get("id");
 
   const userDebounce = useDebounce(searchUser, 700);
 
@@ -122,14 +122,15 @@ const useTTDForm = () => {
     }
   }, []);
 
-  const getInspectionData = useCallback(async () => {
-    if (!inspectionId) return;
+  const getUserTTDData = useCallback(async () => {
+    if (!TTDId) return;
 
     try {
       setFormStatus("loading");
-      const docRef = doc(db, DatabaseCollections.INSPECTIONS, inspectionId);
+      const docRef = doc(db, DatabaseCollections.TTDS, TTDId);
       const docSnap = await getDoc(docRef);
 
+      console.log(docSnap.data());
       if (docSnap.exists()) {
         const data = docSnap.data();
 
@@ -143,7 +144,7 @@ const useTTDForm = () => {
       console.error("Error to GET INSPECTION data", error);
       setFormStatus("error");
     }
-  }, [inspectionId, form]);
+  }, [TTDId, form]);
 
   const handleCheckMonthlyRecord = (month: keyof typeof monthlyRecord, year: string) => {
     const records = form.getValues("records");
@@ -181,25 +182,27 @@ const useTTDForm = () => {
   };
 
   useEffect(() => {
-    if (inspectionId) {
-      getInspectionData();
+    if (TTDId) {
+      getUserTTDData();
     }
 
     getUserList();
-  }, [inspectionId, getInspectionData, getUserList]);
+  }, [TTDId, getUserTTDData, getUserList]);
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
     // If userId is exist, use userId as reference, otherwise use NIK as reference
     // used for create or edit user data
-    const reference = inspectionId ? inspectionId : data.TTDId;
+    const reference = TTDId ? TTDId : data.userId;
 
     try {
       setFormStatus("submitting");
 
       const TTDPayload = {
         ...data,
+        TTDId: data.userId,
         name: userDropdown.find((user) => user.userId === data.userId)?.name,
         updatedAt: serverTimestamp(),
+        years: data.records.map(record => record.year),
         records: data.records.map(record => ({
           ...record,
           monthlyRecord: Object.fromEntries(
@@ -216,7 +219,7 @@ const useTTDForm = () => {
       });
 
       toast({
-        description: inspectionId ? "Berhasil mengubah data!" : "Berhasil membuat data!",
+        description: TTDId ? "Berhasil mengubah data!" : "Berhasil membuat data!",
         variant: "default"
       });
 
@@ -226,7 +229,7 @@ const useTTDForm = () => {
       console.error("Error to create/edit inspection data", error);
 
       toast({
-        title: inspectionId ? "gagal mengubah data!" : "Gagal membuat data!",
+        title: TTDId ? "gagal mengubah data!" : "Gagal membuat data!",
         description: "Silahkan coba lagi",
         variant: "destructive"
       });
