@@ -153,11 +153,23 @@ const useTTDForm = () => {
       const record = records[recordIndex];
       const monthValue = month as keyof typeof record.monthlyRecord;
 
+      let newValue;
+      switch (record.monthlyRecord[monthValue]) {
+        case true:
+          newValue = false;
+          break;
+        case false:
+          newValue = undefined;
+          break;
+        case undefined:
+          newValue = true;
+          break;
+      }
+
       const newMonthlyRecord = {
         ...record.monthlyRecord,
-        [monthValue]: !record.monthlyRecord[monthValue],
+        [monthValue]: newValue,
       };
-
       const updatedRecord = {
         ...record,
         monthlyRecord: newMonthlyRecord,
@@ -250,6 +262,7 @@ const useTTDForm = () => {
   }
 
   return {
+    TTDId,
     form,
     records: form.watch("records"),
     onSubmit,
