@@ -130,7 +130,6 @@ const useTTDForm = () => {
       const docRef = doc(db, DatabaseCollections.TTDS, TTDId);
       const docSnap = await getDoc(docRef);
 
-      console.log(docSnap.data());
       if (docSnap.exists()) {
         const data = docSnap.data();
 

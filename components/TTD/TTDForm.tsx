@@ -184,21 +184,28 @@ const TTDForm = () => {
                             {record.year}
                           </TableCell>
                           {
-                            Object.entries(record.monthlyRecord).map(([month, value]) => (
-                              <TableCell
-                                key={month}
-                                onClick={() => handleCheckMonthlyRecord(month as any, record.year)}
-                                className="cursor-pointer hover:bg-muted duration-300" >
-                                <div className="flex justify-center flex-grow align-center text-center">
-                                  {
-                                    value == true
-                                      ? <Check className="h-4 w-4 text-green-500" />
-                                      : value == undefined ? "-"
-                                        : <X className="h-4 w-4 text-red-500" />
-                                  }
-                                </div>
-                              </TableCell>
-                            ))
+                            Object.keys(record.monthlyRecord)
+                              .sort((a, b) => (
+                                new Date(`1970, ${a}, 1`).getTime()
+                                - new Date(`1970, ${b}, 1`).getTime()))
+                              .map((month) => {
+                                const status = record.monthlyRecord[month as keyof typeof record.monthlyRecord];
+                                return (
+                                  <TableCell
+                                    key={month}
+                                    onClick={() => handleCheckMonthlyRecord(month as any, record.year)}
+                                    className="cursor-pointer hover:bg-muted duration-300" >
+                                    <div className="flex justify-center flex-grow align-center text-center">
+                                      {
+                                        status == true
+                                          ? <Check className="h-4 w-4 text-green-500" />
+                                          : status == undefined ? "-"
+                                            : <X className="h-4 w-4 text-red-500" />
+                                      }
+                                    </div>
+                                  </TableCell>
+                                );
+                              })
                           }
                           <TableCell className="max-w-10 text-right text-gray-600 sticky right-0 z-10 bg-white">
                             <div className="flex gap-2 w-full justify-end">
