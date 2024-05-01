@@ -16,7 +16,7 @@ interface Props {
   TTDs: TtdType[];
 }
 
-const TTDListTable = ({ TTDs }: Props) => {
+const TTDListTable = ({ TTDs, selectedYear = new Date().getFullYear() }: Props) => {
   return (
     <Table className="max-w-full">
       <MonthlyReportHeader />
