@@ -29,6 +29,7 @@ import DeleteTTDModal from "./DeleteTTDModal";
 
 const TTDForm = () => {
   const {
+    TTDId,
     form,
     records,
     formStatus,
@@ -41,11 +42,22 @@ const TTDForm = () => {
 
   return (
     <div className="grid gap-4 mx-auto lg:w-[70%] text-gray-600 duration-500">
-      <h1
-        className="text-2xl font-semibold text-gray-600"
-      >
-        TTD Remaja Putri
-      </h1>
+      <div className="w-full flex justify-between">
+        <h1
+          className="text-2xl font-semibold text-gray-600"
+        >
+          TTD Remaja Putri
+        </h1>
+
+        {
+          TTDId && (
+            <DeleteTTDModal selectedTTD={{
+              userId: TTDId,
+              name: userDropdown.find(user => user.userId === TTDId)?.name || ""
+            }} />
+          )
+        }
+      </div>
 
       {
         formStatus === "loading" ? (
@@ -76,6 +88,7 @@ const TTDForm = () => {
                                 className="w-full h-16 px-2 py-4 text-left
                                 border border-gray-300 rounded-md 
                                 focus:outline-none focus:ring-0 focus:ring-transparent"
+                                disabled={TTDId ? true : false}
                               >
                                 <SelectValue
                                   placeholder={"Pilih Siswa"}
