@@ -44,7 +44,10 @@ const TTDList = async ({ searchParams }: Props) => {
         </div>
       </div>
 
-      <TTDListTable TTDs={TTDs} selectedYear={Number(searchParams.year)} />
+      <TTDListTable TTDs={TTDs} selectedYear={
+        searchParams.year ? Number(searchParams.year) :
+          new Date().getFullYear()
+      } />
     </div>
   )
 }

@@ -18,7 +18,7 @@ interface Props {
   selectedYear: number;
 }
 
-const TTDListTable = ({ TTDs, selectedYear = new Date().getFullYear() }: Props) => {
+const TTDListTable = ({ TTDs, selectedYear }: Props) => {
   return (
     <Table className="max-w-full">
       <MonthlyReportHeader />
@@ -37,7 +37,7 @@ const TTDListTable = ({ TTDs, selectedYear = new Date().getFullYear() }: Props) 
             </TableCell>
             {
               TTD.records
-                .filter(record => Number(record.year) == selectedYear)
+                .filter(record => Number(record.year) === selectedYear)
                 .map((record, index) => (
                   <React.Fragment key={index}>
                     {Object.keys(record.monthlyRecord)
