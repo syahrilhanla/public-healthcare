@@ -9,6 +9,7 @@ import Navbar from "components/Navbar";
 import Snackbar from "components/Snackbar";
 import MobileSidebar from "components/MobileSidebar";
 import { LoaderCircle } from "lucide-react";
+import { revalidatePath } from "next/cache";
 
 export default function RootLayout({
   children,
@@ -36,6 +37,8 @@ export default function RootLayout({
   useEffect(() => {
     if (pathname === "/dashboard") router.push("/dashboard/hasil-pemeriksaan");
   }, [pathname, router]);
+
+  revalidatePath("layout");
 
   return (
     <div className="grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
