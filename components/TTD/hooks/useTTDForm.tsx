@@ -189,10 +189,6 @@ const useTTDForm = () => {
   }, [TTDId, getUserTTDData, getUserList]);
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
-    // If userId is exist, use userId as reference, otherwise use NIK as reference
-    // used for create or edit user data
-    const reference = TTDId ? TTDId : data.userId;
-
     try {
       setFormStatus("submitting");
 
@@ -213,6 +209,18 @@ const useTTDForm = () => {
         })),
       }
 
+      // If userId is exist, use userId as reference, otherwise use NIK as reference
+      // used for create or edit user data
+      const reference = TTDId ? TTDId : data.userId;
+
+      // Check if data already exist only for create data
+      if (!TTDId) {
+        const isTTDExist = (await getDoc(doc(db, DatabaseCollections.TTDS, reference))).exists();
+        if (isTTDExist) {
+          throw new Error("Data already exist");
+        }
+      }
+
       await setDoc(doc(db, DatabaseCollections.TTDS, reference), {
         ...TTDPayload
       });
@@ -227,9 +235,13 @@ const useTTDForm = () => {
     } catch (error) {
       console.error("Error to create/edit inspection data", error);
 
+      let errorDescription = ((error as Error).message === "Data already exist")
+        ? "Data dengan user tersebut sudah ada! Pilih user lain atau lakukan edit"
+        : "Silahkan coba lagi"
+
       toast({
         title: TTDId ? "gagal mengubah data!" : "Gagal membuat data!",
-        description: "Silahkan coba lagi",
+        description: errorDescription,
         variant: "destructive"
       });
     } finally {
