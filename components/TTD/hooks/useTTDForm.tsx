@@ -19,7 +19,7 @@ import { z } from "zod";
 
 import { toast } from "@/components/ui/use-toast";
 
-import { generateUID, useDebounce } from "lib/helpers";
+import { useDebounce } from "lib/helpers";
 import { Profile } from "type/profile.type";
 import { FormStatus } from "type/form.type";
 
@@ -56,7 +56,8 @@ const useTTDForm = () => {
     defaultValues: {
       userId: "",
       TTDId: "",
-      records: []
+      records: [],
+      year: ""
     },
   });
 
@@ -140,9 +141,21 @@ const useTTDForm = () => {
       if (docSnap.exists()) {
         const data = docSnap.data();
 
+        const records = data.records.map((record: any) => {
+          return {
+            year: record.year,
+            monthlyRecord: Object.fromEntries(
+              Object.entries(record.monthlyRecord).map(([key, value]) => [
+                key,
+                value === null ? undefined : value,
+              ])
+            ),
+          };
+        });
+
         form.reset({
           ...data,
-          year: ""
+          records: records,
         });
       }
 
