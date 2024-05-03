@@ -1,5 +1,6 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { pathname } from "lib/host";
 
 import {
   collection,
@@ -22,7 +23,7 @@ import { toast } from "@/components/ui/use-toast";
 import { useDebounce } from "lib/helpers";
 import { Profile } from "type/profile.type";
 import { FormStatus } from "type/form.type";
-import { TTDRecord, TtdType } from "type/ttd.type";
+import { TTDRecord } from "type/ttd.type";
 
 const monthlyRecord = z.object({
   january: z.boolean().optional(),
@@ -130,7 +131,7 @@ const useTTDForm = () => {
     try {
       setFormStatus("loading");
 
-      const TTD = (await (await fetch(`http://localhost:3000/api/ttd/${TTDId}`,
+      const TTD = (await (await fetch(`${pathname}:3000/api/ttd/${TTDId}`,
         {
           method: "GET",
           cache: "no-store",
