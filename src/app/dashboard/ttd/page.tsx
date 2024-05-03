@@ -25,20 +25,29 @@ const TTDList = async ({ searchParams }: Props) => {
         Pemantauan TTD Remaja Putri
       </h1>
 
-      <div className="w-full lg:flex gap-4 lg:justify-end">
-        <YearDropdown selectedYear={Number(searchParams.year)} />
+      <div className="w-full flex justify-between items-center">
+        <h2 className="lg:text-2xl font-semibold text-lg text-slate-600">
+          {searchParams.year ? searchParams.year : new Date().getFullYear()}
+        </h2>
 
-        <Link href={"/dashboard/ttd/form"}>
-          <Button variant={"outline"}
-            className="w-full lg:w-fit flex gap-2 rounded-lg text-gray-600"
-          >
-            <PlusIcon className="h-4 w-4" />
-            Tambah Data
-          </Button>
-        </Link>
+        <div className="lg:w-fit w-full flex gap-4 justify-end">
+          <YearDropdown selectedYear={Number(searchParams.year)} />
+
+          <Link href={"/dashboard/ttd/form"}>
+            <Button variant={"outline"}
+              className="w-full lg:w-fit flex gap-2 rounded-lg text-gray-600"
+            >
+              <PlusIcon className="h-4 w-4" />
+              Tambah Data
+            </Button>
+          </Link>
+        </div>
       </div>
 
-      <TTDListTable TTDs={TTDs} />
+      <TTDListTable TTDs={TTDs} selectedYear={
+        searchParams.year ? Number(searchParams.year) :
+          new Date().getFullYear()
+      } />
     </div>
   )
 }

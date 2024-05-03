@@ -19,9 +19,10 @@ import { z } from "zod";
 
 import { toast } from "@/components/ui/use-toast";
 
-import { generateUID, useDebounce } from "lib/helpers";
+import { useDebounce } from "lib/helpers";
 import { Profile } from "type/profile.type";
 import { FormStatus } from "type/form.type";
+import { TTDRecord, TtdType } from "type/ttd.type";
 
 const monthlyRecord = z.object({
   january: z.boolean().optional(),
@@ -55,8 +56,9 @@ const useTTDForm = () => {
     resolver: zodResolver(schema),
     defaultValues: {
       userId: "",
-      TTDId: generateUID(),
-      records: []
+      TTDId: "",
+      records: [],
+      year: ""
     },
   });
 
@@ -71,7 +73,7 @@ const useTTDForm = () => {
     userId: string;
   }[]>([]);
 
-  const inspectionId = useSearchParams().get("id");
+  const TTDId = useSearchParams().get("id");
 
   const userDebounce = useDebounce(searchUser, 700);
 
@@ -122,19 +124,35 @@ const useTTDForm = () => {
     }
   }, []);
 
-  const getInspectionData = useCallback(async () => {
-    if (!inspectionId) return;
+  const getUserTTDData = useCallback(async () => {
+    if (!TTDId) return;
 
     try {
       setFormStatus("loading");
-      const docRef = doc(db, DatabaseCollections.INSPECTIONS, inspectionId);
-      const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
-        const data = docSnap.data();
+      const TTD = (await (await fetch(`http://localhost:3000/api/ttd/${TTDId}`,
+        {
+          method: "GET",
+          cache: "no-store",
+        })
+      ).json()).data;
+
+      if (TTD) {
+        const records = TTD.records.map((record: TTDRecord) => {
+          return {
+            year: record.year,
+            monthlyRecord: Object.fromEntries(
+              Object.entries(record.monthlyRecord).map(([key, value]) => [
+                key,
+                value === null ? undefined : value,
+              ])
+            ),
+          };
+        });
 
         form.reset({
-          ...data,
+          ...TTD,
+          records: records,
         });
       }
 
@@ -143,7 +161,7 @@ const useTTDForm = () => {
       console.error("Error to GET INSPECTION data", error);
       setFormStatus("error");
     }
-  }, [inspectionId, form]);
+  }, [TTDId, form]);
 
   const handleCheckMonthlyRecord = (month: keyof typeof monthlyRecord, year: string) => {
     const records = form.getValues("records");
@@ -153,11 +171,23 @@ const useTTDForm = () => {
       const record = records[recordIndex];
       const monthValue = month as keyof typeof record.monthlyRecord;
 
+      let newValue;
+      switch (record.monthlyRecord[monthValue]) {
+        case true:
+          newValue = false;
+          break;
+        case false:
+          newValue = undefined;
+          break;
+        case undefined:
+          newValue = true;
+          break;
+      }
+
       const newMonthlyRecord = {
         ...record.monthlyRecord,
-        [monthValue]: !record.monthlyRecord[monthValue],
+        [monthValue]: newValue,
       };
-
       const updatedRecord = {
         ...record,
         monthlyRecord: newMonthlyRecord,
@@ -181,25 +211,23 @@ const useTTDForm = () => {
   };
 
   useEffect(() => {
-    if (inspectionId) {
-      getInspectionData();
+    if (TTDId) {
+      getUserTTDData();
     }
 
     getUserList();
-  }, [inspectionId, getInspectionData, getUserList]);
+  }, [TTDId, getUserTTDData, getUserList]);
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
-    // If userId is exist, use userId as reference, otherwise use NIK as reference
-    // used for create or edit user data
-    const reference = inspectionId ? inspectionId : data.TTDId;
-
     try {
       setFormStatus("submitting");
 
       const TTDPayload = {
         ...data,
+        TTDId: data.userId,
         name: userDropdown.find((user) => user.userId === data.userId)?.name,
         updatedAt: serverTimestamp(),
+        years: data.records.map(record => record.year),
         records: data.records.map(record => ({
           ...record,
           monthlyRecord: Object.fromEntries(
@@ -209,14 +237,28 @@ const useTTDForm = () => {
             ])
           ),
         })),
+      };
+
+      // If userId is exist, use userId as reference, otherwise use NIK as reference
+      // used for create or edit user data
+      const reference = TTDId ? TTDId : data.userId;
+
+      // Check if data already exist only for create data
+      if (!TTDId) {
+        const isTTDExist = (await getDoc(doc(db, DatabaseCollections.TTDS, reference))).exists();
+        if (isTTDExist) {
+          throw new Error("Data already exist");
+        }
       }
+
+      console.log(TTDPayload)
 
       await setDoc(doc(db, DatabaseCollections.TTDS, reference), {
         ...TTDPayload
       });
 
       toast({
-        description: inspectionId ? "Berhasil mengubah data!" : "Berhasil membuat data!",
+        description: TTDId ? "Berhasil mengubah data!" : "Berhasil membuat data!",
         variant: "default"
       });
 
@@ -225,9 +267,13 @@ const useTTDForm = () => {
     } catch (error) {
       console.error("Error to create/edit inspection data", error);
 
+      let errorDescription = ((error as Error).message === "Data already exist")
+        ? "Data dengan user tersebut sudah ada! Pilih user lain atau lakukan edit"
+        : "Silahkan coba lagi"
+
       toast({
-        title: inspectionId ? "gagal mengubah data!" : "Gagal membuat data!",
-        description: "Silahkan coba lagi",
+        title: TTDId ? "gagal mengubah data!" : "Gagal membuat data!",
+        description: errorDescription,
         variant: "destructive"
       });
     } finally {
@@ -236,6 +282,7 @@ const useTTDForm = () => {
   }
 
   return {
+    TTDId,
     form,
     records: form.watch("records"),
     onSubmit,
@@ -249,20 +296,22 @@ const useTTDForm = () => {
 
 export default useTTDForm;
 
+export const initialMonthlyRecord = {
+  january: undefined,
+  february: undefined,
+  march: undefined,
+  april: undefined,
+  may: undefined,
+  june: undefined,
+  july: undefined,
+  august: undefined,
+  september: undefined,
+  october: undefined,
+  november: undefined,
+  december: undefined,
+}
+
 export const initialRecords = {
   year: "",
-  monthlyRecord: {
-    january: undefined,
-    february: undefined,
-    march: undefined,
-    april: undefined,
-    may: undefined,
-    june: undefined,
-    july: undefined,
-    august: undefined,
-    september: undefined,
-    october: undefined,
-    november: undefined,
-    december: undefined,
-  },
+  monthlyRecord: initialMonthlyRecord
 }

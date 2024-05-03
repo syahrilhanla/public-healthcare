@@ -22,11 +22,14 @@ import FailedIndicator from "components/FailedIndicator";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableRow } from "@/components/ui/table";
 
-import useTTDForm from "components/TTD/hooks/useTTDForm";
-import { Check, LoaderCircle, TrashIcon, X } from "lucide-react";
+import useTTDForm, { initialMonthlyRecord } from "components/TTD/hooks/useTTDForm";
+
+import { Check, LoaderCircle, Minus, TrashIcon, X } from "lucide-react";
+import DeleteTTDModal from "./DeleteTTDModal";
 
 const TTDForm = () => {
   const {
+    TTDId,
     form,
     records,
     formStatus,
@@ -39,11 +42,22 @@ const TTDForm = () => {
 
   return (
     <div className="grid gap-4 mx-auto lg:w-[70%] text-gray-600 duration-500">
-      <h1
-        className="text-2xl font-semibold text-gray-600"
-      >
-        TTD Remaja Putri
-      </h1>
+      <div className="w-full flex justify-between">
+        <h1
+          className="text-2xl font-semibold text-gray-600"
+        >
+          TTD Remaja Putri
+        </h1>
+
+        {
+          TTDId && (
+            <DeleteTTDModal selectedTTD={{
+              userId: TTDId,
+              name: userDropdown.find(user => user.userId === TTDId)?.name || ""
+            }} />
+          )
+        }
+      </div>
 
       {
         formStatus === "loading" ? (
@@ -74,6 +88,7 @@ const TTDForm = () => {
                                 className="w-full h-16 px-2 py-4 text-left
                                 border border-gray-300 rounded-md 
                                 focus:outline-none focus:ring-0 focus:ring-transparent"
+                                disabled={TTDId ? true : false}
                               >
                                 <SelectValue
                                   placeholder={"Pilih Siswa"}
@@ -135,20 +150,7 @@ const TTDForm = () => {
                                   ...records,
                                   {
                                     year: value,
-                                    monthlyRecord: {
-                                      january: undefined,
-                                      february: undefined,
-                                      march: undefined,
-                                      april: undefined,
-                                      may: undefined,
-                                      june: undefined,
-                                      july: undefined,
-                                      august: undefined,
-                                      september: undefined,
-                                      october: undefined,
-                                      november: undefined,
-                                      december: undefined,
-                                    }
+                                    monthlyRecord: initialMonthlyRecord
                                   }
                                 ];
 
@@ -162,7 +164,7 @@ const TTDForm = () => {
                             focus:outline-none focus:ring-0 focus:ring-transparent"
                               >
                                 <SelectValue
-                                  placeholder={field.value || "Tambah Tahun"}
+                                  placeholder="Tambah Tahun"
                                   className="w-full space-x-2 focus-visible:ring-transparent"
                                 />
                               </SelectTrigger>
@@ -196,21 +198,29 @@ const TTDForm = () => {
                             {record.year}
                           </TableCell>
                           {
-                            Object.entries(record.monthlyRecord).map(([month, value]) => (
-                              <TableCell
-                                key={month}
-                                onClick={() => handleCheckMonthlyRecord(month as any, record.year)}
-                                className="cursor-pointer hover:bg-muted duration-300" >
-                                <div className="flex justify-center flex-grow align-center text-center">
-                                  {
-                                    value == true
-                                      ? <Check className="h-4 w-4 text-green-500" />
-                                      : value == undefined ? "-"
-                                        : <X className="h-4 w-4 text-red-500" />
-                                  }
-                                </div>
-                              </TableCell>
-                            ))
+                            Object.keys(record.monthlyRecord)
+                              .sort((a, b) => (
+                                new Date(`1970, ${a}, 1`).getTime()
+                                - new Date(`1970, ${b}, 1`).getTime()))
+                              .map((month) => {
+                                const status = record.monthlyRecord[month as keyof typeof record.monthlyRecord];
+                                return (
+                                  <TableCell
+                                    key={month}
+                                    onClick={() => handleCheckMonthlyRecord(month as any, record.year)}
+                                    className="cursor-pointer hover:bg-muted duration-300" >
+                                    <div className="flex justify-center flex-grow align-center text-center">
+                                      {
+                                        status == true
+                                          ? <Check className="h-4 w-4 text-green-500" />
+                                          : status == undefined
+                                            ? <Minus className="h-4 w-4 text-gray-400" />
+                                            : <X className="h-4 w-4 text-red-500" />
+                                      }
+                                    </div>
+                                  </TableCell>
+                                );
+                              })
                           }
                           <TableCell className="max-w-10 text-right text-gray-600 sticky right-0 z-10 bg-white">
                             <div className="flex gap-2 w-full justify-end">

@@ -21,7 +21,7 @@ const YearDropdown = ({ selectedYear }: Props) => {
           variant={"outline"}
           className="w-full lg:w-fit flex gap-2 rounded-lg text-gray-600"
         >
-          {selectedYear}
+          {selectedYear ? selectedYear : "Pilih Tahun"}
           <ChevronDownIcon className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>

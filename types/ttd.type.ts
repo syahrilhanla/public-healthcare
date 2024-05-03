@@ -13,15 +13,17 @@ type MonthlyStatus = {
   may: boolean;
 };
 
+export type TTDRecord = {
+  year: string;
+  monthlyRecord: MonthlyStatus;
+};
+
 export type TtdType = {
   updatedAt: string;
   year: string;
   ttdId: string;
-  records: {
-    year: string;
-    monthlyRecord: MonthlyStatus;
-  }[];
-  nik: string;
+  records: TTDRecord[];
+  userId: string;
   name: string;
   posyandu: string;
   years: string[];
