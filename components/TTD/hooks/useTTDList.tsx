@@ -3,8 +3,7 @@ import { TtdType } from "type/ttd.type";
 const useTTDList = async (searchParams: {
   year: string;
 }) => {
-  const year = searchParams.year;
-
+  const year = searchParams.year || new Date().getFullYear().toString();
   const endpoint = `http://localhost:3000/api/ttd?year=${year}`;
 
   const apiFetch = await ((await fetch(endpoint, {
@@ -13,7 +12,6 @@ const useTTDList = async (searchParams: {
   })).json());
 
   const TTDs: TtdType[] = apiFetch.data;
-
 
   return TTDs;
 }
