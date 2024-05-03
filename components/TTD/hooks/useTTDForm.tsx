@@ -22,6 +22,7 @@ import { toast } from "@/components/ui/use-toast";
 import { useDebounce } from "lib/helpers";
 import { Profile } from "type/profile.type";
 import { FormStatus } from "type/form.type";
+import { TTDRecord, TtdType } from "type/ttd.type";
 
 const monthlyRecord = z.object({
   january: z.boolean().optional(),
@@ -126,22 +127,18 @@ const useTTDForm = () => {
   const getUserTTDData = useCallback(async () => {
     if (!TTDId) return;
 
-    const result = await (await fetch(`http://localhost:3000/api/ttd/${TTDId}`, {
-      method: "GET",
-      cache: "no-store",
-    })).json();
-
-    console.log(result);
-
     try {
       setFormStatus("loading");
-      const docRef = doc(db, DatabaseCollections.TTDS, TTDId);
-      const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
-        const data = docSnap.data();
+      const TTD = (await (await fetch(`http://localhost:3000/api/ttd/${TTDId}`,
+        {
+          method: "GET",
+          cache: "no-store",
+        })
+      ).json()).data;
 
-        const records = data.records.map((record: any) => {
+      if (TTD) {
+        const records = TTD.records.map((record: TTDRecord) => {
           return {
             year: record.year,
             monthlyRecord: Object.fromEntries(
@@ -154,7 +151,7 @@ const useTTDForm = () => {
         });
 
         form.reset({
-          ...data,
+          ...TTD,
           records: records,
         });
       }
@@ -253,6 +250,8 @@ const useTTDForm = () => {
           throw new Error("Data already exist");
         }
       }
+
+      console.log(TTDPayload)
 
       await setDoc(doc(db, DatabaseCollections.TTDS, reference), {
         ...TTDPayload
