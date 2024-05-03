@@ -125,6 +125,13 @@ const useTTDForm = () => {
   const getUserTTDData = useCallback(async () => {
     if (!TTDId) return;
 
+    const result = await (await fetch(`http://localhost:3000/api/ttd/${TTDId}`, {
+      method: "GET",
+      cache: "no-store",
+    })).json();
+
+    console.log(result);
+
     try {
       setFormStatus("loading");
       const docRef = doc(db, DatabaseCollections.TTDS, TTDId);

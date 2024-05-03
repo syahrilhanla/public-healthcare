@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       data: TTDs,
-      message: "",
+      message: "Successfully fetched TTD documents",
       year: year
     }, { status: 200 }
     );
