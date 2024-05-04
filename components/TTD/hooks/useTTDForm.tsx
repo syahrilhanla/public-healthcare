@@ -1,6 +1,5 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
-import { pathname } from "lib/host";
 
 import {
   collection,
@@ -131,7 +130,7 @@ const useTTDForm = () => {
     try {
       setFormStatus("loading");
 
-      const TTD = (await (await fetch(`${pathname}:3000/api/ttd/${TTDId}`,
+      const TTD = (await (await fetch(`${process.env.HOST}:3000/api/ttd/${TTDId}`,
         {
           method: "GET",
           cache: "no-store",

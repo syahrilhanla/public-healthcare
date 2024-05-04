@@ -1,11 +1,10 @@
-import { pathname } from "lib/host";
 import { TtdType } from "type/ttd.type";
 
 const useTTDList = async (searchParams: {
   year: string;
 }) => {
   const year = searchParams.year || new Date().getFullYear().toString();
-  const endpoint = `${pathname}/api/ttd?year=${year}`;
+  const endpoint = `${process.env.HOST}/api/ttd?year=${year}`;
 
   const apiFetch = await ((await fetch(endpoint, {
     method: "GET",
