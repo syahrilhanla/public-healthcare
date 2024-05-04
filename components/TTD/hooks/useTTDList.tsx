@@ -6,6 +6,8 @@ const useTTDList = async (searchParams: {
   const year = searchParams.year || new Date().getFullYear().toString();
   const endpoint = `${process.env.HOST}/api/ttd?year=${year}`;
 
+  console.log(endpoint)
+
   const apiFetch = await ((await fetch(endpoint, {
     method: "GET",
     cache: "no-store",
