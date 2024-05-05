@@ -1,9 +1,10 @@
 import { Suspense } from "react";
 import TTDForm from "components/TTD/TTDForm";
+import LoadingIndicator from "components/LoadingIndicator";
 
 const TTDFormPage = () => {
   return (
-    <Suspense>
+    <Suspense fallback={<LoadingIndicator />}>
       <TTDForm />
     </Suspense>
   )
