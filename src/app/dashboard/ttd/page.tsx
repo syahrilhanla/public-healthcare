@@ -2,7 +2,7 @@ import { Link } from "next-view-transitions";
 
 import { Button } from "@/components/ui/button";
 import TTDListTable from "components/TTD/TTDListTable";
-import YearDropdown from "components/TTD/YearDropdown";
+import YearFilter from "components/TTD/YearFilter";
 import PosyanduFilter from "components/PosyanduFilter";
 
 import useTTDList from "components/TTD/hooks/useTTDList";
@@ -33,7 +33,7 @@ const TTDList = async ({ searchParams }: Props) => {
         </h2>
 
         <div className="lg:w-fit w-full flex gap-4 justify-end">
-          <YearDropdown selectedYear={Number(searchParams.year)} />
+          <YearFilter selectedYear={Number(searchParams.year)} />
           <PosyanduFilter selectedPosyandu={searchParams.posyandu} />
 
           <Link href={"/dashboard/ttd/form"}>

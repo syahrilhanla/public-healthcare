@@ -1,19 +1,23 @@
+"use client"
+
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuLabel,
+  DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { useQueryString } from "lib/useQueryString";
 import { ChevronDownIcon } from "lucide-react";
-import { Link } from "next-view-transitions";
 
 interface Props {
   selectedYear: number;
 }
 
-const YearDropdown = ({ selectedYear }: Props) => {
+const YearFilter = ({ selectedYear }: Props) => {
+  const { createQueryString } = useQueryString();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
@@ -30,11 +34,14 @@ const YearDropdown = ({ selectedYear }: Props) => {
         <div className="grid gap-1 text-center ">
           {
             Array.from({ length: 11 }, (_, i) => 2023 + i).map((year) => (
-              <Link href={`/dashboard/ttd?year=${year}`} key={year}>
-                <div className="px-4 py-1.5 hover:bg-muted duration-200 rounded-md">
-                  {year}
-                </div>
-              </Link>
+              <DropdownMenuItem
+                key={year}
+                className="hover:bg-gray-100 text-gray-600 hover:text-gray-800
+                  duration-300 cursor-pointer"
+                onClick={() => createQueryString("year", String(year))}
+              >
+                {year}
+              </DropdownMenuItem>
             ))
           }
         </div>
@@ -43,4 +50,4 @@ const YearDropdown = ({ selectedYear }: Props) => {
   )
 }
 
-export default YearDropdown
+export default YearFilter
