@@ -29,6 +29,7 @@ import { CalendarIcon, LoaderCircle, X } from "lucide-react";
 import useProfileForm from "components/Profile/hooks/useProfileForm";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
+import { Sex } from "lib/firebase.sdk";
 
 const ProfileForm = () => {
   const {
@@ -147,13 +148,13 @@ const ProfileForm = () => {
                             <Label htmlFor="male" className="space-x-2">
                               <FormControl>
                                 <RadioGroupItem
-                                  value="Laki-laki"
+                                  value={Sex.MALE}
                                   id="male"
-                                  checked={field.value === "Laki-laki"}
+                                  checked={field.value === Sex.MALE}
                                 />
                               </FormControl>
                               <span>
-                                Laki-laki
+                                {Sex.MALE}
                               </span>
                             </Label>
                           </FormItem>
@@ -161,13 +162,13 @@ const ProfileForm = () => {
                             <Label htmlFor="female" className="space-x-2">
                               <FormControl>
                                 <RadioGroupItem
-                                  value="Perempuan"
+                                  value={Sex.FEMALE}
                                   id="female"
-                                  checked={field.value === "Perempuan"}
+                                  checked={field.value === Sex.FEMALE}
                                 />
                               </FormControl>
                               <span>
-                                Perempuan
+                                {Sex.FEMALE}
                               </span>
                             </Label>
                           </FormItem>
