@@ -5,9 +5,24 @@ import { NextRequest, NextResponse } from "next/server";
 // To handle a GET request to /api
 export async function GET(request: NextRequest) {
   const year = request.nextUrl.searchParams.get("year");
+  const posyandu = request.nextUrl.searchParams.get("posyandu");
 
-  const TTDRef = query(collection(db, DatabaseCollections.TTDS),
-    where("years", "array-contains", year), orderBy("updatedAt", "desc"));
+  const queryCollection = posyandu !== "undefined" ? (
+    query(
+      collection(db, DatabaseCollections.TTDS),
+      where("posyandu", "==", posyandu),
+      where("years", "array-contains", year),
+      orderBy("updatedAt", "desc")
+    )
+  ) : (
+    query(
+      collection(db, DatabaseCollections.TTDS),
+      where("years", "array-contains", year),
+      orderBy("updatedAt", "desc")
+    )
+  )
+
+  const TTDRef = queryCollection;
 
   try {
     const data = await getDocs(TTDRef);
