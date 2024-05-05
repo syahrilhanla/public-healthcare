@@ -20,7 +20,7 @@ const YearFilter = ({ selectedYear }: Props) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>
         <Button
           variant={"outline"}
           className="w-full lg:w-fit flex gap-2 rounded-lg text-gray-600"
