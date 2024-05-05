@@ -21,11 +21,14 @@ const TTDList = async ({ searchParams }: Props) => {
 
   return (
     <div className="grid gap-4 px-2 lg:px-6">
-      <h1
-        className="text-2xl font-semibold text-center lg:text-left text-gray-600"
-      >
-        Pemantauan TTD Remaja Putri
-      </h1>
+      <div className="lg:flex gap-2 text-2xl font-semibold text-gray-600">
+        <h1>
+          Pemantauan TTD Remaja Putri
+        </h1>
+        <h1>
+          {searchParams.posyandu ? `- ${searchParams.posyandu}` : ""}
+        </h1>
+      </div>
 
       <div className="w-full flex justify-between items-center">
         <h2 className="lg:text-2xl font-semibold text-lg text-slate-600">
