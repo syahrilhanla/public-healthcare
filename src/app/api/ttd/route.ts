@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   const year = request.nextUrl.searchParams.get("year");
   const posyandu = request.nextUrl.searchParams.get("posyandu");
 
-  const queryCollection = posyandu !== "undefined" ? (
+  const queryCollection = posyandu ? (
     query(
       collection(db, DatabaseCollections.TTDS),
       where("posyandu", "==", posyandu),
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       data: TTDs,
-      message: "Successfully fetched TTD documents",
+      message: `Successfully fetched TTD ${posyandu} documentssssssafsafa`,
       year: year
     }, { status: 200 }
     );

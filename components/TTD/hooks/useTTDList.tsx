@@ -5,7 +5,11 @@ const useTTDList = async (searchParams: {
   posyandu: string;
 }) => {
   const year = searchParams.year || new Date().getFullYear().toString();
-  const endpoint = `${process.env.HOST}/api/ttd?year=${year}&posyandu=${searchParams.posyandu}`;
+  let endpoint = `${process.env.HOST}/api/ttd?year=${year}`;
+
+  if (searchParams.posyandu) {
+    endpoint += `&posyandu=${searchParams.posyandu}`;
+  }
 
   const apiFetch = await ((await fetch(endpoint, {
     method: "GET",
