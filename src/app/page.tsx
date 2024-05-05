@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "lib/firebase.sdk";
 
@@ -23,9 +23,11 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import useSnackbarStore from "lib/stores/snackbar.store";
-import { LoaderCircle } from "lucide-react";
+import { EyeIcon, EyeOffIcon, LoaderCircle } from "lucide-react";
 
 const Dashboard = () => {
+  const [showPassword, setShowPassword] = useState(false);
+
   const {
     updateSnackbarState
   } = useSnackbarStore();
@@ -136,13 +138,28 @@ const Dashboard = () => {
                           <FormLabel htmlFor="password">Password</FormLabel>
                         </div>
                         <FormControl>
-                          <Input
-                            id="password"
-                            type="password"
-                            {...field}
-                            value={field.value}
-                            className="focus-visible:ring-transparent focus:outline-none "
-                          />
+                          <span className="h-fit flex relative">
+                            <Input
+                              id="password"
+                              type={showPassword ? "text" : "password"}
+                              {...field}
+                              value={field.value}
+                              className="focus-visible:ring-transparent focus:outline-none relative"
+                            />
+                            {
+                              showPassword ? (
+                                <EyeIcon
+                                  onClick={() => setShowPassword(!showPassword)}
+                                  className="absolute top-3 right-2 h-4 w-4 text-slate-600 
+                                    hover:cursor-pointer" />
+                              ) : (
+                                <EyeOffIcon
+                                  onClick={() => setShowPassword(!showPassword)}
+                                  className="absolute top-3 right-2 h-4 w-4 text-slate-600 
+                                    hover:cursor-pointer" />
+                              )
+                            }
+                          </span>
                         </FormControl>
                       </div>
                     </FormItem>

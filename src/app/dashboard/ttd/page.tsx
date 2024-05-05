@@ -2,7 +2,7 @@ import { Link } from "next-view-transitions";
 
 import { Button } from "@/components/ui/button";
 import TTDListTable from "components/TTD/TTDListTable";
-import YearDropdown from "components/TTD/YearDropdown";
+import YearFilter from "components/TTD/YearFilter";
 import PosyanduFilter from "components/PosyanduFilter";
 
 import useTTDList from "components/TTD/hooks/useTTDList";
@@ -21,11 +21,14 @@ const TTDList = async ({ searchParams }: Props) => {
 
   return (
     <div className="grid gap-4 px-2 lg:px-6">
-      <h1
-        className="text-2xl font-semibold text-center lg:text-left text-gray-600"
-      >
-        Pemantauan TTD Remaja Putri
-      </h1>
+      <div className="lg:flex gap-2 text-2xl font-semibold text-gray-600">
+        <h1>
+          Pemantauan TTD Remaja Putri
+        </h1>
+        <h1>
+          {searchParams.posyandu ? `- ${searchParams.posyandu}` : ""}
+        </h1>
+      </div>
 
       <div className="w-full flex justify-between items-center">
         <h2 className="lg:text-2xl font-semibold text-lg text-slate-600">
@@ -33,7 +36,7 @@ const TTDList = async ({ searchParams }: Props) => {
         </h2>
 
         <div className="lg:w-fit w-full flex gap-4 justify-end">
-          <YearDropdown selectedYear={Number(searchParams.year)} />
+          <YearFilter selectedYear={Number(searchParams.year)} />
           <PosyanduFilter selectedPosyandu={searchParams.posyandu} />
 
           <Link href={"/dashboard/ttd/form"}>
