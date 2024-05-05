@@ -135,7 +135,7 @@ const useTTDForm = () => {
     try {
       setFormStatus("loading");
 
-      const TTD = (await (await fetch(`${process.env.HOST}:3000/api/ttd/${TTDId}`,
+      const TTD = (await (await fetch(`${process.env.HOST}/api/ttd/${TTDId}`,
         {
           method: "GET",
           cache: "no-store",
