@@ -49,6 +49,7 @@ const schema = z.object({
   year: z.string().default(""),
   TTDId: z.string(),
   records: z.array(recordSchema),
+  posyandu: z.string().default(""),
 });
 
 const useTTDForm = () => {
@@ -58,7 +59,8 @@ const useTTDForm = () => {
       userId: "",
       TTDId: "",
       records: [],
-      year: ""
+      year: "",
+      posyandu: "",
     },
   });
 
@@ -71,6 +73,7 @@ const useTTDForm = () => {
   const [userDropdown, setUserDropdown] = useState<{
     name: string;
     userId: string;
+    posyandu: string;
   }[]>([]);
 
   const TTDId = useSearchParams().get("id");
@@ -92,6 +95,7 @@ const useTTDForm = () => {
         return {
           name: user.name,
           userId: user.nik,
+          posyandu: user.posyandu
         }
       }));
     }
@@ -114,6 +118,7 @@ const useTTDForm = () => {
         return {
           name: doc.data().name,
           userId: doc.id,
+          posyandu: doc.data().posyandu
         };
       });
 
@@ -221,11 +226,13 @@ const useTTDForm = () => {
   const onSubmit = async (data: z.infer<typeof schema>) => {
     try {
       setFormStatus("submitting");
+      const userData = userDropdown.find((user) => user.userId === data.userId);
 
       const TTDPayload = {
         ...data,
         TTDId: data.userId,
-        name: userDropdown.find((user) => user.userId === data.userId)?.name,
+        name: userData?.name,
+        posyandu: userData?.posyandu,
         updatedAt: serverTimestamp(),
         years: data.records.map(record => record.year),
         records: data.records.map(record => ({
@@ -250,8 +257,6 @@ const useTTDForm = () => {
           throw new Error("Data already exist");
         }
       }
-
-      console.log(TTDPayload)
 
       await setDoc(doc(db, DatabaseCollections.TTDS, reference), {
         ...TTDPayload
