@@ -2,15 +2,17 @@ import { Link } from "next-view-transitions";
 
 import { Button } from "@/components/ui/button";
 import TTDListTable from "components/TTD/TTDListTable";
+import YearDropdown from "components/TTD/YearDropdown";
+import PosyanduFilter from "components/PosyanduFilter";
 
 import useTTDList from "components/TTD/hooks/useTTDList";
 
 import { PlusIcon } from "lucide-react";
-import YearDropdown from "components/TTD/YearDropdown";
 
 interface Props {
   searchParams: {
     year: string;
+    posyandu: string;
   }
 }
 
@@ -32,6 +34,7 @@ const TTDList = async ({ searchParams }: Props) => {
 
         <div className="lg:w-fit w-full flex gap-4 justify-end">
           <YearDropdown selectedYear={Number(searchParams.year)} />
+          <PosyanduFilter selectedPosyandu={searchParams.posyandu} />
 
           <Link href={"/dashboard/ttd/form"}>
             <Button variant={"outline"}
