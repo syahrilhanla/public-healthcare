@@ -1,5 +1,8 @@
 import { Link } from "next-view-transitions";
+
 import { Button } from "@/components/ui/button";
+import ConsultingListTable from "components/Consult/ConsultingListTable";
+
 import { PlusIcon } from "lucide-react";
 
 const ConsultingList = async () => {
@@ -22,7 +25,7 @@ const ConsultingList = async () => {
         </Link>
       </div>
 
-      {/* <ProfileListTable profiles={profiles} /> */}
+      <ConsultingListTable />
     </div>
   )
 }

@@ -1,6 +1,4 @@
 import { Link } from "next-view-transitions";
-import { format } from "date-fns";
-import { id } from 'date-fns/locale'
 
 import DeleteProfileModal from "components/Profile/DeleteProfileModal";
 import { Button } from "@/components/ui/button";
