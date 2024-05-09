@@ -14,14 +14,14 @@ export async function GET(request: NextRequest) {
 
   const consultRef = posyandu ? (
     query(
-      collection(db, DatabaseCollections.CONSULTS),
+      collection(db, DatabaseCollections.HEALTH_CONTROL),
       where("posyandu", "==", posyandu),
       where("consultationType", "==", konsultasi),
       orderBy("updatedAt", "desc")
     )
   ) : (
     query(
-      collection(db, DatabaseCollections.CONSULTS),
+      collection(db, DatabaseCollections.HEALTH_CONTROL),
       where("consultationType", "==", konsultasi),
       orderBy("updatedAt", "desc")
     )
