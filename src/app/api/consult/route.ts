@@ -7,6 +7,7 @@ import {
   where
 } from "firebase/firestore";
 import { DatabaseCollections, db } from "lib/firebase.sdk";
+import { format } from "date-fns";
 
 export async function GET(request: NextRequest) {
   const posyandu = request.nextUrl.searchParams.get("posyandu");
@@ -15,15 +16,15 @@ export async function GET(request: NextRequest) {
   const consultRef = posyandu ? (
     query(
       collection(db, DatabaseCollections.HEALTH_CONTROL),
-      where("posyandu", "==", posyandu),
-      where("consultationType", "==", konsultasi),
-      orderBy("updatedAt", "desc")
+      // where("posyandu", "==", posyandu),
+      // where("consultationType", "==", konsultasi),
+      // orderBy("updatedAt", "desc")
     )
   ) : (
     query(
       collection(db, DatabaseCollections.HEALTH_CONTROL),
-      where("consultationType", "==", konsultasi),
-      orderBy("updatedAt", "desc")
+      // where("consultationType", "==", konsultasi),
+      // orderBy("updatedAt", "desc")
     )
   );
 
@@ -33,7 +34,7 @@ export async function GET(request: NextRequest) {
     const consults = data.docs.map((doc) => {
       return {
         ...doc.data(),
-        updatedAt: doc.data().updatedAt.toDate().toISOString()
+        updatedAt: format(new Date(doc.data().updatedAt.toDate().toDateString()), "dd MMMM yyyy")
       }
     });
 
