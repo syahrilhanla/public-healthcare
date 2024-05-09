@@ -11,7 +11,7 @@ import {
 
 import { useQueryString } from "lib/useQueryString";
 
-import posyanduList from "lib/posyanduList";
+import { posyanduList } from "lib/reusableValues";
 import { ChevronDownIcon } from "lucide-react";
 
 interface Props {
