@@ -8,21 +8,37 @@ import {
 } from "firebase/firestore";
 import { DatabaseCollections, db } from "lib/firebase.sdk";
 import { format } from "date-fns";
+import { ConsultType, consultingTypes } from "lib/reusableValues";
 
 export async function GET(request: NextRequest) {
   const posyandu = request.nextUrl.searchParams.get("posyandu");
-  const konsultasi = request.nextUrl.searchParams.get("konsultasi");
+  const konsultasi = request.nextUrl.searchParams.get("konsultasi") as string;
+
+  const selectConsultType = (konsultasi: string) => {
+    switch (konsultasi) {
+      case ConsultType.HEALTH_CONTROL:
+        return DatabaseCollections.HEALTH_CONTROL;
+      case ConsultType.BULLYING:
+        return DatabaseCollections.BULLYING;
+      case ConsultType.STOP_SMOKING:
+        return DatabaseCollections.HEALTH_CONTROL;
+      case ConsultType.PREGNANCY:
+        return DatabaseCollections.HEALTH_CONTROL;
+      default:
+        return DatabaseCollections.HEALTH_CONTROL;
+    }
+  }
 
   const consultRef = posyandu ? (
     query(
-      collection(db, DatabaseCollections.HEALTH_CONTROL),
+      collection(db, selectConsultType(konsultasi)),
       // where("posyandu", "==", posyandu),
       // where("consultationType", "==", konsultasi),
       // orderBy("updatedAt", "desc")
     )
   ) : (
     query(
-      collection(db, DatabaseCollections.HEALTH_CONTROL),
+      collection(db, selectConsultType(konsultasi)),
       // where("consultationType", "==", konsultasi),
       // orderBy("updatedAt", "desc")
     )
