@@ -5,9 +5,16 @@ export const posyanduList = [
   "Posyandu Remaja Mandiri Sehat",
 ]
 
+export enum ConsultType {
+  HEALTH_CONTROL = "Kesehatan Remaja",
+  BULLYING = "Kekerasan Anak & Bullying",
+  STOP_SMOKING = "Upaya Berhenti Merokok",
+  PREGNANCY = "Kehamilan dan Ibu Menyusui"
+}
+
 export const consultingTypes = [
-  "Kesehatan Remaja",
-  "Kekerasan Anak & Bullying",
-  "Upaya Berhenti Merokok",
-  "Kehamilan dan Ibu Menyusui"
+  ConsultType.HEALTH_CONTROL,
+  ConsultType.BULLYING,
+  ConsultType.STOP_SMOKING,
+  ConsultType.PREGNANCY
 ]
