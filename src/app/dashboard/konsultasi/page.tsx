@@ -2,10 +2,11 @@ import { Link } from "next-view-transitions";
 
 import { Button } from "@/components/ui/button";
 import ConsultingListTable from "components/Consult/ConsultingListTable";
-
-import { PlusIcon } from "lucide-react";
 import ConsultingFilter from "components/Consult/ConsultingFilter";
 import PosyanduFilter from "components/PosyanduFilter";
+
+import { PlusIcon } from "lucide-react";
+import { consultingTypes } from "lib/reusableValues";
 
 interface Props {
   searchParams: {
@@ -23,7 +24,7 @@ const ConsultingList = async ({ searchParams }: Props) => {
         Konsultasi
       </h1>
 
-      <div className="w-full lg:flex lg:justify-end gap-4">
+      <div className="w-full flex flex-col lg:flex-row gap-4 justify-end ">
         <ConsultingFilter selectedConsultation={searchParams.konsultasi} />
         <PosyanduFilter selectedPosyandu={searchParams.posyandu} />
         <Link href={"/dashboard/konsultasi/form"}>
@@ -36,7 +37,15 @@ const ConsultingList = async ({ searchParams }: Props) => {
         </Link>
       </div>
 
-      <ConsultingListTable />
+      {
+        consultingTypes.includes(searchParams.konsultasi) ? (
+          <ConsultingListTable />
+        ) : (
+          <div className="h-[40dvh] my-auto flex items-center justify-center text-gray-600">
+            Pilih konsultasi terlebih dahulu
+          </div>
+        )
+      }
     </div>
   )
 }
