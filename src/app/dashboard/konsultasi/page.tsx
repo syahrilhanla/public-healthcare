@@ -4,8 +4,17 @@ import { Button } from "@/components/ui/button";
 import ConsultingListTable from "components/Consult/ConsultingListTable";
 
 import { PlusIcon } from "lucide-react";
+import ConsultingFilter from "components/Consult/ConsultingFilter";
+import PosyanduFilter from "components/PosyanduFilter";
 
-const ConsultingList = async () => {
+interface Props {
+  searchParams: {
+    posyandu: string;
+    konsultasi: string;
+  }
+}
+
+const ConsultingList = async ({ searchParams }: Props) => {
   return (
     <div className="grid gap-4 px-2 lg:px-6">
       <h1
@@ -14,7 +23,9 @@ const ConsultingList = async () => {
         Konsultasi
       </h1>
 
-      <div className="w-full lg:flex lg:justify-end">
+      <div className="w-full lg:flex lg:justify-end gap-4">
+        <ConsultingFilter selectedConsultation={searchParams.konsultasi} />
+        <PosyanduFilter selectedPosyandu={searchParams.posyandu} />
         <Link href={"/dashboard/konsultasi/form"}>
           <Button variant={"outline"}
             className="w-full lg:w-fit flex gap-2 rounded-lg text-gray-600"
