@@ -5,6 +5,8 @@ import ConsultingListTable from "components/Consult/ConsultingListTable";
 import ConsultingFilter from "components/Consult/ConsultingFilter";
 import PosyanduFilter from "components/PosyanduFilter";
 
+import useConsultingList from "components/Consult/hooks/useConsultingList";
+
 import { PlusIcon } from "lucide-react";
 import { consultingTypes } from "lib/reusableValues";
 
@@ -16,6 +18,8 @@ interface Props {
 }
 
 const ConsultingList = async ({ searchParams }: Props) => {
+  const { consults } = await useConsultingList();
+
   return (
     <div className="grid gap-4 px-2 lg:px-6">
       <h1
@@ -39,7 +43,7 @@ const ConsultingList = async ({ searchParams }: Props) => {
 
       {
         consultingTypes.includes(searchParams.konsultasi) ? (
-          <ConsultingListTable />
+          <ConsultingListTable consults={consults} />
         ) : (
           <div className="h-[40dvh] my-auto flex items-center justify-center text-gray-600">
             Pilih konsultasi terlebih dahulu
