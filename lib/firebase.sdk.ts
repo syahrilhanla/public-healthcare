@@ -24,6 +24,7 @@ export enum DatabaseCollections {
   USERS = "users",
   INSPECTIONS = "inspections",
   TTDS = "ttds",
+  CONSULTS = "consults",
 }
 
 export enum Sex {
