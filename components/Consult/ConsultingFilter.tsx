@@ -39,21 +39,21 @@ const ConsultingFilter = ({ selectedConsultation }: Props) => {
         <DropdownMenuSeparator />
         <div className="grid gap-1 text-left">
           {
-            consultingTypes.map((posyandu) => (
+            consultingTypes.map((consult) => (
               <DropdownMenuItem
-                key={posyandu}
+                key={consult}
                 className="hover:bg-gray-100 text-gray-600 hover:text-gray-800
                   duration-300 cursor-pointer"
-                onClick={() => createQueryString("konsultasi", posyandu)}
+                onClick={() => createQueryString("konsultasi", consult)}
               >
-                {posyandu}
+                {consult}
               </DropdownMenuItem>
             ))
           }
           <DropdownMenuItem
             className="mt-1 py-2 bg-red-100 text-red-400 duration-300
               text-center font-semibold hover:bg-opacity-100 bg-opacity-80 hover:cursor-pointer"
-            onClick={() => removeQueryString("posyandu")}
+            onClick={() => removeQueryString("konsultasi")}
           >
             Hapus Filter
           </DropdownMenuItem>

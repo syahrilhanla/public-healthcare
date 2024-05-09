@@ -8,7 +8,7 @@ import PosyanduFilter from "components/PosyanduFilter";
 import useConsultingList from "components/Consult/hooks/useConsultingList";
 
 import { PlusIcon } from "lucide-react";
-import { consultingTypes } from "lib/reusableValues";
+import { ConsultType, consultingTypes } from "lib/reusableValues";
 
 interface Props {
   searchParams: {
@@ -42,7 +42,7 @@ const ConsultingList = async ({ searchParams }: Props) => {
       </div>
 
       {
-        consultingTypes.includes(searchParams.konsultasi) ? (
+        consultingTypes.includes(searchParams.konsultasi as ConsultType) ? (
           <ConsultingListTable consults={consults} />
         ) : (
           <div className="h-[40dvh] my-auto flex items-center justify-center text-gray-600">
