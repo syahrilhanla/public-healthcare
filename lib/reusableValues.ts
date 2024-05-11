@@ -26,3 +26,11 @@ export enum HealthControlType {
   NUTRITION_STATUS = "Status Gizi",
   PSYCHOLOGY = "Kesehatan Jiwa"
 }
+
+export const healthControlTypes = [
+  HealthControlType.COMMON,
+  HealthControlType.TOOTH,
+  HealthControlType.REPRODUCTION,
+  HealthControlType.NUTRITION_STATUS,
+  HealthControlType.PSYCHOLOGY
+]

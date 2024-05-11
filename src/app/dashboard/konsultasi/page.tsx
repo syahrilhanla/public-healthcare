@@ -9,11 +9,13 @@ import useConsultingList from "components/Consult/hooks/useConsultingList";
 
 import { PlusIcon } from "lucide-react";
 import { ConsultType, consultingTypes } from "lib/reusableValues";
+import ProblemFilter from "components/Consult/ProblemFilter";
 
 interface Props {
   searchParams: {
     posyandu: string;
     konsultasi: string;
+    keluhan: string;
   }
 }
 
@@ -28,8 +30,15 @@ const ConsultingList = async ({ searchParams }: Props) => {
         Konsultasi
       </h1>
 
-      <div className="w-full flex flex-col lg:flex-row gap-4 justify-end ">
-        <ConsultingFilter selectedConsultation={searchParams.konsultasi} />
+      <div className="w-full flex flex-col lg:flex-row gap-4 justify-end duration-500">
+        <div className={`transition-all duration-500 transform ${searchParams.konsultasi === ConsultType.HEALTH_CONTROL ? 'translate-x-0' : 'translate-x-0'}`}>
+          <ConsultingFilter selectedConsultation={searchParams.konsultasi} />
+        </div>
+
+        <div className={`transition-opacity duration-500 absolute inset-y-0 ${searchParams.konsultasi === ConsultType.HEALTH_CONTROL ? 'opacity-100 relative' : 'opacity-0'}`}>
+          <ProblemFilter selectedProblem={searchParams.keluhan} />
+        </div>
+
         <PosyanduFilter selectedPosyandu={searchParams.posyandu} />
         <Link href={"/dashboard/konsultasi/form"}>
           <Button variant={"outline"}
