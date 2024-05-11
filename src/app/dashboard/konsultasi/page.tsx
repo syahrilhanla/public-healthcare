@@ -18,7 +18,7 @@ interface Props {
 }
 
 const ConsultingList = async ({ searchParams }: Props) => {
-  const { consults } = await useConsultingList();
+  const { consults } = await useConsultingList(searchParams);
 
   return (
     <div className="grid gap-4 px-2 lg:px-6">
