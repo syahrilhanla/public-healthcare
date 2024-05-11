@@ -18,3 +18,11 @@ export const consultingTypes = [
   ConsultType.STOP_SMOKING,
   ConsultType.PREGNANCY
 ]
+
+export enum HealthControlType {
+  COMMON = "Kesehatan Umum",
+  TOOTH = "Gigi dan Mulut",
+  REPRODUCTION = "Reproduksi",
+  NUTRITION_STATUS = "Status Gizi",
+  PSYCHOLOGY = "Kesehatan Jiwa"
+}
