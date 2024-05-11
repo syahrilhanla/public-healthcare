@@ -8,7 +8,7 @@ import {
 } from "firebase/firestore";
 import { DatabaseCollections, db } from "lib/firebase.sdk";
 import { format } from "date-fns";
-import { ConsultType, consultingTypes } from "lib/reusableValues";
+import { ConsultType } from "lib/reusableValues";
 
 export async function GET(request: NextRequest) {
   const posyandu = request.nextUrl.searchParams.get("posyandu");
@@ -32,15 +32,13 @@ export async function GET(request: NextRequest) {
   const consultRef = posyandu ? (
     query(
       collection(db, selectConsultType(konsultasi)),
-      // where("posyandu", "==", posyandu),
-      // where("consultationType", "==", konsultasi),
-      // orderBy("updatedAt", "desc")
+      where("posyandu", "==", posyandu),
+      orderBy("updatedAt", "desc")
     )
   ) : (
     query(
       collection(db, selectConsultType(konsultasi)),
-      // where("consultationType", "==", konsultasi),
-      // orderBy("updatedAt", "desc")
+      orderBy("updatedAt", "desc")
     )
   );
 

@@ -1,6 +1,5 @@
 import { Link } from "next-view-transitions";
 
-import DeleteProfileModal from "components/Profile/DeleteProfileModal";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -39,7 +38,7 @@ const ConsultingListTable = ({ consults }: Props) => {
             <TableCell className="text-gray-600 text-nowrap max-w-[15rem] truncate">{consult.name}</TableCell>
             <TableCell className="text-gray-600 text-nowrap">{consult.updatedAt}</TableCell>
             <TableCell className="text-gray-600 text-nowrap">{consult.posyandu}</TableCell>
-            <TableCell className="text-gray-600 text-nowrap">{consult.posyandu}</TableCell>
+            <TableCell className="text-gray-600 text-nowrap">{consult.type}</TableCell>
             <TableCell className="text-gray-600 sticky right-0 z-10 bg-white">
               <div className="flex gap-2 justify-end">
                 <Link href={`/dashboard/profil/form?id=${consult.userId}`}>
@@ -47,7 +46,6 @@ const ConsultingListTable = ({ consults }: Props) => {
                     <PencilIcon className="w-3 h-3" />
                   </Button>
                 </Link>
-                {/* <DeleteProfileModal selectedProfile={data} /> */}
               </div>
             </TableCell>
           </TableRow>
