@@ -13,6 +13,7 @@ import { ConsultType } from "lib/reusableValues";
 export async function GET(request: NextRequest) {
   const posyandu = request.nextUrl.searchParams.get("posyandu");
   const konsultasi = request.nextUrl.searchParams.get("konsultasi") as string;
+  const keluhan = request.nextUrl.searchParams.get("keluhan");
 
   const selectConsultType = (konsultasi: string) => {
     switch (konsultasi) {
@@ -29,10 +30,26 @@ export async function GET(request: NextRequest) {
     }
   }
 
-  const consultRef = posyandu ? (
+  const posyanduQuery = posyandu ? where("posyandu", "==", posyandu) : null;
+  const keluhanQuery = keluhan ? where("type", "==", keluhan) : null;
+
+  const consultRef = posyanduQuery && keluhanQuery ? (
     query(
       collection(db, selectConsultType(konsultasi)),
-      where("posyandu", "==", posyandu),
+      posyanduQuery,
+      keluhanQuery,
+      orderBy("updatedAt", "desc")
+    )
+  ) : posyanduQuery ? (
+    query(
+      collection(db, selectConsultType(konsultasi)),
+      posyanduQuery,
+      orderBy("updatedAt", "desc")
+    )
+  ) : keluhanQuery ? (
+    query(
+      collection(db, selectConsultType(konsultasi)),
+      keluhanQuery,
       orderBy("updatedAt", "desc")
     )
   ) : (
