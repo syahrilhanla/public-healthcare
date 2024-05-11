@@ -38,7 +38,7 @@ const ConsultingFilter = ({ selectedConsultation }: Props) => {
           <ChevronDownIcon className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="max-h-52 overflow-auto">
+      <DropdownMenuContent className="max-h-52">
         <DropdownMenuSeparator />
         <div className="grid gap-1 text-left">
           {
@@ -55,10 +55,12 @@ const ConsultingFilter = ({ selectedConsultation }: Props) => {
           }
           <DropdownMenuItem
             className="mt-1 py-2 bg-red-100 text-red-400 duration-300
-              text-center font-semibold hover:bg-opacity-100 bg-opacity-80 hover:cursor-pointer"
+              font-semibold hover:bg-opacity-100 bg-opacity-80 hover:cursor-pointer"
             onClick={() => removeQueryString("konsultasi")}
           >
-            Hapus Filter
+            <p className="w-full text-center">
+              Hapus Filter
+            </p>
           </DropdownMenuItem>
         </div>
       </DropdownMenuContent>
