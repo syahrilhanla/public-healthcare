@@ -52,7 +52,10 @@ const ConsultingList = async ({ searchParams }: Props) => {
 
       {
         consultingTypes.includes(searchParams.konsultasi as ConsultType) ? (
-          <ConsultingListTable consults={consults} />
+          <ConsultingListTable
+            consults={consults}
+            isHealthControl={searchParams.konsultasi === ConsultType.HEALTH_CONTROL}
+          />
         ) : (
           <div className="h-[40dvh] my-auto flex items-center justify-center text-gray-600">
             Pilih konsultasi terlebih dahulu

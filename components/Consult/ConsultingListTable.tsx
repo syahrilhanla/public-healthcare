@@ -15,9 +15,10 @@ import { Consult } from "type/consult.type";
 
 interface Props {
   consults: Consult[];
+  isHealthControl?: boolean;
 }
 
-const ConsultingListTable = ({ consults }: Props) => {
+const ConsultingListTable = ({ consults, isHealthControl }: Props) => {
   return (
     <Table>
       <TableHeader>
@@ -25,7 +26,7 @@ const ConsultingListTable = ({ consults }: Props) => {
           <TableHead className="font-medium text-black">Nama</TableHead>
           <TableHead className="font-medium text-black">Tanggal</TableHead>
           <TableHead className="font-medium text-black">Posyandu</TableHead>
-          <TableHead className="font-medium text-black">Konsultasi</TableHead>
+          {isHealthControl && <TableHead className="font-medium text-black">Keluhan</TableHead>}
           <TableHead
             className="text-right font-medium text-black sticky right-0 z-10 bg-white">
             Aksi
@@ -38,7 +39,12 @@ const ConsultingListTable = ({ consults }: Props) => {
             <TableCell className="text-gray-600 text-nowrap max-w-[15rem] truncate">{consult.name}</TableCell>
             <TableCell className="text-gray-600 text-nowrap">{consult.updatedAt}</TableCell>
             <TableCell className="text-gray-600 text-nowrap">{consult.posyandu}</TableCell>
-            <TableCell className="text-gray-600 text-nowrap">{consult.type}</TableCell>
+            {
+              isHealthControl &&
+              <TableCell className="text-gray-600 text-nowrap">
+                {consult.type}
+              </TableCell>
+            }
             <TableCell className="text-gray-600 sticky right-0 z-10 bg-white">
               <div className="flex gap-2 justify-end">
                 <Link href={`/dashboard/profil/form?id=${consult.userId}`}>
