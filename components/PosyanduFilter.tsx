@@ -29,7 +29,8 @@ const PosyanduFilter = ({ selectedPosyandu }: Props) => {
       <DropdownMenuTrigger asChild>
         <Button
           variant={"outline"}
-          className="w-full lg:w-fit flex gap-2 rounded-lg text-gray-600"
+          className="w-full lg:w-fit flex gap-2 rounded-lg text-gray-600
+            focus-visible:outline-gray-600 focus-visible:ring-0 focus-visible:ring-transparent"
         >
           {selectedPosyandu ? selectedPosyandu : "Pilih Posyandu"}
           <ChevronDownIcon className="h-4 w-4" />
