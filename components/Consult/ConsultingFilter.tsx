@@ -11,7 +11,7 @@ import {
 
 import { useQueryString } from "lib/useQueryString";
 
-import { consultingTypes } from "lib/reusableValues";
+import { ConsultType, consultingTypes } from "lib/reusableValues";
 import { ChevronDownIcon } from "lucide-react";
 
 interface Props {
@@ -23,6 +23,8 @@ const ConsultingFilter = ({ selectedConsultation }: Props) => {
     createQueryString,
     removeQueryString
   } = useQueryString();
+
+  if (selectedConsultation !== ConsultType.HEALTH_CONTROL) removeQueryString("keluhan");
 
   return (
     <DropdownMenu>
