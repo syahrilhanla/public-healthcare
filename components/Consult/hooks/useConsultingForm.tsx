@@ -14,6 +14,8 @@ const schema = z.object({
   }).min(1, "Pilih Siswa"),
   consultId: z.string(),
   type: z.string().optional(),
+  posyandu: z.string(),
+  name: z.string(),
   consultType: z.string().min(1, "Pilih jenis konsultasi"),
   message: z.string({
     required_error: "Masukkan keluhan"
@@ -36,6 +38,8 @@ const useConsultingForm = () => {
     resolver: zodResolver(schema),
     defaultValues: {
       userId: "",
+      name: "",
+      posyandu: "",
       consultId: generateUID(),
       type: "",
       consultType: "",
@@ -46,7 +50,27 @@ const useConsultingForm = () => {
   const [formStatus, setFormStatus] = useState<FormStatus>("editing");
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
-    console.log(data);
+    try {
+      setFormStatus("submitting");
+
+      if (data.consultType !== ConsultType.HEALTH_CONTROL) {
+        delete data.type;
+      }
+
+      const request = await fetch("/api/consult", {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        method: "POST",
+        body: JSON.stringify(data)
+      });
+
+      const response = await request.json();
+    } catch (error) {
+      console.error("Error submitting form: ", error);
+    } finally {
+      setFormStatus("editing");
+    }
   }
 
   return {
