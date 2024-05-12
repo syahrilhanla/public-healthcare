@@ -38,7 +38,6 @@ const ProblemFilter = ({ selectedProblem }: Props) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="max-h-fit overflow-auto">
-        <DropdownMenuSeparator />
         <div className="grid gap-1 text-left">
           {
             healthControlTypes.map((type) => (

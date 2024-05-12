@@ -1,11 +1,11 @@
 "use client";
 
+import { useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
@@ -24,7 +24,10 @@ const ConsultingFilter = ({ selectedConsultation }: Props) => {
     removeQueryString
   } = useQueryString();
 
-  if (selectedConsultation !== ConsultType.HEALTH_CONTROL) removeQueryString("keluhan");
+  useEffect(() => {
+    if (selectedConsultation !== ConsultType.HEALTH_CONTROL)
+      removeQueryString("keluhan");
+  }, [selectedConsultation]);
 
   return (
     <DropdownMenu>
@@ -39,7 +42,6 @@ const ConsultingFilter = ({ selectedConsultation }: Props) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="max-h-52">
-        <DropdownMenuSeparator />
         <div className="grid gap-1 text-left">
           {
             consultingTypes.map((consult) => (

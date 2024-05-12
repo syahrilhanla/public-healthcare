@@ -5,7 +5,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { useQueryString } from "lib/useQueryString";
@@ -31,7 +30,6 @@ const YearFilter = ({ selectedYear }: Props) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="max-h-48 overflow-auto">
-        <DropdownMenuSeparator />
         <div className="grid gap-1 text-center ">
           {
             Array.from({ length: 11 }, (_, i) => 2023 + i).map((year) => (

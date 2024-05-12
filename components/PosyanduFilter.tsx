@@ -5,7 +5,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 
@@ -37,7 +36,6 @@ const PosyanduFilter = ({ selectedPosyandu }: Props) => {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="max-h-52 overflow-auto">
-        <DropdownMenuSeparator />
         <div className="grid gap-1 text-left">
           {
             posyanduList.map((posyandu) => (
