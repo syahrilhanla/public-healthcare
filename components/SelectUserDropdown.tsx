@@ -1,3 +1,11 @@
+"use client"
+
+import {
+  useState,
+  useEffect,
+  useCallback
+} from "react";
+
 import {
   FormControl,
   FormField,
@@ -13,19 +21,74 @@ import {
   SelectTrigger,
   SelectValue
 } from "@/components/ui/select";
+import { useDebounce } from "lib/helpers";
+import { collection, getDocs } from "firebase/firestore";
+import { DatabaseCollections, db } from "lib/firebase.sdk";
+import { Profile } from "type/profile.type";
 
 interface Props {
   form: any;
-  userDropdown: {
-    name: string;
-    userId: string;
-  }[];
-  setSearchUser: (user: string) => void;
+  callback: (value: string) => void;
 }
 
 const SelectUserDropdown = ({
-  form, userDropdown, setSearchUser
+  form, callback
 }: Props) => {
+  const [searchUser, setSearchUser] = useState<string>("");
+  const [overallUserData, setOverallUserData] = useState<Profile[]>([]);
+  const [userDropdown, setUserDropdown] = useState<{
+    name: string;
+    userId: string;
+  }[]>([]);
+
+  const userDebounce = useDebounce(searchUser, 700);
+
+  const getUserBySearch = useCallback(() => {
+    if (searchUser) {
+      const regex = new RegExp(searchUser, "i");
+
+      const filteredUsers = userDropdown.filter((user) => {
+        return regex.test(user.name);
+      });
+
+      setUserDropdown(filteredUsers);
+      return;
+    } else {
+      setUserDropdown(overallUserData.map((user) => {
+        return {
+          name: user.name,
+          userId: user.nik,
+        }
+      }));
+    }
+  }, [userDebounce, overallUserData, userDropdown, searchUser]);
+
+  useEffect(() => {
+    getUserBySearch();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userDebounce]);
+
+  const getUserList = useCallback(async () => {
+    try {
+      const usersCollection = await getDocs(collection(db, DatabaseCollections.USERS));
+      const usersData = usersCollection.docs.map((doc) => {
+        return {
+          name: doc.data().name,
+          userId: doc.id,
+        };
+      });
+
+      setUserDropdown(usersData);
+      setOverallUserData(usersCollection.docs.map((doc) => doc.data() as Profile));
+    } catch (error) {
+      console.error("Error to GET INSPECTION list", error);
+    }
+  }, []);
+
+  useEffect(() => {
+    getUserList();
+  }, []);
+
   return (
     <FormField
       control={form.control}
