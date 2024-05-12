@@ -40,7 +40,14 @@ const ProfileForm = () => {
           ) : (
             <Form {...form}>
               <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>
-                <SelectUserDropdown form={form} />
+                <SelectUserDropdown
+                  form={form}
+                  callback={(e) => {
+                    form.setValue("name", e.name);
+                    form.setValue("posyandu", e.posyandu);
+                    form.setValue("userId", e.userId);
+                  }}
+                />
 
                 <SelectConsultType form={form} />
 
