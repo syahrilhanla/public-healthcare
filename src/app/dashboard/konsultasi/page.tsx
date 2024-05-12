@@ -35,14 +35,15 @@ const ConsultingList = async ({ searchParams }: Props) => {
           <ConsultingFilter selectedConsultation={searchParams.konsultasi} />
         </div>
 
-        <div className={`transition-opacity duration-500 absolute inset-y-0 ${searchParams.konsultasi === ConsultType.HEALTH_CONTROL ? 'opacity-100 relative' : 'opacity-0'}`}>
+        <div className={`${searchParams.konsultasi === ConsultType.HEALTH_CONTROL
+          ? '' : 'hidden'}`}>
           <ProblemFilter selectedProblem={searchParams.keluhan} />
         </div>
 
         <PosyanduFilter selectedPosyandu={searchParams.posyandu} />
         <Link href={"/dashboard/konsultasi/form"}>
           <Button variant={"outline"}
-            className="w-full lg:w-fit flex gap-2 rounded-lg text-gray-600"
+            className="w-full lg:w-fit flex gap-2 rounded-lg text-gray-600 cursor-pointer"
           >
             <PlusIcon className="h-4 w-4" />
             Tambah Data

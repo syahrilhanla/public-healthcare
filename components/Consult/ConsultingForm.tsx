@@ -1,5 +1,4 @@
 "use client"
-import 'react-day-picker/dist/style.css';
 
 import SelectUserDropdown from "components/SelectUserDropdown";
 import FailedIndicator from "components/FailedIndicator";
@@ -10,16 +9,15 @@ import { Form } from "@/components/ui/form";
 
 import { LoaderCircle } from "lucide-react";
 
-import useInspectionForm from "components/Inspection/hooks/useInpsectionForm";
+import useConsultingForm from "components/Consult/hooks/useConsultingForm";
+import ControlledInput from "components/ControlledInput";
 
 const ProfileForm = () => {
   const {
     form,
     formStatus,
     onSubmit,
-    userDropdown,
-    setSearchUser
-  } = useInspectionForm();
+  } = useConsultingForm();
 
   return (
     <div className="grid gap-4 mx-auto lg:w-[70%] text-gray-600 duration-500">
@@ -41,14 +39,19 @@ const ProfileForm = () => {
             <Form {...form}>
               <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>
                 <SelectUserDropdown
+                  callback={(userId) => console.log(userId)}
                   form={form}
-                  userDropdown={userDropdown}
-                  setSearchUser={(value) => {
-                    setSearchUser(value);
-                  }}
                 />
 
                 <SelectConsultType form={form} />
+
+                <ControlledInput
+                  formSchema={form}
+                  inputId="message"
+                  includeError
+                  labelText="Keluhan"
+                  placeholder="Masukkan keluhan"
+                />
 
                 <Button
                   type="submit"
