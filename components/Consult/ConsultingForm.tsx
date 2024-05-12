@@ -1,34 +1,22 @@
 "use client"
 import 'react-day-picker/dist/style.css';
 
-import ControlledInput from "components/ControlledInput";
+import SelectUserDropdown from "components/SelectUserDropdown";
+import FailedIndicator from "components/FailedIndicator";
+
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
-import { Label } from "@/components/ui/label";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Form,
   FormControl,
   FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
+  FormItem
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from "@/components/ui/select";
-import { CalendarIcon, LoaderCircle, X } from "lucide-react";
+
+import { LoaderCircle } from "lucide-react";
 
 import useInspectionForm from "components/Inspection/hooks/useInpsectionForm";
-import { cn } from "@/lib/utils";
-import { format } from "date-fns";
-import FailedIndicator from "components/FailedIndicator";
-import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { consultingTypes } from "lib/reusableValues";
 
 const ProfileForm = () => {
   const {
@@ -58,114 +46,48 @@ const ProfileForm = () => {
           ) : (
             <Form {...form}>
               <form className="grid gap-4" onSubmit={form.handleSubmit(onSubmit)}>
+                <SelectUserDropdown
+                  form={form}
+                  userDropdown={userDropdown}
+                  setSearchUser={(value) => {
+                    setSearchUser(value);
+                  }}
+                />
+
                 <FormField
                   control={form.control}
-                  name={"userId"}
+                  name={"Hb"}
                   render={({ field }) => (
-                    <>
-                      <FormItem>
-                        <div className="space-y-2 grid">
-                          <FormLabel htmlFor="userId">Siswa</FormLabel>
-                          <FormControl>
-                            <Select
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                            >
-                              <SelectTrigger
-                                id="userId"
-                                className="w-full h-16 px-2 py-4 text-left
-                                border border-gray-300 rounded-md 
-                                focus:outline-none focus:ring-0 focus:ring-transparent"
-                              >
-                                <SelectValue
-                                  placeholder={"Pilih Siswa"}
-                                  className="w-full space-x-2 focus-visible:ring-transparent"
-                                />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <div className="space-y-2">
-                                  <Input
-                                    placeholder="Cari Siswa"
-                                    className="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-0 focus:ring-transparent"
-                                    onChange={(e) => {
-                                      const value = e.target.value;
-                                      setSearchUser(value);
-                                    }}
-                                  />
-                                  {
-                                    userDropdown.map(({ name, userId }) => (
-                                      <SelectItem key={userId} value={userId}>
-                                        <div className="grid gap-1 text-sm text-slate-600">
-                                          <p>{name}</p>
-                                          <p className="text-slate-400">{userId}</p>
-                                        </div>
-                                      </SelectItem>
-                                    ))
-                                  }
-                                </div>
-                              </SelectContent>
-                            </Select>
-                          </FormControl>
-                          <FormMessage />
-                        </div>
-                      </FormItem>
-                    </>
+                    <FormItem>
+                      <FormControl>
+                        <Select
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                        >
+                          <SelectTrigger
+                            id="posyandu"
+                            className="w-full p-2 border border-gray-300 rounded-md 
+                            focus:outline-none focus:ring-0 focus:ring-transparent"
+                          >
+                            <SelectValue
+                              placeholder={field.value || "Jenis Konsultasi"}
+                              className="w-full space-x-2 focus-visible:ring-transparent"
+                            />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {
+                              consultingTypes.map((type) => (
+                                <SelectItem key={type} value={type} className="cursor-pointer">
+                                  {type}
+                                </SelectItem>
+                              ))
+                            }
+                          </SelectContent>
+                        </Select>
+                      </FormControl>
+                    </FormItem>
                   )}
                 />
-
-                <ControlledInput
-                  formSchema={form}
-                  inputId="TB"
-                  includeError
-                  type="number"
-                  labelText="Tinggi Badan (cm)"
-                  placeholder="0 cm"
-                />
-
-                <ControlledInput
-                  formSchema={form}
-                  inputId="BB"
-                  includeError
-                  type="number"
-                  labelText="Berat Badan (kg)"
-                  placeholder="0 kg"
-                />
-
-                <ControlledInput
-                  formSchema={form}
-                  inputId="LP"
-                  includeError
-                  type="number"
-                  labelText="Lingkar Perut (cm)"
-                  placeholder="0 cm"
-                />
-
-                <ControlledInput
-                  formSchema={form}
-                  inputId="LILA"
-                  includeError
-                  type="number"
-                  labelText="Lingkar Tangan (cm) (Opsional)"
-                  placeholder="0 cm"
-                />
-
-                <ControlledInput
-                  formSchema={form}
-                  inputId="Hb"
-                  includeError
-                  type="number"
-                  labelText="Hemoglobin (Opsional)"
-                  placeholder="0 g/dL"
-                />
-
-                <ControlledInput
-                  formSchema={form}
-                  inputId="TD"
-                  includeError
-                  labelText="Tekanan Darah"
-                  placeholder="0 0 mmHg"
-                />
-
                 <Button
                   type="submit"
                 >
