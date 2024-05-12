@@ -1,6 +1,7 @@
 import { HealthControlType } from "lib/reusableValues";
 
 export type Consult = {
+  consultId: string;
   userId: string;
   name: string;
   type: HealthControlType;
