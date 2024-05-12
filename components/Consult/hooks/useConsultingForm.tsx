@@ -8,12 +8,13 @@ import { FormStatus } from "type/form.type";
 const schema = z.object({
   userId: z.string({
     required_error: "Pilih Siswa"
-  }),
+  }).min(1, "Pilih Siswa"),
   consultId: z.string(),
   type: z.string(),
+  consultType: z.string().min(1, "Pilih jenis konsultasi"),
   message: z.string({
     required_error: "Masukkan keluhan"
-  }),
+  }).min(5, "Masukkan minimal 5 karakter")
 });
 
 const useConsultingForm = () => {
@@ -23,6 +24,7 @@ const useConsultingForm = () => {
       userId: "",
       consultId: generateUID(),
       type: "",
+      consultType: "",
       message: "",
     },
   });
