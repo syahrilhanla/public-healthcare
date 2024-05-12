@@ -64,7 +64,7 @@ const SelectUserDropdown = ({
                       />
                       {
                         userDropdown.map(({ name, userId }) => (
-                          <SelectItem key={userId} value={userId}>
+                          <SelectItem key={userId} value={userId} className="cursor-pointer">
                             <div className="grid gap-1 text-sm text-slate-600">
                               <p>{name}</p>
                               <p className="text-slate-400">{userId}</p>

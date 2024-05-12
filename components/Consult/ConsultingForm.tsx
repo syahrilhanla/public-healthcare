@@ -3,20 +3,14 @@ import 'react-day-picker/dist/style.css';
 
 import SelectUserDropdown from "components/SelectUserDropdown";
 import FailedIndicator from "components/FailedIndicator";
+import SelectConsultType from "components/Consult/SelectConsultType";
 
 import { Button } from "@/components/ui/button";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem
-} from "@/components/ui/form";
+import { Form } from "@/components/ui/form";
 
 import { LoaderCircle } from "lucide-react";
 
 import useInspectionForm from "components/Inspection/hooks/useInpsectionForm";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { consultingTypes } from "lib/reusableValues";
 
 const ProfileForm = () => {
   const {
@@ -54,40 +48,8 @@ const ProfileForm = () => {
                   }}
                 />
 
-                <FormField
-                  control={form.control}
-                  name={"Hb"}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <SelectTrigger
-                            id="posyandu"
-                            className="w-full p-2 border border-gray-300 rounded-md 
-                            focus:outline-none focus:ring-0 focus:ring-transparent"
-                          >
-                            <SelectValue
-                              placeholder={field.value || "Jenis Konsultasi"}
-                              className="w-full space-x-2 focus-visible:ring-transparent"
-                            />
-                          </SelectTrigger>
-                          <SelectContent>
-                            {
-                              consultingTypes.map((type) => (
-                                <SelectItem key={type} value={type} className="cursor-pointer">
-                                  {type}
-                                </SelectItem>
-                              ))
-                            }
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
+                <SelectConsultType form={form} />
+
                 <Button
                   type="submit"
                 >
