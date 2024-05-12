@@ -9,7 +9,8 @@ import {
 import {
   FormControl,
   FormField,
-  FormItem
+  FormItem,
+  FormLabel
 } from "@/components/ui/form";
 
 import { consultingTypes } from "lib/reusableValues";
@@ -22,9 +23,10 @@ const SelectConsultType = ({ form }: Props) => {
   return (
     <FormField
       control={form.control}
-      name={"Hb"}
+      name={"consultType"}
       render={({ field }) => (
         <FormItem>
+          <FormLabel htmlFor="consultType">Pilih Konsultasi</FormLabel>
           <FormControl>
             <Select
               onValueChange={field.onChange}
@@ -33,7 +35,7 @@ const SelectConsultType = ({ form }: Props) => {
               <SelectTrigger
                 id="posyandu"
                 className="w-full p-2 border border-gray-300 rounded-md 
-                            focus:outline-none focus:ring-0 focus:ring-transparent"
+                  focus:outline-none focus:ring-0 focus:ring-transparent"
               >
                 <SelectValue
                   placeholder={field.value || "Jenis Konsultasi"}
