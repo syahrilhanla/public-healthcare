@@ -26,17 +26,21 @@ import { collection, getDocs } from "firebase/firestore";
 import { DatabaseCollections, db } from "lib/firebase.sdk";
 import { Profile } from "type/profile.type";
 
-interface Props {
-  form: any;
+interface UserDropdown {
+  name: string;
+  userId: string;
+  posyandu: string;
 }
 
-const SelectUserDropdown = ({ form }: Props) => {
+interface Props {
+  form: any;
+  callback?: (data: UserDropdown) => void;
+}
+
+const SelectUserDropdown = ({ form, callback }: Props) => {
   const [searchUser, setSearchUser] = useState<string>("");
   const [overallUserData, setOverallUserData] = useState<Profile[]>([]);
-  const [userDropdown, setUserDropdown] = useState<{
-    name: string;
-    userId: string;
-  }[]>([]);
+  const [userDropdown, setUserDropdown] = useState<UserDropdown[]>([]);
 
   const userDebounce = useDebounce(searchUser, 700);
 
@@ -55,6 +59,7 @@ const SelectUserDropdown = ({ form }: Props) => {
         return {
           name: user.name,
           userId: user.nik,
+          posyandu: user.posyandu
         }
       }));
     }
@@ -72,6 +77,7 @@ const SelectUserDropdown = ({ form }: Props) => {
         return {
           name: doc.data().name,
           userId: doc.id,
+          posyandu: doc.data().posyandu,
         };
       });
 
@@ -97,7 +103,11 @@ const SelectUserDropdown = ({ form }: Props) => {
               <FormLabel htmlFor="userId">Siswa</FormLabel>
               <FormControl>
                 <Select
-                  onValueChange={field.onChange}
+                  onValueChange={(value) => {
+                    const userData = userDropdown.filter((user) => user.userId === value)[0];
+                    callback && callback(userData);
+                    field.onChange(value);
+                  }}
                   defaultValue={field.value}
                 >
                   <SelectTrigger
