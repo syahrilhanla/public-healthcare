@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import {
   collection,
   doc,
+  getDoc,
   getDocs,
   orderBy,
   query,
@@ -93,15 +94,16 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const body: Consult & { consultType: string } = await request.json();
 
-  const payload = {
-    consultId: body.consultId,
-    message: body.message,
-    name: body.name,
-    posyandu: body.posyandu,
-    type: body.type,
+  const { consultType, ...restOfBody } = body;
+
+  let payload = {
+    ...restOfBody,
     updatedAt: serverTimestamp(),
-    userId: body.userId
   };
+
+  if (consultType !== ConsultType.HEALTH_CONTROL) {
+    delete payload.type;
+  }
 
   const targetCollection = (consultType: ConsultType) => {
     switch (consultType) {
@@ -118,24 +120,40 @@ export async function POST(request: NextRequest) {
     }
   }
 
+  let isDocExist: boolean = false;
+
   try {
+    const reference = body.consultId;
+
+    isDocExist = (await getDoc(doc(
+      db,
+      targetCollection(body.consultType as ConsultType),
+      reference
+    ))).exists();
+
     await setDoc(doc(
       db,
       targetCollection(body.consultType as ConsultType),
-      body.consultId
+      reference
     ), payload);
+
+    const feedbackMessage = isDocExist ? "Berhasil mengubah data!" : "Berhasil membuat data!";
 
     return NextResponse.json({
       data: payload,
-      message: `Successfully added a new CONSULTING document`,
+      message: feedbackMessage,
+      status: 200
     }, { status: 200 }
     );
   } catch (error) {
-    console.error("Error adding a new CONSULTING document: ", error);
+    const errorMessage = isDocExist
+      ? "Error updating the document" : "Error creating a new document";
+    console.error(errorMessage, error);
 
     return NextResponse.json({
       data: payload,
-      message: "Error adding a new CONSULTING document",
+      message: errorMessage,
+      status: 500
     }, { status: 500 }
     );
   }

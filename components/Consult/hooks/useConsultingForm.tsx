@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+
+import { toast } from "@/components/ui/use-toast";
 
 import { FormStatus } from "type/form.type";
 import { generateUID } from "lib/helpers";
@@ -49,25 +52,43 @@ const useConsultingForm = () => {
 
   const [formStatus, setFormStatus] = useState<FormStatus>("editing");
 
+  const router = useRouter();
+
   const onSubmit = async (data: z.infer<typeof schema>) => {
     try {
       setFormStatus("submitting");
 
-      if (data.consultType !== ConsultType.HEALTH_CONTROL) {
-        delete data.type;
-      }
+      const payload = { ...data };
 
-      const request = await fetch("/api/consult", {
+      const request: {
+        data: {}; message: string; status: number
+      } = await (await fetch("/api/consult", {
         headers: {
           "Content-Type": "application/json"
         },
         method: "POST",
-        body: JSON.stringify(data)
+        body: JSON.stringify(payload)
+      })).json();
+
+      if (request.status !== 200) {
+        throw new Error(request.message);
+      }
+
+      toast({
+        title: request.message,
+        variant: "default"
       });
 
-      const response = await request.json();
+      router.push("/dashboard/konsultasi");
     } catch (error) {
       console.error("Error submitting form: ", error);
+
+      let errorDescription = ((error as Error).message);
+
+      toast({
+        title: errorDescription,
+        variant: "destructive"
+      });
     } finally {
       setFormStatus("editing");
     }
