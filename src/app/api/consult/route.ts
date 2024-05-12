@@ -1,14 +1,19 @@
 import { NextRequest, NextResponse } from "next/server";
 import {
   collection,
+  doc,
   getDocs,
   orderBy,
   query,
+  serverTimestamp,
+  setDoc,
   where
 } from "firebase/firestore";
 import { DatabaseCollections, db } from "lib/firebase.sdk";
 import { format } from "date-fns";
+
 import { ConsultType } from "lib/reusableValues";
+import { Consult } from "type/consult.type";
 
 export async function GET(request: NextRequest) {
   const posyandu = request.nextUrl.searchParams.get("posyandu");
@@ -80,6 +85,57 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       data: [],
       message: "Error getting CONSULTING documents",
+    }, { status: 500 }
+    );
+  }
+}
+
+export async function POST(request: NextRequest) {
+  const body: Consult & { consultType: string } = await request.json();
+
+  const payload = {
+    consultId: body.consultId,
+    message: body.message,
+    name: body.name,
+    posyandu: body.posyandu,
+    type: body.type,
+    updatedAt: serverTimestamp(),
+    userId: body.userId
+  };
+
+  const targetCollection = (consultType: ConsultType) => {
+    switch (consultType) {
+      case ConsultType.HEALTH_CONTROL:
+        return DatabaseCollections.HEALTH_CONTROL;
+      case ConsultType.BULLYING:
+        return DatabaseCollections.BULLYING;
+      case ConsultType.STOP_SMOKING:
+        return DatabaseCollections.STOP_SMOKING;
+      case ConsultType.PREGNANCY:
+        return DatabaseCollections.PREGNANCY;
+      default:
+        return DatabaseCollections.HEALTH_CONTROL;
+    }
+  }
+
+  try {
+    await setDoc(doc(
+      db,
+      targetCollection(body.consultType as ConsultType),
+      body.consultId
+    ), payload);
+
+    return NextResponse.json({
+      data: payload,
+      message: `Successfully added a new CONSULTING document`,
+    }, { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error adding a new CONSULTING document: ", error);
+
+    return NextResponse.json({
+      data: payload,
+      message: "Error adding a new CONSULTING document",
     }, { status: 500 }
     );
   }
