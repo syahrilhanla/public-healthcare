@@ -4,7 +4,7 @@ export type Consult = {
   consultId: string;
   userId: string;
   name: string;
-  type: HealthControlType;
+  type?: HealthControlType;
   updatedAt: string;
   message: string;
   posyandu: string;
