@@ -28,12 +28,9 @@ import { Profile } from "type/profile.type";
 
 interface Props {
   form: any;
-  callback: (value: string) => void;
 }
 
-const SelectUserDropdown = ({
-  form, callback
-}: Props) => {
+const SelectUserDropdown = ({ form }: Props) => {
   const [searchUser, setSearchUser] = useState<string>("");
   const [overallUserData, setOverallUserData] = useState<Profile[]>([]);
   const [userDropdown, setUserDropdown] = useState<{
