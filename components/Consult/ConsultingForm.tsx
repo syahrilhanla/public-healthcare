@@ -3,6 +3,8 @@
 import SelectUserDropdown from "components/SelectUserDropdown";
 import FailedIndicator from "components/FailedIndicator";
 import SelectConsultType from "components/Consult/SelectConsultType";
+import ControlledInput from "components/ControlledInput";
+import SelectControlType from "components/Consult/SelectControlType";
 
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
@@ -10,7 +12,7 @@ import { Form } from "@/components/ui/form";
 import { LoaderCircle } from "lucide-react";
 
 import useConsultingForm from "components/Consult/hooks/useConsultingForm";
-import ControlledInput from "components/ControlledInput";
+import { ConsultType } from "lib/reusableValues";
 
 const ProfileForm = () => {
   const {
@@ -41,6 +43,12 @@ const ProfileForm = () => {
                 <SelectUserDropdown form={form} />
 
                 <SelectConsultType form={form} />
+
+                {
+                  form.watch("consultType") === ConsultType.HEALTH_CONTROL && (
+                    <SelectControlType form={form} />
+                  )
+                }
 
                 <ControlledInput
                   formSchema={form}
