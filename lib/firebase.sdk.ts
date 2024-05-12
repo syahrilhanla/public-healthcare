@@ -26,6 +26,8 @@ export enum DatabaseCollections {
   TTDS = "ttds",
   HEALTH_CONTROL = "health-control",
   BULLYING = "bullying",
+  STOP_SMOKING = "stop-smoking",
+  PREGNANCY = "pregnancy"
 }
 
 export enum Sex {
