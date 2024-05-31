@@ -12,7 +12,29 @@ import { Form } from "@/components/ui/form";
 import { LoaderCircle } from "lucide-react";
 
 import useConsultingForm from "components/Consult/hooks/useConsultingForm";
-import { ConsultType } from "lib/reusableValues";
+import { ConsultType, HealthControlType, doctors } from "lib/reusableValues";
+
+const ControlTypeInfo = ({ controlType }: { controlType: string }) => {
+  const selectedDoctor = doctors.find(doctor => doctor.type === controlType);
+
+  if (!selectedDoctor) return null;
+
+  return (
+    <div className="space-y-1">
+      <p className="text-sm text-gray-500">
+        Anda akan diarahkan kepada:
+      </p>
+      <div className="space-y-1">
+        <p className="text-sm text-gray-500">
+          {selectedDoctor.name}
+        </p>
+        <p className="text-sm text-blue-500">
+          {selectedDoctor?.phone}
+        </p>
+      </div>
+    </div>
+  )
+}
 
 const ProfileForm = () => {
   const {
@@ -54,6 +76,12 @@ const ProfileForm = () => {
                 {
                   form.watch("consultType") === ConsultType.HEALTH_CONTROL && (
                     <SelectControlType form={form} />
+                  )
+                }
+
+                {
+                  form.getValues("type") && (
+                    <ControlTypeInfo controlType={form.getValues("type") as HealthControlType} />
                   )
                 }
 

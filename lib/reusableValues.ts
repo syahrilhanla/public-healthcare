@@ -34,3 +34,31 @@ export const healthControlTypes = [
   HealthControlType.NUTRITION_STATUS,
   HealthControlType.PSYCHOLOGY
 ]
+
+export const doctors = [
+  {
+    name: "Ibu Ika dan Sri",
+    type: HealthControlType.NUTRITION_STATUS,
+    phone: "08123456789"
+  },
+  {
+    name: "dr. Yunisa",
+    type: HealthControlType.PSYCHOLOGY,
+    phone: "08123456789"
+  },
+  {
+    name: "Ibu Fitri",
+    type: HealthControlType.REPRODUCTION,
+    phone: "08123456789"
+  },
+  {
+    name: "drg. Derti",
+    type: HealthControlType.TOOTH,
+    phone: "08123456789"
+  },
+  {
+    name: "dr. Dewi",
+    type: HealthControlType.COMMON,
+    phone: "08123456789"
+  }
+]
