@@ -85,13 +85,23 @@ const ProfileForm = () => {
                   )
                 }
 
-                <ControlledInput
-                  formSchema={form}
-                  inputId="message"
-                  includeError
-                  labelText="Keluhan"
-                  placeholder="Masukkan keluhan"
-                />
+                {
+                  form.getValues("consultType") === ConsultType.PREGNANCY ? (
+                    <div>
+                      <p className="text-blue-500">
+                        Anda akan diarahkan ke program Komen 911
+                      </p>
+                    </div>
+                  ) : (
+                    <ControlledInput
+                      formSchema={form}
+                      inputId="message"
+                      includeError
+                      labelText="Keluhan"
+                      placeholder="Masukkan keluhan"
+                    />
+                  )
+                }
 
                 <Button
                   type="submit"
@@ -100,7 +110,8 @@ const ProfileForm = () => {
                     formStatus === "submitting" ? (
                       <LoaderCircle className="animate-spin" />
                     ) : (
-                      "Simpan"
+                      form.getValues("consultType") === ConsultType.PREGNANCY
+                        ? "Lanjut" : "Simpan"
                     )
                   }
                 </Button>
