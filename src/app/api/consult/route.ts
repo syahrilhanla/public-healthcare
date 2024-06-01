@@ -28,9 +28,9 @@ export async function GET(request: NextRequest) {
       case ConsultType.BULLYING:
         return DatabaseCollections.BULLYING;
       case ConsultType.STOP_SMOKING:
-        return DatabaseCollections.HEALTH_CONTROL;
+        return DatabaseCollections.STOP_SMOKING;
       case ConsultType.PREGNANCY:
-        return DatabaseCollections.HEALTH_CONTROL;
+        return DatabaseCollections.PREGNANCY;
       default:
         return DatabaseCollections.HEALTH_CONTROL;
     }
