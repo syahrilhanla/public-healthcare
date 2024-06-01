@@ -20,7 +20,22 @@ const schema = z.object({
   posyandu: z.string(),
   name: z.string(),
   consultType: z.string().min(1, "Pilih jenis konsultasi"),
-  message: z.string().min(5, "Masukkan minimal 5 karakter")
+  message: z.string().min(5, "Masukkan minimal 5 karakter"),
+  hasSmoke: z.boolean().optional(),
+  ageStartSmoking: z.number().optional(),
+  byFriends: z.boolean().optional(),
+  byFamily: z.boolean().optional(),
+  byCuriosity: z.boolean().optional(),
+  byPeerForce: z.boolean().optional(),
+  bySpareTime: z.boolean().optional(),
+  byStress: z.boolean().optional(),
+  smokingSource: z.string().optional(),
+  cigaretteCount: z.number().optional(),
+  smokingDuration: z.string().optional(),
+  knowledgeOfSmokingEffect: z.boolean().optional(),
+  wantingToQuit: z.boolean().optional(),
+  reasonToQuit: z.string().optional(),
+  quitSupport: z.string().optional(),
 }).refine(data => {
   // If consultType is "HEALTH_CONTROL", then type is required
   if (data.consultType === ConsultType.HEALTH_CONTROL) {
@@ -32,7 +47,32 @@ const schema = z.object({
   // Custom error message
   message: "Masukkan tipe keluhan",
   path: ['type']
-});
+}).refine(data => {
+  // If consultType is "SMOKING", then these fields are required
+  if (data.consultType === 'SMOKING') {
+    return data.hasSmoke !== undefined &&
+      data.ageStartSmoking !== undefined &&
+      data.byFriends !== undefined &&
+      data.byFamily !== undefined &&
+      data.byCuriosity !== undefined &&
+      data.byPeerForce !== undefined &&
+      data.bySpareTime !== undefined &&
+      data.byStress !== undefined &&
+      data.smokingSource !== undefined &&
+      data.cigaretteCount !== undefined &&
+      data.smokingDuration !== undefined &&
+      data.knowledgeOfSmokingEffect !== undefined &&
+      data.wantingToQuit !== undefined &&
+      data.reasonToQuit !== undefined &&
+      data.quitSupport !== undefined;
+  }
+  // Otherwise, these fields are not required
+  return true;
+}, {
+  // Custom error message
+  message: "All smoking related fields are required when consultType is SMOKING",
+  path: ['consultType']
+});;
 
 const useConsultingForm = () => {
   const form = useForm<z.infer<typeof schema>>({
@@ -45,6 +85,21 @@ const useConsultingForm = () => {
       type: "",
       consultType: "",
       message: "",
+      hasSmoke: false,
+      ageStartSmoking: 0,
+      byFriends: false,
+      byFamily: false,
+      byCuriosity: false,
+      byPeerForce: false,
+      bySpareTime: false,
+      byStress: false,
+      smokingSource: "",
+      cigaretteCount: 0,
+      smokingDuration: "",
+      knowledgeOfSmokingEffect: false,
+      wantingToQuit: false,
+      reasonToQuit: "",
+      quitSupport: ""
     },
   });
 

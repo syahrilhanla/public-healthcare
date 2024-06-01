@@ -103,6 +103,14 @@ const ProfileForm = () => {
                   )
                 }
 
+                {
+                  form.getValues("consultType") === ConsultType.STOP_SMOKING && (
+                    <div>
+                      stop smoking form
+                    </div>
+                  )
+                }
+
                 <Button
                   type="submit"
                 >
@@ -111,6 +119,7 @@ const ProfileForm = () => {
                       <LoaderCircle className="animate-spin" />
                     ) : (
                       form.getValues("consultType") === ConsultType.PREGNANCY
+                        || form.getValues("consultType") === ConsultType.STOP_SMOKING
                         ? "Lanjut" : "Simpan"
                     )
                   }
