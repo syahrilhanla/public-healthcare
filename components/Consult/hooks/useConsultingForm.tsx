@@ -112,6 +112,10 @@ const useConsultingForm = () => {
     if (form.getValues("consultType") === ConsultType.PREGNANCY) {
       form.setValue("message", "Anda akan diarahkan ke program Komen 911");
     }
+
+    if (form.getValues("consultType") === ConsultType.STOP_SMOKING) {
+      form.setValue("message", "Anda akan diarahkan ke program Stop Smoking");
+    }
   }, [form.getValues("consultType")])
 
   const onSubmit = async (data: z.infer<typeof schema>) => {

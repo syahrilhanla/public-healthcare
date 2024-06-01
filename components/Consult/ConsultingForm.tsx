@@ -86,21 +86,26 @@ const ProfileForm = () => {
                 }
 
                 {
-                  form.getValues("consultType") === ConsultType.PREGNANCY ? (
-                    <div>
-                      <p className="text-sm text-blue-500">
-                        Anda akan diarahkan ke program Komen 911
-                      </p>
-                    </div>
-                  ) : (
-                    <ControlledInput
+                  form.getValues("consultType") !== ConsultType.PREGNANCY
+                    && form.getValues("consultType") !== ConsultType.STOP_SMOKING
+                    ? <ControlledInput
                       formSchema={form}
                       inputId="message"
                       includeError
                       labelText="Keluhan"
                       placeholder="Masukkan keluhan"
                     />
-                  )
+                    : null
+                }
+
+                {
+                  form.getValues("consultType") === ConsultType.PREGNANCY ? (
+                    <div>
+                      <p className="text-sm text-blue-500">
+                        Anda akan diarahkan ke program Komen 911
+                      </p>
+                    </div>
+                  ) : null
                 }
 
                 {
