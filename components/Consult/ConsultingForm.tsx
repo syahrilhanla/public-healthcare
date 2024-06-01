@@ -88,7 +88,7 @@ const ProfileForm = () => {
                 {
                   form.getValues("consultType") === ConsultType.PREGNANCY ? (
                     <div>
-                      <p className="text-blue-500">
+                      <p className="text-sm text-blue-500">
                         Anda akan diarahkan ke program Komen 911
                       </p>
                     </div>

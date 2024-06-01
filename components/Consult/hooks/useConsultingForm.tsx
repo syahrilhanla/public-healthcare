@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { z } from "zod";
@@ -20,9 +20,7 @@ const schema = z.object({
   posyandu: z.string(),
   name: z.string(),
   consultType: z.string().min(1, "Pilih jenis konsultasi"),
-  message: z.string({
-    required_error: "Masukkan keluhan"
-  }).min(5, "Masukkan minimal 5 karakter")
+  message: z.string().min(5, "Masukkan minimal 5 karakter")
 }).refine(data => {
   // If consultType is "HEALTH_CONTROL", then type is required
   if (data.consultType === ConsultType.HEALTH_CONTROL) {
@@ -53,6 +51,13 @@ const useConsultingForm = () => {
   const [formStatus, setFormStatus] = useState<FormStatus>("editing");
 
   const router = useRouter();
+
+  // set message for pregnancy consult type to bypass the form
+  useEffect(() => {
+    if (form.getValues("consultType") === ConsultType.PREGNANCY) {
+      form.setValue("message", "Anda akan diarahkan ke program Komen 911");
+    }
+  }, [form.getValues("consultType")])
 
   const onSubmit = async (data: z.infer<typeof schema>) => {
     try {
