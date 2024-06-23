@@ -27,6 +27,15 @@ export enum HealthControlType {
   PSYCHOLOGY = "Kesehatan Jiwa"
 }
 
+export enum SmokingReason {
+  FRIENDS = "Ikut teman",
+  FAMILY = "Pengaruh keluarga",
+  STRESS = "Menghilangkan stres",
+  CURIOUS = "Rasa ingin tahu",
+  FORCED = "Terpaksa oleh teman/lingkungan",
+  FREE_TIME = "Mengisi waktu luang",
+}
+
 export const healthControlTypes = [
   HealthControlType.COMMON,
   HealthControlType.TOOTH,
