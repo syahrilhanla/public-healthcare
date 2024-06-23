@@ -6,9 +6,7 @@ import FailedIndicator from "components/FailedIndicator";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Label } from "@/components/ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import {
   Form,
   FormControl,
@@ -30,6 +28,7 @@ import useProfileForm from "components/Profile/hooks/useProfileForm";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Sex } from "lib/firebase.sdk";
+import RadioButtons from "components/RadioButtons";
 
 const ProfileForm = () => {
   const {
@@ -132,52 +131,7 @@ const ProfileForm = () => {
                   </div>
                 </div>
 
-                <FormField
-                  control={form.control}
-                  name={"sex"}
-                  render={({ field }) => (
-                    <>
-                      <FormItem className="space-y-2">
-                        <FormLabel htmlFor="sex">Jenis Kelamin</FormLabel>
-                        <RadioGroup
-                          className="flex gap-6 duration-500"
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormItem className="space-x-2 flex items-center">
-                            <Label htmlFor="male" className="space-x-2">
-                              <FormControl>
-                                <RadioGroupItem
-                                  value={Sex.MALE}
-                                  id="male"
-                                  checked={field.value === Sex.MALE}
-                                />
-                              </FormControl>
-                              <span>
-                                {Sex.MALE}
-                              </span>
-                            </Label>
-                          </FormItem>
-                          <FormItem className="space-x-2 flex items-center">
-                            <Label htmlFor="female" className="space-x-2">
-                              <FormControl>
-                                <RadioGroupItem
-                                  value={Sex.FEMALE}
-                                  id="female"
-                                  checked={field.value === Sex.FEMALE}
-                                />
-                              </FormControl>
-                              <span>
-                                {Sex.FEMALE}
-                              </span>
-                            </Label>
-                          </FormItem>
-                        </RadioGroup>
-                        <FormMessage />
-                      </FormItem>
-                    </>
-                  )}
-                />
+                <RadioButtons formSchema={form} />
 
                 <ControlledInput
                   formSchema={form}
