@@ -4,53 +4,52 @@ import { Sex } from "lib/firebase.sdk";
 import { Label } from "@/components/ui/label";
 
 interface Props {
+  labelText?: string;
+  includeError?: boolean;
+  inputId: string;
   formSchema: any;
+  options: {
+    value: string;
+    label: string;
+  }[];
 }
 
-const RadioButtons = ({ formSchema }: Props) => {
+const RadioButtons = ({ formSchema, inputId, includeError, labelText, options }: Props) => {
   return (
     <FormField
       control={formSchema.control}
-      name={"sex"}
+      name={inputId}
       render={({ field }) => (
         <>
           <FormItem className="space-y-2">
-            <FormLabel htmlFor="sex">Jenis Kelamin</FormLabel>
+            <FormLabel htmlFor={inputId}>{labelText}</FormLabel>
             <RadioGroup
               className="flex gap-6 duration-500"
               onValueChange={field.onChange}
               defaultValue={field.value}
             >
-              <FormItem className="space-x-2 flex items-center">
-                <Label htmlFor="male" className="space-x-2">
-                  <FormControl>
-                    <RadioGroupItem
-                      value={Sex.MALE}
-                      id="male"
-                      checked={field.value === Sex.MALE}
-                    />
-                  </FormControl>
-                  <span>
-                    {Sex.MALE}
-                  </span>
-                </Label>
-              </FormItem>
-              <FormItem className="space-x-2 flex items-center">
-                <Label htmlFor="female" className="space-x-2">
-                  <FormControl>
-                    <RadioGroupItem
-                      value={Sex.FEMALE}
-                      id="female"
-                      checked={field.value === Sex.FEMALE}
-                    />
-                  </FormControl>
-                  <span>
-                    {Sex.FEMALE}
-                  </span>
-                </Label>
-              </FormItem>
+              {
+                options.map(option => (
+                  <FormItem className="space-x-2 flex items-center">
+                    <Label htmlFor={option.value.toLowerCase()} className="space-x-2">
+                      <FormControl>
+                        <RadioGroupItem
+                          value={option.value}
+                          id={option.value.toLowerCase()}
+                          checked={field.value === option.value}
+                        />
+                      </FormControl>
+                      <span>
+                        {option.label}
+                      </span>
+                    </Label>
+                  </FormItem>
+                ))
+              }
             </RadioGroup>
-            <FormMessage />
+            {
+              includeError && <FormMessage />
+            }
           </FormItem>
         </>
       )}
