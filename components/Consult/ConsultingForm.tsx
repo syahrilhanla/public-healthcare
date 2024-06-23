@@ -13,6 +13,7 @@ import { LoaderCircle } from "lucide-react";
 
 import useConsultingForm from "components/Consult/hooks/useConsultingForm";
 import { ConsultType, HealthControlType, doctors } from "lib/reusableValues";
+import RadioButtons from "components/RadioButtons";
 
 const ControlTypeInfo = ({ controlType }: { controlType: string }) => {
   const selectedDoctor = doctors.find(doctor => doctor.type === controlType);
@@ -110,9 +111,32 @@ const ProfileForm = () => {
 
                 {
                   form.getValues("consultType") === ConsultType.STOP_SMOKING && (
-                    <div>
-                      stop smoking form
-                    </div>
+                    <>
+                      <RadioButtons
+                        formSchema={form}
+                        inputId="smokingStatus"
+                        includeError
+                        labelText="Apakah anda pernah merokok walau satu hisapan?"
+                        options={[
+                          {
+                            value: "YES",
+                            label: "Pernah"
+                          },
+                          {
+                            value: "NO",
+                            label: "Tidak Pernah"
+                          }
+                        ]}
+                      />
+
+                      <ControlledInput
+                        formSchema={form}
+                        inputId="birthPlace"
+                        includeError
+                        labelText="Berapa usia kamu mulai merokok?"
+                        placeholder="e.g. 12 tahun"
+                      />
+                    </>
                   )
                 }
 
