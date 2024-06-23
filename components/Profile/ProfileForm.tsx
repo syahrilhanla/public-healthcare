@@ -131,7 +131,22 @@ const ProfileForm = () => {
                   </div>
                 </div>
 
-                <RadioButtons formSchema={form} />
+                <RadioButtons
+                  formSchema={form}
+                  inputId="sex"
+                  includeError
+                  labelText="Jenis Kelamin"
+                  options={[
+                    {
+                      label: "Laki-laki",
+                      value: Sex.MALE
+                    },
+                    {
+                      label: "Perempuan",
+                      value: Sex.FEMALE
+                    }
+                  ]}
+                />
 
                 <ControlledInput
                   formSchema={form}
