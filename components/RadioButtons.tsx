@@ -1,6 +1,5 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Sex } from "lib/firebase.sdk";
 import { Label } from "@/components/ui/label";
 
 interface Props {
@@ -30,7 +29,7 @@ const RadioButtons = ({ formSchema, inputId, includeError, labelText, options }:
             >
               {
                 options.map(option => (
-                  <FormItem className="space-x-2 flex items-center">
+                  <FormItem key={option.value} className="space-x-2 flex items-center">
                     <Label htmlFor={option.value.toLowerCase()} className="space-x-2">
                       <FormControl>
                         <RadioGroupItem
