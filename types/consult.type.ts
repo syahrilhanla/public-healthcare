@@ -1,4 +1,5 @@
 import { HealthControlType } from "lib/reusableValues";
+import { UseFormReturn } from "react-hook-form";
 
 export type Consult = {
   consultId: string;
@@ -10,7 +11,7 @@ export type Consult = {
   posyandu: string;
 }
 
-export type ConsultFormType = {
+export type ConsultFormType = UseFormReturn<{
   userId: string;
   name: string;
   posyandu: string;
@@ -33,4 +34,4 @@ export type ConsultFormType = {
   wantingToQuit: boolean;
   reasonToQuit: string;
   quitSupport: string;
-};
+}>;

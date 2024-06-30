@@ -13,7 +13,7 @@ const SmokingForm: React.FC<SmokingFormProps> = ({ form }) => {
     <>
       <RadioButtons
         formSchema={form}
-        inputId="smokingStatus"
+        inputId="hasSmoke"
         includeError
         labelText="Apakah kamu pernah merokok walau satu hisapan?"
         options={[
@@ -30,7 +30,7 @@ const SmokingForm: React.FC<SmokingFormProps> = ({ form }) => {
 
       <ControlledInput
         formSchema={form}
-        inputId="birthPlace"
+        inputId="ageStartSmoking"
         includeError
         labelText="Berapa usia kamu mulai merokok?"
         placeholder="e.g. 12 tahun"
@@ -40,7 +40,7 @@ const SmokingForm: React.FC<SmokingFormProps> = ({ form }) => {
 
       <ControlledInput
         formSchema={form}
-        inputId="birthPlace"
+        inputId="reasonToQuit"
         includeError
         labelText="Dari mana kamu tahu tentang merokok?"
         placeholder="e.g. teman, keluarga, iklan, dll"
@@ -48,7 +48,7 @@ const SmokingForm: React.FC<SmokingFormProps> = ({ form }) => {
 
       <ControlledInput
         formSchema={form}
-        inputId="birthPlace"
+        inputId="cigaretteCount"
         includeError
         labelText="Berapa jumlah batang rokok yang kamu hisap setiap hari?"
         placeholder="e.g. teman, keluarga, iklan, dll"
@@ -56,7 +56,7 @@ const SmokingForm: React.FC<SmokingFormProps> = ({ form }) => {
 
       <RadioButtons
         formSchema={form}
-        inputId="smokingStatus"
+        inputId="knowledgeOfSmokingEffect"
         includeError
         labelText="Apakah kamu tahu dampak buruk dari merokok?"
         options={[
@@ -73,7 +73,7 @@ const SmokingForm: React.FC<SmokingFormProps> = ({ form }) => {
 
       <RadioButtons
         formSchema={form}
-        inputId="smokingStatus"
+        inputId="wantingToQuit"
         includeError
         labelText="Apakah kamu ada keinginan untuk berhenti merokok?"
         options={[
@@ -90,14 +90,14 @@ const SmokingForm: React.FC<SmokingFormProps> = ({ form }) => {
 
       <ControlledInput
         formSchema={form}
-        inputId="birthPlace"
+        inputId="reasonToQuit"
         includeError
         labelText="Apa alasanmu ingin berhenti merokok?"
       />
 
       <ControlledInput
         formSchema={form}
-        inputId="birthPlace"
+        inputId="quitSupport"
         includeError
         labelText="Siapa yang mendukungmu berhenti merokok?"
         placeholder="e.g. keluarga, teman, dll"
