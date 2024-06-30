@@ -9,3 +9,28 @@ export type Consult = {
   message: string;
   posyandu: string;
 }
+
+export type ConsultFormType = {
+  userId: string;
+  name: string;
+  posyandu: string;
+  consultId: string;
+  type: string;
+  consultType: string;
+  message: string;
+  hasSmoke: boolean;
+  ageStartSmoking: number;
+  byFriends: boolean;
+  byFamily: boolean;
+  byCuriosity: boolean;
+  byPeerForce: boolean;
+  bySpareTime: boolean;
+  byStress: boolean;
+  smokingSource: string;
+  cigaretteCount: number;
+  smokingDuration: string;
+  knowledgeOfSmokingEffect: boolean;
+  wantingToQuit: boolean;
+  reasonToQuit: string;
+  quitSupport: string;
+};
