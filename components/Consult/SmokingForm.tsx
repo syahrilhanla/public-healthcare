@@ -97,21 +97,27 @@ const SmokingForm: React.FC<SmokingFormProps> = ({ form }) => {
               ]}
             />
 
-            <ControlledInput
-              formSchema={form}
-              inputId="reasonToQuit"
-              includeError
-              labelText="Apa alasanmu ingin berhenti merokok?"
-              placeholder="e.g. kesehatan, biaya, dll"
-            />
+            {
+              form.watch("wantingToQuit") === "YES" && (
+                <>
+                  <ControlledInput
+                    formSchema={form}
+                    inputId="reasonToQuit"
+                    includeError
+                    labelText="Apa alasanmu ingin berhenti merokok?"
+                    placeholder="e.g. kesehatan, biaya, dll"
+                  />
 
-            <ControlledInput
-              formSchema={form}
-              inputId="quitSupport"
-              includeError
-              labelText="Siapa yang mendukungmu berhenti merokok?"
-              placeholder="e.g. keluarga, teman, dll"
-            />
+                  <ControlledInput
+                    formSchema={form}
+                    inputId="quitSupport"
+                    includeError
+                    labelText="Siapa yang mendukungmu berhenti merokok?"
+                    placeholder="e.g. keluarga, teman, dll"
+                  />
+                </>
+              )
+            }
           </>
         )
       }
