@@ -11,12 +11,13 @@ const SelectSmokingReason = ({ form }: Props) => {
   return (
     <div className="grid gap-1">
       <FormLabel htmlFor="reasonToQuit">
-        Dari mana kamu tahu tentang merokok?
+        Apa alasan kamu mulai merokok?
       </FormLabel>
       <span className="ml-4 space-y-2">
         {
           Object.entries(SmokingReason).map(([key, value]) => (
             <RadioButtons
+              key={key}
               formSchema={form}
               inputId={key}
               includeError

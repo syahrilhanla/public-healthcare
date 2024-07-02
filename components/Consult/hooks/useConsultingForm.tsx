@@ -11,6 +11,12 @@ import { FormStatus } from "type/form.type";
 import { generateUID } from "lib/helpers";
 import { ConsultType } from "lib/reusableValues";
 
+const radioValues = z.union([
+  z.literal("YES"),
+  z.literal("NO"),
+  z.null()
+]);
+
 const schema = z.object({
   userId: z.string({
     required_error: "Pilih Siswa"
@@ -21,19 +27,20 @@ const schema = z.object({
   name: z.string(),
   consultType: z.string().min(1, "Pilih jenis konsultasi"),
   message: z.string().min(5, "Masukkan minimal 5 karakter"),
-  hasSmoke: z.boolean().optional(),
-  ageStartSmoking: z.number().optional(),
-  byFriends: z.boolean().optional(),
-  byFamily: z.boolean().optional(),
-  byCuriosity: z.boolean().optional(),
-  byPeerForce: z.boolean().optional(),
-  bySpareTime: z.boolean().optional(),
-  byStress: z.boolean().optional(),
+  // hasSmoke: z.boolean().optional(),
+  hasSmoke: radioValues.optional(),
+  ageStartSmoking: z.string().optional(),
+  byFriends: radioValues.optional(),
+  byFamily: radioValues.optional(),
+  byCuriosity: radioValues.optional(),
+  byPeerForce: radioValues.optional(),
+  bySpareTime: radioValues.optional(),
+  byStress: radioValues.optional(),
   smokingSource: z.string().optional(),
-  cigaretteCount: z.number().optional(),
+  cigaretteCount: z.string().optional(),
   smokingDuration: z.string().optional(),
-  knowledgeOfSmokingEffect: z.boolean().optional(),
-  wantingToQuit: z.boolean().optional(),
+  knowledgeOfSmokingEffect: radioValues.optional(),
+  wantingToQuit: radioValues.optional(),
   reasonToQuit: z.string().optional(),
   quitSupport: z.string().optional(),
 }).refine(data => {
@@ -85,19 +92,19 @@ const useConsultingForm = () => {
       type: "",
       consultType: "",
       message: "",
-      hasSmoke: false,
-      ageStartSmoking: 0,
-      byFriends: false,
-      byFamily: false,
-      byCuriosity: false,
-      byPeerForce: false,
-      bySpareTime: false,
-      byStress: false,
+      hasSmoke: null,
+      ageStartSmoking: "",
+      byFriends: null,
+      byFamily: null,
+      byCuriosity: null,
+      byPeerForce: null,
+      bySpareTime: null,
+      byStress: null,
       smokingSource: "",
-      cigaretteCount: 0,
+      cigaretteCount: "",
       smokingDuration: "",
-      knowledgeOfSmokingEffect: false,
-      wantingToQuit: false,
+      knowledgeOfSmokingEffect: null,
+      wantingToQuit: null,
       reasonToQuit: "",
       quitSupport: ""
     },
@@ -124,26 +131,28 @@ const useConsultingForm = () => {
 
       const payload = { ...data };
 
-      const request: {
-        data: {}; message: string; status: number
-      } = await (await fetch("/api/consult", {
-        headers: {
-          "Content-Type": "application/json"
-        },
-        method: "POST",
-        body: JSON.stringify(payload)
-      })).json();
+      console.log(payload);
 
-      if (request.status !== 200) {
-        throw new Error(request.message);
-      }
+      // const request: {
+      //   data: {}; message: string; status: number
+      // } = await (await fetch("/api/consult", {
+      //   headers: {
+      //     "Content-Type": "application/json"
+      //   },
+      //   method: "POST",
+      //   body: JSON.stringify(payload)
+      // })).json();
 
-      toast({
-        title: request.message,
-        variant: "default"
-      });
+      // if (request.status !== 200) {
+      //   throw new Error(request.message);
+      // }
 
-      router.push("/dashboard/konsultasi");
+      // toast({
+      //   title: request.message,
+      //   variant: "default"
+      // });
+
+      // router.push("/dashboard/konsultasi");
     } catch (error) {
       console.error("Error submitting form: ", error);
 

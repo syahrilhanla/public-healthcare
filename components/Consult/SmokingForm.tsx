@@ -40,7 +40,7 @@ const SmokingForm: React.FC<SmokingFormProps> = ({ form }) => {
 
       <ControlledInput
         formSchema={form}
-        inputId="reasonToQuit"
+        inputId="smokingSource"
         includeError
         labelText="Dari mana kamu tahu tentang merokok?"
         placeholder="e.g. teman, keluarga, iklan, dll"

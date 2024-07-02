@@ -28,12 +28,12 @@ export enum HealthControlType {
 }
 
 export enum SmokingReason {
-  FRIENDS = "Ikut teman",
-  FAMILY = "Pengaruh keluarga",
-  STRESS = "Menghilangkan stres",
-  CURIOUS = "Rasa ingin tahu",
-  FORCED = "Terpaksa oleh teman/lingkungan",
-  FREE_TIME = "Mengisi waktu luang",
+  byFriends = "Ikut teman",
+  byFamily = "Pengaruh keluarga",
+  byStress = "Menghilangkan stres",
+  byCuriosity = "Rasa ingin tahu",
+  byPeerForce = "Terpaksa oleh teman/lingkungan",
+  bySpareTime = "Mengisi waktu luang",
 }
 
 export const healthControlTypes = [
