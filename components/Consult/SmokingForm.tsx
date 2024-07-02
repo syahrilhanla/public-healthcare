@@ -29,7 +29,7 @@ const SmokingForm: React.FC<SmokingFormProps> = ({ form }) => {
       />
 
       {
-        form.watch("hasSmoke") === "YES" ? (
+        form.watch("hasSmoke") === "YES" && (
           <>
             <ControlledInput
               formSchema={form}
@@ -57,7 +57,11 @@ const SmokingForm: React.FC<SmokingFormProps> = ({ form }) => {
               placeholder="e.g. teman, keluarga, iklan, dll"
             />
           </>
-        ) : form.watch("hasSmoke") === "NO" && (
+        )
+      }
+
+      {
+        (form.watch("hasSmoke") === "YES" || form.watch("hasSmoke") === "NO") && (
           <>
             <RadioButtons
               formSchema={form}
@@ -98,6 +102,7 @@ const SmokingForm: React.FC<SmokingFormProps> = ({ form }) => {
               inputId="reasonToQuit"
               includeError
               labelText="Apa alasanmu ingin berhenti merokok?"
+              placeholder="e.g. kesehatan, biaya, dll"
             />
 
             <ControlledInput
