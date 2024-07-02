@@ -27,7 +27,6 @@ const schema = z.object({
   name: z.string(),
   consultType: z.string().min(1, "Pilih jenis konsultasi"),
   message: z.string().min(5, "Masukkan minimal 5 karakter"),
-  // hasSmoke: z.boolean().optional(),
   hasSmoke: radioValues.optional(),
   ageStartSmoking: z.string().optional(),
   byFriends: radioValues.optional(),
@@ -67,7 +66,6 @@ const schema = z.object({
       data.byStress !== undefined &&
       data.smokingSource !== undefined &&
       data.cigaretteCount !== undefined &&
-      data.smokingDuration !== undefined &&
       data.knowledgeOfSmokingEffect !== undefined &&
       data.wantingToQuit !== undefined &&
       data.reasonToQuit !== undefined &&
@@ -102,7 +100,6 @@ const useConsultingForm = () => {
       byStress: null,
       smokingSource: "",
       cigaretteCount: "",
-      smokingDuration: "",
       knowledgeOfSmokingEffect: null,
       wantingToQuit: null,
       reasonToQuit: "",

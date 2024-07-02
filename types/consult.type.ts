@@ -29,7 +29,6 @@ export type ConsultFormType = UseFormReturn<{
   byStress: "YES" | "NO" | null;
   smokingSource: string;
   cigaretteCount: string;
-  smokingDuration: string;
   knowledgeOfSmokingEffect: "YES" | "NO" | null;
   wantingToQuit: "YES" | "NO" | null;
   reasonToQuit: string;
